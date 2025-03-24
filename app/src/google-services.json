@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "564166975862",
+    "project_id": "movietheatree-fc253",
+    "storage_bucket": "movietheatree-fc253.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564166975862:android:890e00223659b4d8df1a57",
+        "android_client_info": {
+          "package_name": "com.example.movietheatre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564166975862-mkfb47cnrj4o9rrs2dqpdu53f14sm35f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movietheatre",
+            "certificate_hash": "a03e2c7c544c08d9a1715b03e022b5117b10b612"
+          }
+        },
+        {
+          "client_id": "564166975862-70a2uu8rl7ec0dqqafvjmdjuso7crc8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARq_sWSqJU5rTa1IelWoAl3zAEhOe25OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564166975862-70a2uu8rl7ec0dqqafvjmdjuso7crc8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
