@@ -14,3 +14,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
 }
+
+object Dato{
+    val name = "fslkjdsfl"
+}
