@@ -1,0 +1,99 @@
+package com.example.movietheatre.feature_login.presentation.screen
+
+import android.util.Log
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.movietheatre.core.presentation.BaseFragment
+import com.example.movietheatre.core.presentation.extension.asStringResource
+import com.example.movietheatre.core.presentation.extension.collectLastState
+import com.example.movietheatre.core.presentation.extension.showSnackBar
+import com.example.movietheatre.databinding.FragmentLoginBinding
+import com.example.movietheatre.feature_login.presentation.extension.asStringResource
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
+    private val viewModel: LoginViewModel by viewModels()
+
+    override fun setUp() {
+        collectLastState(viewModel.uiState) { state ->
+            updateUi(state)
+        }
+        collectLastState(viewModel.uiEvents) { event ->
+            getEvents(event)
+        }
+    }
+
+    override fun clickListeners() {
+        binding.apply {
+            etEmail.doAfterTextChanged { text ->
+                viewModel.onEvent(LoginEvent.ValidateEmail(text.toString()))
+            }
+
+            etPassword.doAfterTextChanged { text ->
+                viewModel.onEvent(LoginEvent.ValidatePassword(text.toString()))
+            }
+
+            btnLogin.setOnClickListener {
+                login()
+            }
+
+            txtRegister.setOnClickListener {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+            }
+        }
+    }
+
+    private fun updateUi(state: LoginUiState) {
+        showLoadingScreen(state.isLoading)
+        Log.d("state", state.toString())
+        binding.txtEmailError.apply {
+            text = state.emailError?.let { getString(it.asStringResource()) }
+            isVisible = state.emailError != null
+        }
+
+        binding.txtPasswordError.apply {
+            text = state.passwordError?.let { getString(it.asStringResource()) }
+            isVisible = state.passwordError != null
+        }
+
+        binding.btnLogin.apply {
+            isEnabled = state.isValidForm
+
+        }
+    }
+
+    private fun getEvents(event: LoginSideEffect) {
+        when (event) {
+            is LoginSideEffect.SuccessFullLogin -> onSuccessFullLogin()
+
+            is LoginSideEffect.ShowSnackBar -> binding.root.showSnackBar(getString(event.message.asStringResource()))
+        }
+    }
+
+    private fun login() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+        viewModel.onEvent(
+            LoginEvent.Login(
+                email = email,
+                password = password,
+                rememberMe = binding.cbRememberMe.isChecked
+            )
+        )
+    }
+
+
+    private fun onSuccessFullLogin() {
+        findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
+    }
+
+    private fun showLoadingScreen(isLoading: Boolean) {
+        binding.apply {
+            progressBar.isVisible = isLoading
+        }
+    }
+}

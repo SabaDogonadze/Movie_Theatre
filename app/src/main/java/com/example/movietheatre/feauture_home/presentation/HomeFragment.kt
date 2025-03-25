@@ -6,11 +6,9 @@ import com.example.movietheatre.databinding.FragmentHomeBinding
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     override fun setUp() {
-        TODO("Not yet implemented")
     }
 
     override fun clickListeners() {
-        TODO("Not yet implemented")
     }
 
 }
