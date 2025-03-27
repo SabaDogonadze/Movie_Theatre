@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.feature_register.domain.use_case.RegisterUseCaseWrapper
+import com.example.movietheatre.feature_register.presentation.extension.asStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,7 @@ class RegisterViewModel @Inject constructor(
                             isLoading = false,
                         )
                     }
-                    _uiEventChannel.send(RegisterSideEffect.ShowSnackBar(result.error))
+                    _uiEventChannel.send(RegisterSideEffect.ShowSnackBar(result.error.asStringResource()))
                 }
 
                 is Resource.Success -> {

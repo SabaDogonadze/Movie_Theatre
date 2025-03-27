@@ -1,7 +1,7 @@
 package com.example.movietheatre.feature_register.presentation.extension
 
 import com.example.movietheatre.R
-import com.example.movietheatre.core.domain.util.error.RegisterError
+import com.example.movietheatre.feature_register.domain.util.RegisterError
 
 
 fun RegisterError.asStringResource(): Int {

@@ -20,5 +20,6 @@
     <string name="enter_password">Enter password…</string>
     <string name="repeat_the_password">Repeat the password…</string>
     <string name="welcome">Welcome</string>
+    <string name="invalid_credintials">* Invalid Credintials</string>
 
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomCheckBoxStyle" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@color/white</item>
+        <item name="materialThemeOverlay">@style/CheckBoxThemeOverlay</item>
+    </style>
+
+    <style name="CheckBoxThemeOverlay">
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+    </style>
+</resources>

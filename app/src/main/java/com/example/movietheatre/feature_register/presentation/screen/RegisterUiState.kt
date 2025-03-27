@@ -2,7 +2,7 @@ package com.example.movietheatre.feature_register.presentation.screen
 
 import com.example.movietheatre.core.domain.util.error.EmailError
 import com.example.movietheatre.core.domain.util.error.PasswordError
-import com.example.movietheatre.core.domain.util.error.RepeatPasswordError
+import com.example.movietheatre.feature_register.domain.util.RepeatPasswordError
 
 data class RegisterUiState(
     val isLoading: Boolean = false,

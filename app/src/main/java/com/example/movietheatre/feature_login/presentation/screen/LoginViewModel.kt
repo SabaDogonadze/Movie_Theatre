@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.preference_key.PreferenceKeys.REMEMBER_ME
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.feature_login.domain.use_case.LoginUseCaseWrapper
+import com.example.movietheatre.feature_login.presentation.extension.asStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
@@ -41,7 +42,7 @@ class LoginViewModel @Inject constructor(
             when (val result = loginUseCaseWrapper.loginUseCase(email, password)) {
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
-                    _uiEventChannel.send(LoginSideEffect.ShowSnackBar(result.error))
+                    _uiEventChannel.send(LoginSideEffect.ShowSnackBar(result.error.asStringResource()))
                 }
 
                 is Resource.Success -> {
@@ -63,6 +64,7 @@ class LoginViewModel @Inject constructor(
                     isValidForm = false
                 )
             }
+
             is Resource.Success -> _uiState.update { currentState ->
                 currentState.copy(
                     emailError = null,
@@ -82,6 +84,7 @@ class LoginViewModel @Inject constructor(
                     isValidForm = false
                 )
             }
+
             is Resource.Success -> _uiState.update { currentState ->
                 currentState.copy(
                     passwordError = null,

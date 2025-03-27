@@ -1,7 +1,7 @@
 package com.example.movietheatre.feature_register.data.repository
 
 import com.example.movietheatre.core.domain.util.Resource
-import com.example.movietheatre.core.domain.util.error.RegisterError
+import com.example.movietheatre.feature_register.domain.util.RegisterError
 import com.example.movietheatre.feature_register.domain.repository.RegisterRepository
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth

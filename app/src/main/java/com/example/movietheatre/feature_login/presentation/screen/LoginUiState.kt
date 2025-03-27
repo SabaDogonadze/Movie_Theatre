@@ -10,4 +10,5 @@ data class LoginUiState(
     val isEmailValid: Boolean = false,
     val isPasswordValid: Boolean = false,
     val isValidForm: Boolean = false,
+
 )

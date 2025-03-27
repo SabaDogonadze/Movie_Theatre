@@ -8,9 +8,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.core.presentation.extension.collectLastState
+import com.example.movietheatre.core.presentation.extension.hideKeyboard
 import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentLoginBinding
-import com.example.movietheatre.feature_login.presentation.extension.asStringResource
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -70,11 +70,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         when (event) {
             is LoginSideEffect.SuccessFullLogin -> onSuccessFullLogin()
 
-            is LoginSideEffect.ShowSnackBar -> binding.root.showSnackBar(getString(event.message.asStringResource()))
+            is LoginSideEffect.ShowSnackBar -> binding.root.showSnackBar(getString(event.message))
         }
     }
 
     private fun login() {
+        binding.root.hideKeyboard()
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
         viewModel.onEvent(

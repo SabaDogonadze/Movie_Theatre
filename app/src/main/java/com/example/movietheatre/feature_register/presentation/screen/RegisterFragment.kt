@@ -7,9 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.core.presentation.extension.collectLastState
+import com.example.movietheatre.core.presentation.extension.hideKeyboard
 import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentRegisterBinding
-import com.example.movietheatre.feature_register.presentation.extension.asStringResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,6 +53,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     private fun register() {
+        binding.root.hideKeyboard()
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
@@ -95,7 +96,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             }
 
             is RegisterSideEffect.ShowSnackBar -> {
-                binding.root.showSnackBar(getString(event.message.asStringResource()))
+                binding.root.showSnackBar(getString(event.message))
             }
         }
     }

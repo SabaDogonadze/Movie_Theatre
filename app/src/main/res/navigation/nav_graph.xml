@@ -55,6 +55,10 @@
         <action
             android:id="@+id/action_global_homeFragment"
             app:destination="@id/homeFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/navigation"
             app:popUpToInclusive="true" />
     </navigation>

@@ -1,7 +1,7 @@
 package com.example.movietheatre.feature_register.domain.use_case
 
 import com.example.movietheatre.core.domain.util.Resource
-import com.example.movietheatre.core.domain.util.error.RepeatPasswordError
+import com.example.movietheatre.feature_register.domain.util.RepeatPasswordError
 import javax.inject.Inject
 
 class ValidateRepeatPasswordUseCase@Inject constructor() {

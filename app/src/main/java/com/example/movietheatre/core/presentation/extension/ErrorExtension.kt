@@ -3,7 +3,7 @@ package com.example.movietheatre.core.presentation.extension
 import com.example.movietheatre.R
 import com.example.movietheatre.core.domain.util.error.EmailError
 import com.example.movietheatre.core.domain.util.error.PasswordError
-import com.example.movietheatre.core.domain.util.error.RepeatPasswordError
+import com.example.movietheatre.feature_register.domain.util.RepeatPasswordError
 
 
 fun PasswordError.asStringResource(): Int {
