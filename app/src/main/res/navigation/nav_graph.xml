@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.example.movietheatre.feauture_splash.presentation.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -31,7 +31,8 @@
         android:name="com.example.movietheatre.feauture_movie_detail.presentation.MovieDetailFragment"
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_detail" />
-    <navigation android:id="@+id/navigation"
+    <navigation
+        android:id="@+id/navigation"
         app:startDestination="@id/loginFragment">
         <fragment
             android:id="@+id/loginFragment"
@@ -40,7 +41,11 @@
             tools:layout="@layout/fragment_login">
             <action
                 android:id="@+id/action_loginFragment_to_registerFragment"
-                app:destination="@id/registerFragment" />
+                app:destination="@id/registerFragment"
+                app:enterAnim="@anim/from_right"
+                app:exitAnim="@anim/to_left"
+                app:popEnterAnim="@anim/from_left"
+                app:popExitAnim="@anim/to_right" />
         </fragment>
         <fragment
             android:id="@+id/registerFragment"

@@ -4,16 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue"
     android:padding="20dp"
     tools:context=".feature_register.presentation.screen.RegisterFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtRegisterHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnArrowBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/arrow_back"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/txtRegisterHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtRegisterHeader" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_form_rounded"
+        android:drawableEnd="@drawable/ic_email"
+        android:drawablePadding="12dp"
+        android:hint="@string/enter_email"
+        android:maxLines="1"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="12dp"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/txtRegisterHeader" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtEmailError"
@@ -25,16 +63,37 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/etEmail"
         app:layout_constraintTop_toBottomOf="@id/etEmail"
-        tools:text="* Error valid email" />
+        tools:text="* Invalid email" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textColorHint="@color/gray"
+        app:endIconMode="password_toggle"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@id/txtEmailError"
+        app:passwordToggleTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_form_rounded"
+            android:hint="@string/enter_password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp"
+            android:textColorHint="@color/gray"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtPasswordError"
@@ -45,17 +104,38 @@
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/etEmail"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        tools:text="* Error valid email" />
+        app:layout_constraintTop_toBottomOf="@id/tilPassword"
+        tools:text="* Invalid password" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etRepeatMePassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilRepeatPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:endIconMode="password_toggle"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@id/txtPasswordError"
+        app:passwordToggleTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRepeatPassword"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_form_rounded"
+            android:hint="@string/enter_password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp"
+            android:textColorHint="@color/gray"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtRepeatPasswordError"
@@ -66,24 +146,36 @@
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/etEmail"
-        app:layout_constraintTop_toBottomOf="@id/etRepeatMePassword"
-        tools:text="* Error valid email" />
+        app:layout_constraintTop_toBottomOf="@id/tilRepeatPassword"
+        tools:text="* Passwords do not match" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/background_form_rounded"
+        android:text="@string/register"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtRepeatPasswordError" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtAlreadyHaveAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="12dp"
+        android:text="@string/already_have_account_sign_in"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btnRegister" />
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/screen_loader"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,7 +93,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun showLoadingScreen(isLoading: Boolean) {
         binding.apply {
-            progressBar.isVisible = isLoading
+            progressBar.root.isVisible = isLoading
         }
     }
 }

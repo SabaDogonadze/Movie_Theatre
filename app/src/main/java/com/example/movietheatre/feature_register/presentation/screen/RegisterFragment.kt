@@ -26,10 +26,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     override fun clickListeners() {
-        binding.btnRegister.setOnClickListener {
-            register()
-        }
-
         binding.apply {
             etEmail.doAfterTextChanged {
                 viewModel.onEvent(RegisterEvent.ValidateEmail(it.toString()))
@@ -37,7 +33,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             etPassword.doAfterTextChanged {
                 viewModel.onEvent(RegisterEvent.ValidatePassword(it.toString()))
             }
-            etRepeatMePassword.doAfterTextChanged {
+            etRepeatPassword.doAfterTextChanged {
                 viewModel.onEvent(
 
                     RegisterEvent.ValidateRepeatedPassword(
@@ -46,6 +42,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     )
                 )
             }
+
+            btnRegister.setOnClickListener {
+                register()
+            }
+
+            txtAlreadyHaveAccount.setOnClickListener { findNavController().navigateUp() }
+            btnArrowBack.setOnClickListener { findNavController().navigateUp() }
         }
     }
 
@@ -99,7 +102,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     private fun showLoadingScreen(isLoading: Boolean) {
         binding.apply {
-            progressBar.isVisible = isLoading
+            progressBar.root.isVisible = isLoading
         }
     }
 
