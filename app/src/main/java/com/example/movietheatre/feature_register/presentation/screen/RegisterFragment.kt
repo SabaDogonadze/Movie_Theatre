@@ -20,8 +20,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             updateUiState(state)
         }
 
-        collectLatestFlow(viewModel.uiEvents) { event ->
-            getEvents(event)
+        collectLatestFlow(viewModel.sideEffects) { event ->
+            getSideEffects(event)
         }
     }
 
@@ -89,7 +89,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         }
     }
 
-    private fun getEvents(event: RegisterSideEffect) {
+    private fun getSideEffects(event: RegisterSideEffect) {
         when (event) {
             RegisterSideEffect.NavigateToLoginScreen -> {
                 findNavController().popBackStack()
