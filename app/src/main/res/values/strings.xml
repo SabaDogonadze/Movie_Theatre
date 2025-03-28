@@ -2,4 +2,24 @@
     <string name="app_name">MovieTheatre</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="the_password_needs_to_consist_of_at_least_8_characters">* the password needs to consist of at least 8 characters</string>
+    <string name="the_password_needs_to_contain_at_least_one_letter_and_digit">* the password needs to contain at least one letter and digit</string>
+    <string name="invalid_email">* invalid email</string>
+    <string name="field_can_not_be_blank">* field can not be blank</string>
+    <string name="password_should_be_same">* password should be same</string>
+    <string name="no_internet">* No internet</string>
+    <string name="unknown_error">* Unknown Error</string>
+    <string name="user_not_found">* User Not found</string>
+    <string name="email_already_exits">* Email already exits</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="don_t_have_account_sign_up">Don\'t Have Account? <u>Sign up</u> </string>
+    <string name="already_have_account_sign_in">Already have account? <u>Sign in</u></string>
+    <string name="register">Register</string>
+    <string name="enter_email">Enter email…</string>
+    <string name="enter_password">Enter password…</string>
+    <string name="repeat_the_password">Repeat the password…</string>
+    <string name="welcome">Welcome</string>
+    <string name="invalid_credintials">* Invalid Credintials</string>
+
 </resources>

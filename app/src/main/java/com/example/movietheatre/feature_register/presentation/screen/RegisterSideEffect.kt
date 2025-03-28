@@ -1,0 +1,6 @@
+package com.example.movietheatre.feature_register.presentation.screen
+
+sealed interface RegisterSideEffect {
+    object NavigateToLoginScreen : RegisterSideEffect
+    data class ShowSnackBar(val message: Int) : RegisterSideEffect
+}

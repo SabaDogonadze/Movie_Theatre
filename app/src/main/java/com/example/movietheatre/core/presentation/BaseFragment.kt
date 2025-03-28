@@ -24,6 +24,7 @@ abstract class BaseFragment<VB: ViewBinding>(private var inflate: Inflater<VB>) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUp()
+        clickListeners()
     }
 
     override fun onDestroy() {
