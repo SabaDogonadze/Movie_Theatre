@@ -3,6 +3,7 @@ package com.example.movietheatre.feature_register.presentation.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.util.Resource
+import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.feature_register.domain.use_case.RegisterUseCaseWrapper
 import com.example.movietheatre.feature_register.presentation.extension.asStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,7 +66,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun validateEmail(email: String) {
         when (val result = registerUseCaseWrapper.validateEmailUseCase(email)) {
-            is Resource.Error -> _uiState.update { it.copy(emailError = result.error) }
+            is Resource.Error -> _uiState.update { it.copy(emailError = result.error.asStringResource()) }
             is Resource.Success -> _uiState.update {
                 it.copy(
                     emailError = null, isEmailValid = true, isValidForm =
@@ -78,7 +79,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun validatePassword(password: String) {
         when (val result = registerUseCaseWrapper.validatePasswordUseCase(password)) {
-            is Resource.Error -> _uiState.update { it.copy(passwordError = result.error) }
+            is Resource.Error -> _uiState.update { it.copy(passwordError = result.error.asStringResource()) }
             is Resource.Success -> _uiState.update {
                 it.copy(
                     passwordError = null, isPasswordValid = true, isValidForm =
@@ -96,7 +97,7 @@ class RegisterViewModel @Inject constructor(
                 repeatedPassword = repeatPassword
             )
         when (result) {
-            is Resource.Error -> _uiState.update { it.copy(repeatedPasswordError = result.error) }
+            is Resource.Error -> _uiState.update { it.copy(repeatedPasswordError = result.error.asStringResource()) }
             is Resource.Success -> _uiState.update {
                 it.copy(
                     repeatedPasswordError = null, isRepeatedPasswordValid = true, isValidForm =

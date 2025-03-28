@@ -3,8 +3,10 @@ package com.example.movietheatre.core.presentation.extension
 import com.example.movietheatre.R
 import com.example.movietheatre.core.domain.util.error.EmailError
 import com.example.movietheatre.core.domain.util.error.PasswordError
-import com.example.movietheatre.feature_register.domain.util.RepeatPasswordError
 
+/**
+ * this file is to map common error types to string resources
+ * */
 
 fun PasswordError.asStringResource(): Int {
     return when (this) {
@@ -20,9 +22,3 @@ fun EmailError.asStringResource(): Int {
     }
 }
 
-fun RepeatPasswordError.asStringResource(): Int {
-    return when (this) {
-        RepeatPasswordError.NO_MATCH -> R.string.password_should_be_same
-        RepeatPasswordError.BLANK_FIELD -> R.string.field_can_not_be_blank
-    }
-}

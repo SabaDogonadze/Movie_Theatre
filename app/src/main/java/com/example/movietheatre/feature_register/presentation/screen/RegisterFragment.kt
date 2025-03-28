@@ -4,9 +4,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
-import com.example.movietheatre.core.presentation.extension.asStringResource
-import com.example.movietheatre.core.presentation.extension.collectLastState
+import com.example.movietheatre.core.presentation.extension.collectLatestFlow
 import com.example.movietheatre.core.presentation.extension.hideKeyboard
 import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentRegisterBinding
@@ -16,11 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
     private val viewModel: RegisterViewModel by viewModels()
     override fun setUp() {
-        collectLastState(viewModel.uiState) { state ->
+        collectLatestFlow(viewModel.uiState) { state ->
             updateUiState(state)
         }
 
-        collectLastState(viewModel.uiEvents) { event ->
+        collectLatestFlow(viewModel.uiEvents) { event ->
             getEvents(event)
         }
     }
@@ -70,16 +70,16 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
 
         binding.txtEmailError.apply {
-            text = state.emailError?.let { getString(it.asStringResource()) }
+            text = state.emailError?.let { getString(it) }
             isVisible = state.emailError != null
         }
 
         binding.txtPasswordError.apply {
-            text = state.passwordError?.let { getString(it.asStringResource()) }
+            text = state.passwordError?.let { getString(it) }
             isVisible = state.passwordError != null
         }
         binding.txtRepeatPasswordError.apply {
-            text = state.repeatedPasswordError?.let { getString(it.asStringResource()) }
+            text = state.repeatedPasswordError?.let { getString(it) }
             isVisible = state.repeatedPasswordError != null
 
         }
@@ -96,7 +96,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             }
 
             is RegisterSideEffect.ShowSnackBar -> {
-                binding.root.showSnackBar(getString(event.message))
+                binding.root.showSnackBar(getString(event.message), backgroundColor = R.color.red)
             }
         }
     }

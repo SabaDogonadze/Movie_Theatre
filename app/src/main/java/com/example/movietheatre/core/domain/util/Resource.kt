@@ -2,6 +2,9 @@ package com.example.movietheatre.core.domain.util
 
 import com.example.movietheatre.core.domain.util.error.RootError
 
+/**
+ * the D stands for Data,and E - for Error
+ * */
 
 sealed interface Resource<out D, out E : RootError> {
     data class Success<out D, out E : RootError>(val data: D) : Resource<D, E>

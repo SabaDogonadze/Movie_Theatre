@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_login.domain.use_case
+package com.example.movietheatre.core.domain.use_case
 
 import androidx.datastore.preferences.core.Preferences
 import com.example.movietheatre.core.domain.manager.UserSessionManager

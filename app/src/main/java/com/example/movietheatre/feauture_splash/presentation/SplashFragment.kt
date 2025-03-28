@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.movietheatre.core.presentation.extension.collectLastState
+import com.example.movietheatre.core.presentation.extension.collectLatestFlow
 import com.example.movietheatre.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +32,7 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectLastState(viewmodel.rememberMeFlow) { rememberMe ->
+        collectLatestFlow(viewmodel.rememberMeFlow) { rememberMe ->
             if (rememberMe && viewmodel.currentUser != null) {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
             } else {

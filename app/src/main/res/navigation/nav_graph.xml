@@ -13,11 +13,13 @@
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:enterAnim="@anim/from_center_to_expand"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_navigation"
             app:destination="@id/navigation"
+            app:enterAnim="@anim/from_center_to_expand"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>

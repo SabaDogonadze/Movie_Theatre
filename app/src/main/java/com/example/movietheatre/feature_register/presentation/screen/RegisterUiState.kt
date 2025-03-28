@@ -1,14 +1,10 @@
 package com.example.movietheatre.feature_register.presentation.screen
 
-import com.example.movietheatre.core.domain.util.error.EmailError
-import com.example.movietheatre.core.domain.util.error.PasswordError
-import com.example.movietheatre.feature_register.domain.util.RepeatPasswordError
-
 data class RegisterUiState(
     val isLoading: Boolean = false,
-    val emailError: EmailError? = null,
-    val passwordError: PasswordError? = null,
-    val repeatedPasswordError: RepeatPasswordError? =null,
+    val emailError: Int? = null,
+    val passwordError: Int? = null,
+    val repeatedPasswordError: Int? = null,
     val isEmailValid: Boolean = false,
     val isPasswordValid: Boolean = false,
     val isRepeatedPasswordValid: Boolean = false,
