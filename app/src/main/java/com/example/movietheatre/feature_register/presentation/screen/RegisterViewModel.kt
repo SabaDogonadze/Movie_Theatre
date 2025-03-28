@@ -7,10 +7,10 @@ import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.feature_register.domain.use_case.RegisterUseCaseWrapper
 import com.example.movietheatre.feature_register.presentation.extension.asStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +23,8 @@ class RegisterViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState
 
-    private val _uiEventChannel = Channel<RegisterSideEffect>()
-    val uiEvents = _uiEventChannel.receiveAsFlow()
+    private val _sideEffects = MutableSharedFlow<RegisterSideEffect>()
+    val sideEffects = _sideEffects.asSharedFlow()
 
 
     fun onEvent(event: RegisterEvent) {
@@ -53,11 +53,11 @@ class RegisterViewModel @Inject constructor(
                             isLoading = false,
                         )
                     }
-                    _uiEventChannel.send(RegisterSideEffect.ShowSnackBar(result.error.asStringResource()))
+                    _sideEffects.emit(RegisterSideEffect.ShowSnackBar(result.error.asStringResource()))
                 }
 
                 is Resource.Success -> {
-                    _uiEventChannel.send(RegisterSideEffect.NavigateToLoginScreen)
+                    _sideEffects.emit(RegisterSideEffect.NavigateToLoginScreen)
                 }
             }
 

@@ -9,10 +9,10 @@ import com.example.movietheatre.feature_login.domain.use_case.LoginUseCaseWrappe
 import com.example.movietheatre.feature_login.presentation.extension.asStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,12 +22,11 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCaseWrapper: LoginUseCaseWrapper,
 ) : ViewModel() {
-    private val _uiState =
-        MutableStateFlow(LoginUiState())
+    private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
-    private val _sideEffects = Channel<LoginSideEffect>()
-    val sideEffects = _sideEffects.receiveAsFlow()
+    private val _sideEffects = MutableSharedFlow<LoginSideEffect>()
+    val sideEffects = _sideEffects.asSharedFlow()
 
     fun onEvent(event: LoginEvent) {
         when (event) {
@@ -43,7 +42,7 @@ class LoginViewModel @Inject constructor(
             when (val result = loginUseCaseWrapper.loginUseCase(email, password)) {
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
-                    _sideEffects.send(LoginSideEffect.ShowSnackBar(result.error.asStringResource()))
+                    _sideEffects.emit(LoginSideEffect.ShowSnackBar(result.error.asStringResource()))
                 }
 
                 is Resource.Success -> {
@@ -51,7 +50,7 @@ class LoginViewModel @Inject constructor(
                     withContext(NonCancellable) {
                         loginUseCaseWrapper.saveValueToLocalStorageUseCase(REMEMBER_ME, rememberMe)
                     }
-                    _sideEffects.send(LoginSideEffect.SuccessFullLogin)
+                    _sideEffects.emit(LoginSideEffect.SuccessFullLogin)
                 }
             }
         }
