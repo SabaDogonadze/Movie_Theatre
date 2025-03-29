@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "2.1.0"
     alias(libs.plugins.safeargs)
     id("com.google.gms.google-services")
 }
@@ -24,10 +24,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://192.168.1.32:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
         }
         release {
-            buildConfigField("String", "BASE_URL", "\"https://192.168.1.32:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
