@@ -29,4 +29,7 @@
     <string name="_15_00_19_00">15:00-19:00</string>
     <string name="_19_00_00_00">19:00-00:00</string>
     <string name="minutes">Minutes</string>
+    <string name="connection_problem">Connection Problem</string>
+    <string name="empty_response">Empty Response</string>
+    <string name="server_error">Server Error</string>
 </resources>

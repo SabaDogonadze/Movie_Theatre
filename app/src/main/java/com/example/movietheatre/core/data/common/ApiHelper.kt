@@ -1,27 +1,29 @@
 package com.example.movietheatre.core.data.common
 
-import com.example.movietheatre.core.domain.common.Resource
+import com.example.movietheatre.core.domain.util.Resource
+import com.example.movietheatre.core.domain.util.error.NetworkError
+import okio.IOException
 import retrofit2.Response
+import javax.inject.Inject
 
 
-object ApiHelper {
-    suspend fun <T, R> handleHttpRequest(
+class ApiHelper @Inject constructor() {
+    suspend fun <T> handleHttpRequest(
         apiCall: suspend () -> Response<T>,
-        mapper: (T) -> R,
-    ): Resource<R> {
-        val response = apiCall.invoke()
+    ): Resource<T, NetworkError> {
         return try {
+            val response = apiCall()
             if (response.isSuccessful) {
-                val body = response.body()?.let {
-                    Resource.Success(dataSuccess = mapper(it))
-                }
-                    ?: Resource.Error(errorMessage = "Response is null") // without it it does not work because it returns null
-                return body
+                response.body()?.let { data ->
+                    Resource.Success(data)
+                } ?: Resource.Error(NetworkError.EmptyResponse)
             } else {
-                Resource.Error(errorMessage = response.errorBody()?.string() ?: "Unknown error")
+                Resource.Error(NetworkError.UnknownError)
             }
+        } catch (e: IOException) {
+            Resource.Error(NetworkError.ConnectionError)
         } catch (e: Exception) {
-            Resource.Error(errorMessage = e.message ?: "An error")
+            Resource.Error(NetworkError.ServerError(e))
         }
     }
 

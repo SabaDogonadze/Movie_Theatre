@@ -5,20 +5,18 @@ import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
+import com.example.movietheatre.core.presentation.extension.collectLatestFlow
+import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentHomeBinding
 import com.example.movietheatre.feature_home.presentation.event.HomeEvent
 import com.example.movietheatre.feature_home.presentation.event.HomeSideEffect
 import com.example.movietheatre.feature_home.presentation.state.TimeFilter
 import com.example.movietheatre.feature_home.presentation.util.getTimeRangeForInterval
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -64,7 +62,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setUpGenreRecycler() {
         genreAdapter = GenreRecyclerAdapter()
         binding.genresRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = genreAdapter
         }
     }
@@ -80,29 +79,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // passing updatedGenres to a genreAdapter
     // calling updateTimeButtonBackgrounds function
     private fun stateObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.state.collect { state ->
-                    binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-                    homeMovieAdapter.submitList(state.movies.toList())
+        collectLatestFlow(homeViewModel.state) { state ->
+            binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+            homeMovieAdapter.submitList(state.movies.toList())
 
-                    genreAdapter.submitList(state.genres.toList())
-                    updateTimeButtonBackgrounds(state.selectedTimeFilter)
-                }
-            }
+            genreAdapter.submitList(state.genres.toList())
+            updateTimeButtonBackgrounds(state.selectedTimeFilter)
         }
     }
 
     // observing uiEvent like errors and navigation. observing event which are send from viewmodel when some event is happening.
-    private fun eventObserver(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.uiEvents.collect { event ->
-                    when (event) {
-                        // HomeSideEffect.NavigateToDetail -> navigateToMovieDetailFragment()
-                        is HomeSideEffect.ShowError -> getString(R.string.unknown_error)
-                    }
-                }
+    private fun eventObserver() {
+        collectLatestFlow(homeViewModel.uiEvents) { event ->
+            when (event) {
+                // HomeSideEffect.NavigateToDetail -> navigateToMovieDetailFragment()
+                is HomeSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
             }
         }
     }
@@ -123,6 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
     }
+
     // using findNavController to navigate MovieDetailFragment
     private fun navigateToMovieDetailFragment() {
         findNavController().navigate(HomeFragmentDirections.actionIdHomeFragmentToMovieDetailFragment())
@@ -171,7 +163,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setupTimeFilterClickListener(
         button: Button,
         filter: TimeFilter,
-        interval: String
+        interval: String,
     ) {
         button.setOnClickListener {
             if (homeViewModel.state.value.selectedTimeFilter != filter) {

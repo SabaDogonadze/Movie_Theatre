@@ -15,6 +15,5 @@ sealed class HomeEvent {
 
     data object ClearFilterMoviesByTime : HomeEvent()
     data class FilterMoviesByGenre(val genreId: Int) : HomeEvent()
-    data class ClearMoviesByGenre(val genreId: Int) : HomeEvent()
 }
 

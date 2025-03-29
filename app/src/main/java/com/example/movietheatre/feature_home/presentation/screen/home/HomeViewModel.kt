@@ -2,7 +2,8 @@ package com.example.movietheatre.feature_home.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movietheatre.core.domain.common.Resource
+import com.example.movietheatre.core.domain.util.Resource
+import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.feature_home.domain.usecase.GetGenreListUseCase
 import com.example.movietheatre.feature_home.domain.usecase.GetMovieListUseCase
 import com.example.movietheatre.feature_home.presentation.event.HomeEvent
@@ -33,7 +34,7 @@ class HomeViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private val _uiEvents = MutableSharedFlow<HomeSideEffect>()
-    val uiEvents = _uiEvents.asSharedFlow() // not used
+    val uiEvents = _uiEvents.asSharedFlow()
 
 
     //handling events
@@ -54,17 +55,12 @@ class HomeViewModel @Inject constructor(
                 _state.update { currentState ->
                     currentState.copy(
                         selectedGenreId = if (currentState.selectedGenreId == event.genreId) null else event.genreId,
-                        genres = if (currentState.genres.count { it.isSelected } > 0) currentState.genres.map {
+                        genres = if (currentState.genres.firstOrNull { it.isSelected }?.id == event.genreId) currentState.genres.map {
                             it.copy(
                                 isSelected = false
                             )
                         } else currentState.genres.map { it.copy(isSelected = it.id == event.genreId) })
                 }
-                loadMovies()
-            }
-
-            is HomeEvent.ClearMoviesByGenre -> {
-                _state.update { it.copy(selectedGenreId = null) }
                 loadMovies()
             }
 
@@ -89,6 +85,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadMovies() {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoading = true) }
             getMovieListUseCase.invoke(
                 endTime = _state.value.selectedTimeFilter.toDate().second,
                 genreId = _state.value.selectedGenreId,
@@ -97,18 +94,20 @@ class HomeViewModel @Inject constructor(
             ).collect { result ->
                 when (result) {
                     is Resource.Error -> {  // stops loading
-                        _state.update { it.copy(isLoading = false) }
+                        _state.update {
+                            it.copy(isLoading = false)
+                        }
+                        _uiEvents.emit(HomeSideEffect.ShowError(result.error.asStringResource()))
+
                     }
 
-                    is Resource.Loading -> _state.update { it.copy(isLoading = true) } // this shows that movies are loading and updates _state so the UI can show a loading spinner.
                     is Resource.Success -> {
-                        val movies = result.data?.map { movie ->
+                        val movies = result.data.map { movie ->
                             movie.toUi()
                                 .copy(  // Converts each movie into a UI model (toUi()) and keeps its duration.
                                     duration = movie.duration
                                 )
                         }
-                            ?: emptyList() // handle null safety:if data is null, it assigns emptyList() instead.
                         _state.update {
                             it.copy(   // Stops loading (isLoading = false).
                                 isLoading = false,
@@ -128,20 +127,19 @@ class HomeViewModel @Inject constructor(
     // using Resource which is sealed class so we must write every case.
     private fun loadGenres() {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoading = true) }
             getGenreListUseCase.invoke().collect { result ->
                 when (result) {
                     is Resource.Error -> {
                         _state.update { it.copy(isLoading = false) } // stops loading
-                    }
+                        _uiEvents.emit(HomeSideEffect.ShowError(result.error.asStringResource()))
 
-                    is Resource.Loading -> {
-                        _state.update { it.copy(isLoading = true) } // this shows that genres are loading and updates _state so the UI can show a loading spinner.
                     }
 
                     is Resource.Success -> {
-                        val genres = result.data?.map { genre ->
+                        val genres = result.data.map { genre ->
                             genre.toUi()  // Converts each genre into a UI model (toUi()) and keeps its duration.
-                        } ?: emptyList() // handle null safety
+                        } // handle null safety
                         _state.update {
                             it.copy(
                                 isLoading = false, // updating loading state
