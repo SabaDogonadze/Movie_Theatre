@@ -2,6 +2,7 @@ package com.example.movietheatre.core.presentation.extension
 
 import com.example.movietheatre.R
 import com.example.movietheatre.core.domain.util.error.EmailError
+import com.example.movietheatre.core.domain.util.error.NetworkError
 import com.example.movietheatre.core.domain.util.error.PasswordError
 
 /**
@@ -22,3 +23,12 @@ fun EmailError.asStringResource(): Int {
     }
 }
 
+
+fun NetworkError.asStringResource(): Int {
+    return when (this) {
+        NetworkError.ConnectionError -> R.string.connection_problem
+        NetworkError.EmptyResponse -> R.string.empty_response
+        is NetworkError.ServerError -> R.string.server_error
+        NetworkError.UnknownError -> R.string.unknown_error
+    }
+}
