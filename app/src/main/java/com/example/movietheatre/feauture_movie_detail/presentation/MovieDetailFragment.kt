@@ -14,7 +14,12 @@ class MovieDetailFragment :
 
     override fun clickListeners() {
         binding.btnGoToSeatScreen.setOnClickListener {
-            findNavController().navigate(MovieDetailFragmentDirections.actionMovieDetailFragmentToSeatFragment())
+            findNavController().navigate(
+                MovieDetailFragmentDirections.actionMovieDetailFragmentToSeatFragment(
+                    screeningId = 3,
+                    TicketPrice = 14.99f
+                )
+            )
         }
     }
 

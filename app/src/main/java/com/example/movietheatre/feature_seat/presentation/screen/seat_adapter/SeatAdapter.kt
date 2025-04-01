@@ -36,7 +36,7 @@ class SeatAdapter(val onClick: (Seat) -> Unit) :
             }
 
             binding.root.setOnClickListener {
-                if (seat.status == SeatType.FREE) {
+                if (seat.status == SeatType.FREE || seat.status == SeatType.SELECTED) {
                     onClick(seat)
                 }
             }

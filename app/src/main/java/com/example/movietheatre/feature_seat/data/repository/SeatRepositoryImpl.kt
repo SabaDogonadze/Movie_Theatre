@@ -1,7 +1,7 @@
 package com.example.movietheatre.feature_seat.data.repository
 
 import com.example.movietheatre.core.data.common.ApiHelper
-import com.example.movietheatre.core.domain.model.mapData
+import com.example.movietheatre.core.domain.extension.mapData
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.domain.util.error.NetworkError
 import com.example.movietheatre.feature_seat.data.mapper.toDomain

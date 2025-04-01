@@ -33,4 +33,13 @@
     <string name="empty_response">Empty Response</string>
     <string name="server_error">Server Error</string>
     <string name="book_the_seat">Book The Seat</string>
+    <string name="screen">Screen</string>
+    <string name="ticket_price">Ticket Price:</string>
+    <string name="seats">Seats:</string>
+    <string name="added_on_vip_fee">Added On Vip Fee:</string>
+    <string name="total_price">Total Price</string>
+    <string name="buy_tickets">Buy Tickets</string>
+    <string name="book_tickets">Book Tickets</string>
+    <string name="please_select_the_seats">Please Select the seats</string>
+    <string name="succesfully_booked_ticket">Succesfully Booked Ticket</string>
 </resources>

@@ -2,13 +2,15 @@ package com.example.movietheatre.feature_seat.presentation.screen.seat_row_adapt
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietheatre.databinding.ViewholderSeatRowBinding
 import com.example.movietheatre.feature_seat.presentation.model.Seat
 import com.example.movietheatre.feature_seat.presentation.model.SeatRow
 import com.example.movietheatre.feature_seat.presentation.screen.seat_adapter.SeatAdapter
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 
 class SeatRowAdapter(val onSeatClicked: (Seat) -> Unit) :
     ListAdapter<SeatRow, SeatRowAdapter.SeatRowViewHolder>(SeatRowDiffUtil) {
@@ -35,8 +37,10 @@ class SeatRowAdapter(val onSeatClicked: (Seat) -> Unit) :
 
             binding.rvSeat.apply {
                 adapter = seatAdapter
-                layoutManager =
-                    LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager = FlexboxLayoutManager(binding.root.context).apply {
+                    flexDirection = FlexDirection.ROW
+                    justifyContent = JustifyContent.SPACE_BETWEEN
+                }
             }
 
             seatAdapter.submitList(seatRow.seats.toList())

@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.13.147:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.236.147:8080/api/\"")
         }
         release {
             buildConfigField("String", "BASE_URL", "\"http://192.168.160.147:8080/api/\"")
@@ -88,6 +88,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    //flexbox
+    implementation(libs.flexbox)
 
 }
 

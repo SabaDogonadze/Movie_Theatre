@@ -1,4 +1,4 @@
-package com.example.movietheatre.core.domain.model
+package com.example.movietheatre.core.domain.extension
 
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.domain.util.error.RootError
