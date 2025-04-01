@@ -32,4 +32,5 @@
     <string name="connection_problem">Connection Problem</string>
     <string name="empty_response">Empty Response</string>
     <string name="server_error">Server Error</string>
+    <string name="book_the_seat">Book The Seat</string>
 </resources>
