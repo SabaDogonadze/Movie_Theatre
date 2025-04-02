@@ -35,7 +35,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
     override fun setUp() {
         viewModel.onEvent(SeatUiEvent.GetSeats(args.screeningId))
 
-        binding.run {
+        binding.apply {
             rvSeatRow.apply {
                 adapter = seatRowAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -47,7 +47,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
                     justifyContent = JustifyContent.SPACE_BETWEEN
                 }
             }
-            txtTicketPriceValue.text = args.TicketPrice.asMoneyFormat()
+            txtTicketPriceValue.text = args.ticketPrice.asMoneyFormat()
         }
 
         collectLatestFlow(viewModel.uiState) { updateUiState(it) }
@@ -55,7 +55,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
     }
 
     override fun clickListeners() {
-        binding.run {
+        binding.apply {
             btnBookTickets.setOnClickListener {
                 viewModel.onEvent(SeatUiEvent.BookTicket(args.screeningId))
             }
@@ -63,7 +63,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
                 viewModel.onEvent(
                     SeatUiEvent.BuyTicket(
                         args.screeningId,
-                        args.TicketPrice.toDouble()
+                        args.ticketPrice.toDouble()
                     )
                 )
             }
@@ -77,11 +77,11 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
         seatRowAdapter.submitList(uiState.seats.toList().createRowModels())
 
         val selectedSeats = uiState.seats.filter { it.status == SeatType.SELECTED }
-        binding.run {
+        binding.apply {
             txtSeatsValue.text = selectedSeats.joinToString(", ") { it.asString() }
             txtVipAddOnValue.text = selectedSeats.sumOf { it.vipAddOn }.toFloat().asMoneyFormat()
             txtTotalPriceValue.text =
-                selectedSeats.sumOf { it.vipAddOn + args.TicketPrice }.toFloat().asMoneyFormat()
+                selectedSeats.sumOf { it.vipAddOn + args.ticketPrice }.toFloat().asMoneyFormat()
         }
     }
 

@@ -99,7 +99,7 @@
             android:name="screeningId"
             app:argType="integer" />
         <argument
-            android:name="TicketPrice"
+            android:name="ticketPrice"
             app:argType="float" />
     </fragment>
 </navigation>
