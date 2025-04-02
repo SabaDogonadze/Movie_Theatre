@@ -28,8 +28,7 @@ class SeatViewModel @Inject constructor(
     private val getSeatsUseCase: GetSeatsUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val firebaseAuth: FirebaseAuth,
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SeatUiState())
     val uiState: StateFlow<SeatUiState> = _uiState
@@ -40,35 +39,63 @@ class SeatViewModel @Inject constructor(
     fun onEvent(event: SeatUiEvent) {
         when (event) {
             is SeatUiEvent.GetSeats -> getSeats(event.screeningId)
-            is SeatUiEvent.UpdateSeat -> updateSeat(selectedSeat = event.seat)
-            is SeatUiEvent.UpdateTicker -> updateTicket(event.screeningId, event.status)
+            is SeatUiEvent.UpdateSeat -> toggleSeatSelection(event.seat)
+            is SeatUiEvent.BookTicket -> bookTicket(event.screeningId)
+            is SeatUiEvent.BuyTicket -> buyTicket(event.screeningId, event.ticketPrice)
         }
     }
 
-    private fun updateTicket(
-        screeningId: Int,
-        ticketStatus: TicketStatus,
-    ) {
+    private fun toggleSeatSelection(selectedSeat: Seat) {
+        _uiState.update { state ->
+            state.copy(
+                seats = state.seats.map { seat ->
+                    if (seat.id == selectedSeat.id) {
+                        seat.copy(status = if (seat.status == SeatType.SELECTED) SeatType.FREE else SeatType.SELECTED)
+                    } else seat
+                }
+            )
+        }
+    }
+
+    private fun getSeats(screeningId: Int) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
+            when (val result = getSeatsUseCase(screeningId)) {
+                is Resource.Error -> {
+                    _sideEffects.emit(SeatSideEffect.ShowError(result.error.asStringResource()))
+                    _uiState.update { it.copy(isLoading = false) }
+                }
+                is Resource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            seats = result.data.map { it.toPresentation() }
+                        )
+                    }
+                }
+            }
+        }
+    }
 
-            if (_uiState.value.seats.none { it.status == SeatType.SELECTED }) {
+    private fun bookTicket(screeningId: Int) {
+        viewModelScope.launch {
+            val selectedSeats = _uiState.value.seats.filter { it.status == SeatType.SELECTED }
+            if (selectedSeats.isEmpty()) {
                 _sideEffects.emit(SeatSideEffect.ShowError(R.string.please_select_the_seats))
                 return@launch
             }
+            _uiState.update { it.copy(isLoading = true) }
 
             when (val result = updateTicketUseCase(
                 screeningId = screeningId,
-                seats = _uiState.value.seats.filter { it.status == SeatType.SELECTED }
-                    .map { it.seatNumber },
-                status = ticketStatus.toDomain(),
+                seats = selectedSeats.map { it.seatNumber },
+                status = TicketStatus.HELD.toDomain(),
                 userId = firebaseAuth.currentUser!!.uid
             )) {
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffects.emit(SeatSideEffect.ShowError(result.error.asStringResource()))
                 }
-
                 is Resource.Success -> {
                     _sideEffects.emit(SeatSideEffect.ShowSuccessfulHoldScreen)
                     delay(1000)
@@ -78,38 +105,52 @@ class SeatViewModel @Inject constructor(
         }
     }
 
-    private fun getSeats(screeningId: Int) {
-        _uiState.update { it.copy(isLoading = true) }
-
+    private fun buyTicket(screeningId: Int, ticketPrice: Double) {
         viewModelScope.launch {
-            when (val result = getSeatsUseCase(screeningId)) {
-                is Resource.Error -> {
-                    _sideEffects.emit(SeatSideEffect.ShowError(result.error.asStringResource()))
-                    _uiState.update { it.copy(isLoading = false) }
-                }
+            val selectedSeats = _uiState.value.seats.filter { it.status == SeatType.SELECTED }
+            if (selectedSeats.isEmpty()) {
+                _sideEffects.emit(SeatSideEffect.ShowError(R.string.please_select_the_seats))
+                return@launch
+            }
 
+            val totalCost = selectedSeats.sumOf { it.vipAddOn + ticketPrice }
+            if (totalCost > 50) {
+                _sideEffects.emit(SeatSideEffect.ShowError(R.string.you_don_t_have_enough_money))
+                return@launch
+            }
+
+            _uiState.update { it.copy(isLoading = true) }
+            when (val holdResult = updateTicketUseCase(
+                screeningId = screeningId,
+                seats = selectedSeats.map { it.seatNumber },
+                status = TicketStatus.HELD.toDomain(),
+                userId = firebaseAuth.currentUser!!.uid
+            )) {
+                is Resource.Error -> {
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffects.emit(SeatSideEffect.ShowError(holdResult.error.asStringResource()))
+                    return@launch
+                }
                 is Resource.Success -> {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            seats = result.data.map { it.toPresentation() })
+                    when (val bookedResult = updateTicketUseCase(
+                        screeningId = screeningId,
+                        seats = selectedSeats.map { it.seatNumber },
+                        status = TicketStatus.BOOKED.toDomain(),
+                        userId = firebaseAuth.currentUser!!.uid
+                    )) {
+                        is Resource.Error -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                            _sideEffects.emit(SeatSideEffect.ShowError(bookedResult.error.asStringResource()))
+                        }
+                        is Resource.Success -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                            _sideEffects.emit(SeatSideEffect.ShowSuccessfulBuyScreen)
+                            delay(1000)
+                            _sideEffects.emit(SeatSideEffect.NavigateToDetailScreen)
+                        }
                     }
                 }
             }
-        }
-    }
-
-    private fun updateSeat(selectedSeat: Seat) {
-        _uiState.update { state ->
-            state.copy(
-                seats = state.seats.map { seat ->
-                    if (seat.id == selectedSeat.id) {
-                        val newStatus =
-                            if (seat.status == SeatType.SELECTED) SeatType.FREE else SeatType.SELECTED
-                        seat.copy(status = newStatus)
-                    } else seat
-                }
-            )
         }
     }
 }

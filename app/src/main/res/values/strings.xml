@@ -42,4 +42,5 @@
     <string name="book_tickets">Book Tickets</string>
     <string name="please_select_the_seats">Please Select the seats</string>
     <string name="succesfully_booked_ticket">Succesfully Booked Ticket</string>
+    <string name="you_don_t_have_enough_money">You Don\'t have enough money</string>
 </resources>
