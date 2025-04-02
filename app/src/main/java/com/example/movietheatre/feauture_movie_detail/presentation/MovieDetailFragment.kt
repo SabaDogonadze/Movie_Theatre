@@ -17,7 +17,7 @@ class MovieDetailFragment :
             findNavController().navigate(
                 MovieDetailFragmentDirections.actionMovieDetailFragmentToSeatFragment(
                     screeningId = 3,
-                    TicketPrice = 14.99f
+                    ticketPrice = 14.99f
                 )
             )
         }
