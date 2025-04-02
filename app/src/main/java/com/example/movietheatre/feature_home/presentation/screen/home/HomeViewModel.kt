@@ -98,7 +98,6 @@ class HomeViewModel @Inject constructor(
                             it.copy(isLoading = false)
                         }
                         _uiEvents.emit(HomeSideEffect.ShowError(result.error.asStringResource()))
-
                     }
 
                     is Resource.Success -> {
