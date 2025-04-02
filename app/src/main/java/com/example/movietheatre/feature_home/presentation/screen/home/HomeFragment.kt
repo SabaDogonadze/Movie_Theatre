@@ -1,5 +1,6 @@
 package com.example.movietheatre.feature_home.presentation.screen.home
 
+import android.util.Log.d
 import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
@@ -37,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun clickListeners() {
         homeMovieAdapter.setonItemClickedListener {
-            navigateToMovieDetailFragment()
+            navigateToMovieDetailFragment(it.id)
         }
         setupTimeFilterClickListener(binding.btnMorningTime, TimeFilter.MORNING, "11:00-15:00")
         setupTimeFilterClickListener(binding.btnAfternoonTime, TimeFilter.AFTERNOON, "15:00-19:00")
@@ -81,6 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun stateObserver() {
         collectLatestFlow(homeViewModel.state) { state ->
             binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+            d("recyclermovie","${state.movies}")
             homeMovieAdapter.submitList(state.movies.toList())
 
             genreAdapter.submitList(state.genres.toList())
@@ -92,7 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun eventObserver() {
         collectLatestFlow(homeViewModel.uiEvents) { event ->
             when (event) {
-                // HomeSideEffect.NavigateToDetail -> navigateToMovieDetailFragment()
+                //is HomeSideEffect.NavigateToDetail -> navigateToMovieDetailFragment()
                 is HomeSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
             }
         }
@@ -116,8 +118,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     // using findNavController to navigate MovieDetailFragment
-    private fun navigateToMovieDetailFragment() {
-        findNavController().navigate(HomeFragmentDirections.actionIdHomeFragmentToMovieDetailFragment())
+    private fun navigateToMovieDetailFragment(movieId:Int) {
+        findNavController().navigate(HomeFragmentDirections.actionIdHomeFragmentToMovieDetailFragment(movieId = movieId))
     }
 
     // we have 3 day times statically written.

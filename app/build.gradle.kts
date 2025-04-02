@@ -24,10 +24,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.160.147:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
         }
         release {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.160.147:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -79,6 +79,10 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui)
 
+    //ExoPlayer
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.ui)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

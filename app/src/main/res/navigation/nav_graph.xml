@@ -34,9 +34,18 @@
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="com.example.movietheatre.feauture_movie_detail.presentation.MovieDetailFragment"
+        android:name="com.example.movietheatre.feauture_movie_detail.presentation.screen.MovieDetailFragment"
         android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" />
+        tools:layout="@layout/fragment_movie_detail" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_seatFragment"
+            app:destination="@id/seatFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
     <navigation
         android:id="@+id/navigation"
         app:startDestination="@id/loginFragment">
@@ -68,4 +77,16 @@
             app:popUpTo="@id/navigation"
             app:popUpToInclusive="true" />
     </navigation>
+    <fragment
+        android:id="@+id/seatFragment"
+        android:name="com.example.movietheatre.SeatFragment"
+        android:label="fragment_seat"
+        tools:layout="@layout/fragment_seat" >
+        <argument
+            android:name="screeningId"
+            app:argType="integer" />
+        <argument
+            android:name="ticketPrice"
+            app:argType="float" />
+    </fragment>
 </navigation>

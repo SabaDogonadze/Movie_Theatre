@@ -1,5 +1,6 @@
 package com.example.movietheatre.feature_home.presentation.screen.home
 
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -52,7 +53,7 @@ class HomeMovieRecyclerAdapter :
     inner class MovieItemViewHolder(private val binding: MovieViewholderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            val item = currentList[adapterPosition]
+            val item = currentList[absoluteAdapterPosition]
 
             binding.apply {
                 tvMovieTitle.text = item.title
