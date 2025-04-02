@@ -1,5 +1,6 @@
 package com.example.movietheatre.feature_home.presentation.screen.home
 
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
