@@ -1,5 +1,6 @@
 package com.example.movietheatre.core.data.common
 
+import android.util.Log
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.domain.util.error.NetworkError
 import okio.IOException
@@ -23,6 +24,7 @@ class ApiHelper @Inject constructor() {
         } catch (e: IOException) {
             Resource.Error(NetworkError.ConnectionError)
         } catch (e: Exception) {
+            Log.d("eror",e.toString())
             Resource.Error(NetworkError.ServerError(e))
         }
     }
