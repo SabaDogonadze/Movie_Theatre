@@ -43,4 +43,20 @@
     <string name="please_select_the_seats">Please Select the seats</string>
     <string name="succesfully_booked_ticket">Succesfully Booked Ticket</string>
     <string name="you_don_t_have_enough_money">You Don\'t have enough money</string>
+    <string name="custom_pay">Custom Pay</string>
+    <string name="cardholder_name">CardHolder Name</string>
+    <string name="name">Name</string>
+    <string name="valid_thru">Valid Thru</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="or_check_out_with">Or Check Out With</string>
+    <string name="add_new">Add New +</string>
+    <string name="card_management">Card Management</string>
+    <string name="payment">Payment</string>
+    <string name="add_new_card">Add New Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="expires">Expires</string>
+    <string name="cvv">CVV</string>
+    <string name="mastercard">MasterCard</string>
+    <string name="visa">Visa</string>
+    <string name="add_card">Add Card</string>
 </resources>
