@@ -45,7 +45,7 @@ class GooglePayFragment : Fragment() {
     }
 
     // A default price for testing in USD
-    private val defaultPrice = "10.00"
+    private var defaultPrice = "10.00"
 
     companion object {
         val SUPPORTED_METHODS = listOf(
@@ -73,6 +73,10 @@ class GooglePayFragment : Fragment() {
 
     fun setActivityResultLauncher(launcher: ActivityResultLauncher<IntentSenderRequest>) {
         activityResultLauncher = launcher
+    }
+    fun setTotalPrice(price: String) {
+        defaultPrice = price
+        Log.d(TAG, "Total price set to: $defaultPrice")
     }
 
     override fun onCreateView(
@@ -180,9 +184,9 @@ class GooglePayFragment : Fragment() {
     }
 
     private fun requestPayment() {
-        val price = defaultPrice
-        val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(price)
+        val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(defaultPrice)
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
+        Log.d(TAG, "Requesting payment with totalPrice: $defaultPrice")
         Log.d(TAG, "Requesting payment with JSON: ${paymentDataRequestJson}")
         // binding.paymentStatus.text = "Processing payment..."
 

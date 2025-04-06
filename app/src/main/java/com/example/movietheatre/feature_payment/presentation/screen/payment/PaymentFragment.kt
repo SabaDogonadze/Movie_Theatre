@@ -94,6 +94,8 @@ class PaymentFragment : Fragment() {
 
         // Set the launcher on the GooglePayFragment
         googlePayFragment.setActivityResultLauncher(paymentResultLauncher)
+        googlePayFragment.setTotalPrice(args.totalPrice.toString())
+
     }
 
     private fun setUp() {
@@ -136,6 +138,7 @@ class PaymentFragment : Fragment() {
             }
 
             PaymentSideEffect.SuccessfulPayment -> {
+                binding.btnBuyTickets.isVisible = false
                 val transition = AutoTransition().apply {
                     duration = 300
                 }
