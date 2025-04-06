@@ -1,5 +1,8 @@
 package com.example.movietheatre.feature_payment.presentation.screen.add_card
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -28,8 +31,15 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
             viewModel.onEvent(AddCardEvent.CardNumberChanged(text.toString()))
         }
         binding.etCardExpiresDate.addTextChangedListener { text ->
+            if (text?.length == 2) {
+                val formattedText = getString(R.string.expire_date_format, text)
+                binding.etCardExpiresDate.setText(formattedText)
+                binding.etCardExpiresDate.setSelection(formattedText.length)
+            }
             viewModel.onEvent(AddCardEvent.ExpiryDateChanged(text.toString()))
         }
+
+
         binding.etCardCCV.addTextChangedListener { text ->
             viewModel.onEvent(AddCardEvent.CVVChanged(text.toString()))
         }
@@ -37,6 +47,7 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
         binding.btnAddCard.setOnClickListener {
             viewModel.onEvent(AddCardEvent.AddCardClicked)
         }
+        expiryDateTextWatcher()
 
         binding.rbGroups.setOnCheckedChangeListener { radioGroup, i ->
             when (i) {
@@ -45,7 +56,46 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
 
             }
         }
-        
+
+    }
+
+    private fun expiryDateTextWatcher() {
+        binding.etCardExpiresDate.addTextChangedListener(object : TextWatcher {
+            private var isFormatting = false
+            private var isDeleting = false
+            private var previousLength = 0
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                previousLength = s?.length ?: 0
+                isDeleting = after < count
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+
+                s?.let {
+                    if (!isDeleting && it.length == 2 && !it.contains("/")) {
+                        isFormatting = true
+                        val formattedText = getString(R.string.expire_date_format, it)
+                        binding.etCardExpiresDate.setText(formattedText)
+                        binding.etCardExpiresDate.setSelection(formattedText.length)
+                        isFormatting = false
+                    }
+
+                    if (isDeleting) {
+                        isFormatting = true
+                        binding.etCardExpiresDate.setText("")
+                        binding.etCardExpiresDate.setSelection(0)
+                        isFormatting = false
+                    }
+
+                    viewModel.onEvent(AddCardEvent.ExpiryDateChanged(it.toString()))
+                }
+            }
+        })
     }
 
     private fun getSideEffects(effect: AddCardSideEffect) {
@@ -61,14 +111,14 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
     }
 
     private fun updateUiState(state: AddCardUiState) {
-
+        Log.d("adduistate", state.toString())
         val img =
             if (state.cardTypeSelected == CardType.VISA) R.drawable.ic_visa_card else R.drawable.ic_master_card
 
         binding.imgCard.setImageResource(img)
 
         binding.txtCardDateDisplay.text = state.expiryDate
-        binding.txtCardNumberDisplay.text = state.cardNumber
+        binding.txtCardNumberDisplay.text = state.cardNumber.chunked(4).joinToString("  ")
         binding.txtCardHolderNameDisplay.text = state.cardHolderName
 
 

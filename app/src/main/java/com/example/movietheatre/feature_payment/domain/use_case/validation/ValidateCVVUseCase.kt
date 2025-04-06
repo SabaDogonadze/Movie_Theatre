@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class ValidateCVVUseCase @Inject constructor() {
 
-    fun validate(cvv: String): Resource<Unit, CVVError> {
+    operator fun invoke(cvv: String): Resource<Unit, CVVError> {
         val trimmed = cvv.trim()
         if (trimmed.isEmpty()) {
             return Resource.Error(CVVError.EMPTY)

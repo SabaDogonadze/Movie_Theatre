@@ -24,7 +24,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddCardViewModel @Inject constructor(
-    // Inject your validation use cases if needed
     private val validateCardHolderNameUseCase: ValidateCardHolderNameUseCase,
     private val validateCardNumberUseCase: ValidateCardNumberUseCase,
     private val validateExpiryDateUseCase: ValidateExpiryDateUseCase,
@@ -32,34 +31,15 @@ class AddCardViewModel @Inject constructor(
     private val addCardUseCase: AddCardUseCase,
 ) : ViewModel() {
 
-    // UI State
     private val _uiState = MutableStateFlow(AddCardUiState())
     val uiState: StateFlow<AddCardUiState> = _uiState.asStateFlow()
 
-    // Side effects channel
     private val _sideEffect = MutableSharedFlow<AddCardSideEffect>()
     val sideEffect: SharedFlow<AddCardSideEffect> = _sideEffect.asSharedFlow()
 
-    // Handle incoming events from the UI
     fun onEvent(event: AddCardEvent) {
         when (event) {
-            is AddCardEvent.CardHolderNameChanged -> {
-                updateState(cardHolderName = event.text)
-            }
-
-            is AddCardEvent.CardNumberChanged -> {
-                updateState(cardNumber = event.text)
-            }
-
-            is AddCardEvent.ExpiryDateChanged -> {
-                updateState(expiryDate = event.text)
-            }
-
-            is AddCardEvent.CVVChanged -> {
-                updateState(cvv = event.text)
-            }
-
-            is AddCardEvent.AddCardClicked -> {
+            AddCardEvent.AddCardClicked -> {
                 if (_uiState.value.isAddCardEnabled) {
                     addCard()
                 } else {
@@ -69,7 +49,21 @@ class AddCardViewModel @Inject constructor(
                 }
             }
 
+            is AddCardEvent.CVVChanged -> {
+                updateState(cvv = event.text)
+            }
+
+            is AddCardEvent.CardHolderNameChanged -> {
+                updateState(cardHolderName = event.text)
+            }
+
+            is AddCardEvent.CardNumberChanged -> {
+                updateState(cardNumber = event.text)
+            }
+
             is AddCardEvent.CardTypeChanged -> _uiState.update { it.copy(cardTypeSelected = event.cardType) }
+            is AddCardEvent.ExpiryDateChanged -> updateState(expiryDate = event.text)
+
         }
     }
 
@@ -86,13 +80,11 @@ class AddCardViewModel @Inject constructor(
         val newExpiryDate = expiryDate ?: currentState.expiryDate
         val newCvv = cvv ?: currentState.cvv
 
-        // Validate fields using the production-level validators.
         val holderValidation = validateCardHolderNameUseCase(newCardHolderName)
         val numberValidation = validateCardNumberUseCase(newCardNumber)
         val expiryValidation = validateExpiryDateUseCase(newExpiryDate)
-        val cvvValidation = validateCVVUseCase.validate(newCvv)
+        val cvvValidation = validateCVVUseCase(newCvv)
 
-        // Update errors based on validation results.
         val updatedState = currentState.copy(
             cardHolderName = newCardHolderName,
             cardHolderNameError = if (holderValidation is Resource.Error) holderValidation.error.asStringResource() else null,

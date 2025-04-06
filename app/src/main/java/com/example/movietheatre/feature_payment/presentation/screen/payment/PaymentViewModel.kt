@@ -37,9 +37,6 @@ class PaymentViewModel @Inject constructor(
     private val _sideEffect = MutableSharedFlow<PaymentSideEffect>()
     val sideEffect: SharedFlow<PaymentSideEffect> = _sideEffect.asSharedFlow()
 
-    init {
-        onEvent(PaymentEvent.LoadCards)
-    }
 
     fun onEvent(event: PaymentEvent) {
         when (event) {
@@ -68,10 +65,6 @@ class PaymentViewModel @Inject constructor(
                 viewModelScope.launch {
                     _sideEffect.emit(PaymentSideEffect.NavigateToAddCard)
                 }
-            }
-
-            is PaymentEvent.CardSelected -> {
-
             }
 
             is PaymentEvent.OnBuy -> {

@@ -24,6 +24,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>(FragmentPaymentBind
     }
 
     override fun setUp() {
+        viewModel.onEvent(PaymentEvent.LoadCards)
         binding.txtTotalValue.text = args.totalPrice.asMoneyFormat()
         setUpAdapter()
         collectLatestFlow(viewModel.uiState) { updateUiState(it) }
@@ -67,7 +68,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>(FragmentPaymentBind
 
 
     private fun updateUiState(state: PaymentUiState) {
-        paymentPagerAdapter.submitList(state.cards)
+        paymentPagerAdapter.submitList(state.cards.toList())
         binding.progressBar.root.isVisible = state.isLoading
         binding.btnBuyTickets.isVisible = !state.isLoading
     }

@@ -11,6 +11,6 @@ data class AddCardUiState(
     val expiryDateError: Int? = null,
     val cvv: String = "",
     val cvvError: Int? = null,
-    val cardTypeSelected: CardType = CardType.VISA,
+    val cardTypeSelected: CardType = CardType.MASTERCARD,
     val isAddCardEnabled: Boolean = false,
 )

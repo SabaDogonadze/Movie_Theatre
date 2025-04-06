@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movietheatre.R
 import com.example.movietheatre.databinding.ItemCardBinding
+import com.example.movietheatre.feature_payment.domain.model.CardType
 import com.example.movietheatre.feature_payment.presentation.model.Card
 
 object GetCardDiffUtil : DiffUtil.ItemCallback<Card>() {
@@ -31,6 +33,10 @@ class PaymentPagerAdapter :
             binding.txtCardNumberDisplay.text = maskedNumber
             binding.txtCardHolderNameDisplay.text = card.cardHolderName
             binding.txtCardDateDisplay.text = card.expiryDate
+
+            val img =
+                if (card.cardType == CardType.MASTERCARD) R.drawable.ic_master_card else R.drawable.ic_visa_card
+            binding.imgCard.setImageResource(img)
         }
     }
 
