@@ -111,8 +111,13 @@ dependencies {
 
     //flexbox
     implementation(libs.flexbox)
+
+    //protobuf
     implementation (libs.protobuf.javalite)
     implementation(libs.androidx.datastore)
+
+    //google pay
+    implementation(libs.play.services.wallet)
 
 }
 

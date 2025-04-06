@@ -74,4 +74,7 @@
     <string name="please_correct_the_errors_before_proceeding">Please correct the errors before proceeding.</string>
     <string name="buy_options"><![CDATA[Buy Options ->]]></string>
     <string name="expire_date_format">%1$s/</string>
+    <string name="payment_cancelled">payment Cancelled</string>
+    <string name="payment_failed">payment failed</string>
+    <string name="error_in_payment_data_try_again">error in payment data try again</string>
 </resources>

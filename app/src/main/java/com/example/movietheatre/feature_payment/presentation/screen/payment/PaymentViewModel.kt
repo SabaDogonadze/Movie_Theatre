@@ -1,5 +1,8 @@
 package com.example.movietheatre.feature_payment.presentation.screen.payment
 
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.R
@@ -11,6 +14,7 @@ import com.example.movietheatre.core.presentation.util.TicketStatus
 import com.example.movietheatre.feature_payment.domain.use_case.GetCardsUseCase
 import com.example.movietheatre.feature_payment.presentation.mapper.asStringResource
 import com.example.movietheatre.feature_payment.presentation.mapper.toPresentation
+import com.google.android.gms.wallet.PaymentData
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -31,7 +35,7 @@ class PaymentViewModel @Inject constructor(
     private val updateTicketUseCase: UpdateTicketUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(PaymentUiState())
+    private val _uiState: MutableStateFlow<PaymentUiState> = MutableStateFlow(PaymentUiState())
     val uiState: StateFlow<PaymentUiState> = _uiState.asStateFlow()
 
     private val _sideEffect = MutableSharedFlow<PaymentSideEffect>()
@@ -96,6 +100,60 @@ class PaymentViewModel @Inject constructor(
                             _sideEffect.emit(PaymentSideEffect.NavigateToHomeScreen)
                         }
                     }
+                }
+            }
+
+            PaymentEvent.OnGooglePayClick -> _uiState.update { it.copy(isLoading = true) }
+            is PaymentEvent.OnGoogleBuy -> {
+                handlePaymentResult(
+                    event.resultCode,
+                    event.data,
+                    event.screeningId,
+                    event.seats,
+                    event.totalPrice
+                )
+            }
+        }
+    }
+
+    private fun handlePaymentResult(
+        resultCode: Int,
+        data: Intent?,
+        screeningId: Int,
+        seats: List<String>,
+        totalPrice: Double,
+    ) {
+        Log.d("executed", "executed")
+        viewModelScope.launch {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    data?.let { intent ->
+                        PaymentData.getFromIntent(intent)?.let { paymentData ->
+                            onEvent(
+                                PaymentEvent.OnBuy(
+                                    screeningId = screeningId,
+                                    seats = seats,
+                                    totalPrice = totalPrice
+                                )
+                            )
+                        } ?: run {
+
+                            _uiState.update { it.copy(isLoading = false) }
+                            _sideEffect.emit(PaymentSideEffect.ShowError(R.string.error_in_payment_data_try_again))
+                        }
+                    }
+                }
+
+                Activity.RESULT_CANCELED -> {
+
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(PaymentSideEffect.ShowError(R.string.payment_cancelled))
+                }
+
+                else -> {
+
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(PaymentSideEffect.ShowError(R.string.payment_failed))
                 }
             }
         }
