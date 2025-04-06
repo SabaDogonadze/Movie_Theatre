@@ -1,0 +1,14 @@
+
+
+syntax = "proto3";
+option java_package = "com.example.movietheatre";
+message CardProto {
+string cardNumber = 1;
+string cardHolderName = 2;
+string expiryDate = 3;
+string cvv = 4;
+string cardType = 5;
+}
+message CardsList {
+repeated CardProto cards = 1;
+}

@@ -41,7 +41,7 @@ class SeatViewModel @Inject constructor(
             is SeatUiEvent.GetSeats -> getSeats(event.screeningId)
             is SeatUiEvent.UpdateSeat -> toggleSeatSelection(event.seat)
             is SeatUiEvent.BookTicket -> bookTicket(event.screeningId)
-            is SeatUiEvent.BuyTicket -> buyTicket(event.screeningId, event.ticketPrice)
+            is SeatUiEvent.BuyTicket -> buyOptions(event.screeningId, event.ticketPrice)
         }
     }
 
@@ -65,6 +65,7 @@ class SeatViewModel @Inject constructor(
                     _sideEffects.emit(SeatSideEffect.ShowError(result.error.asStringResource()))
                     _uiState.update { it.copy(isLoading = false) }
                 }
+
                 is Resource.Success -> {
                     _uiState.update {
                         it.copy(
@@ -96,6 +97,7 @@ class SeatViewModel @Inject constructor(
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffects.emit(SeatSideEffect.ShowError(result.error.asStringResource()))
                 }
+
                 is Resource.Success -> {
                     _sideEffects.emit(SeatSideEffect.ShowSuccessfulHoldScreen)
                     delay(1000)
@@ -105,7 +107,7 @@ class SeatViewModel @Inject constructor(
         }
     }
 
-    private fun buyTicket(screeningId: Int, ticketPrice: Double) {
+    private fun buyOptions(screeningId: Int, ticketPrice: Double) {
         viewModelScope.launch {
             val selectedSeats = _uiState.value.seats.filter { it.status == SeatType.SELECTED }
             if (selectedSeats.isEmpty()) {
@@ -114,10 +116,7 @@ class SeatViewModel @Inject constructor(
             }
 
             val totalCost = selectedSeats.sumOf { it.vipAddOn + ticketPrice }
-            if (totalCost > 50) {
-                _sideEffects.emit(SeatSideEffect.ShowError(R.string.you_don_t_have_enough_money))
-                return@launch
-            }
+
 
             _uiState.update { it.copy(isLoading = true) }
             when (val holdResult = updateTicketUseCase(
@@ -131,24 +130,15 @@ class SeatViewModel @Inject constructor(
                     _sideEffects.emit(SeatSideEffect.ShowError(holdResult.error.asStringResource()))
                     return@launch
                 }
+
                 is Resource.Success -> {
-                    when (val bookedResult = updateTicketUseCase(
-                        screeningId = screeningId,
-                        seats = selectedSeats.map { it.seatNumber },
-                        status = TicketStatus.BOOKED.toDomain(),
-                        userId = firebaseAuth.currentUser!!.uid
-                    )) {
-                        is Resource.Error -> {
-                            _uiState.update { it.copy(isLoading = false) }
-                            _sideEffects.emit(SeatSideEffect.ShowError(bookedResult.error.asStringResource()))
-                        }
-                        is Resource.Success -> {
-                            _uiState.update { it.copy(isLoading = false) }
-                            _sideEffects.emit(SeatSideEffect.ShowSuccessfulBuyScreen)
-                            delay(1000)
-                            _sideEffects.emit(SeatSideEffect.NavigateToDetailScreen)
-                        }
-                    }
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffects.emit(
+                        SeatSideEffect.NavigateToPaymentScreen(
+                            seats = selectedSeats.map { it.seatNumber },
+                            totalPrice = totalCost
+                        )
+                    )
                 }
             }
         }

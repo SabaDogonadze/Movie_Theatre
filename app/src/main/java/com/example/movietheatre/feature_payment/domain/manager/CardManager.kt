@@ -1,0 +1,10 @@
+package com.example.movietheatre.feature_payment.domain.manager
+
+import com.example.movietheatre.core.domain.util.Resource
+import com.example.movietheatre.feature_payment.domain.model.GetCard
+import com.example.movietheatre.feature_payment.domain.util.DatastoreError
+
+interface CardManager {
+    suspend fun addCard(card: GetCard): Resource<Unit, DatastoreError>
+    suspend fun getCards(): Resource<List<GetCard>, DatastoreError>
+}

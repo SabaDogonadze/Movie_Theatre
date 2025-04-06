@@ -14,8 +14,8 @@
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/id_home_fragment"
             app:enterAnim="@anim/from_center_to_expand"
-            app:popEnterAnim="@anim/from_center_to_expand"
             app:exitAnim="@anim/from_center_to_expand"
+            app:popEnterAnim="@anim/from_center_to_expand"
             app:popExitAnim="@anim/from_center_to_expand"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
@@ -23,8 +23,8 @@
             android:id="@+id/action_splashFragment_to_navigation"
             app:destination="@id/navigation"
             app:enterAnim="@anim/from_center_to_expand"
-            app:popEnterAnim="@anim/from_center_to_expand"
             app:exitAnim="@anim/from_center_to_expand"
+            app:popEnterAnim="@anim/from_center_to_expand"
             app:popExitAnim="@anim/from_center_to_expand"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
@@ -34,7 +34,7 @@
         android:id="@+id/id_home_fragment"
         android:name="com.example.movietheatre.feature_home.presentation.screen.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_id_home_fragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment"
@@ -48,7 +48,7 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.example.movietheatre.feauture_movie_detail.presentation.screen.MovieDetailFragment"
         android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" >
+        tools:layout="@layout/fragment_movie_detail">
         <argument
             android:name="movieId"
             app:argType="integer" />
@@ -97,12 +97,51 @@
         android:id="@+id/seatFragment"
         android:name="com.example.movietheatre.feature_seat.presentation.screen.SeatFragment"
         android:label="fragment_seat"
-        tools:layout="@layout/fragment_seat" >
+        tools:layout="@layout/fragment_seat">
         <argument
             android:name="screeningId"
             app:argType="integer" />
         <argument
             android:name="ticketPrice"
             app:argType="float" />
+        <action
+            android:id="@+id/action_seatFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCardFragment"
+        android:name="com.example.movietheatre.feature_payment.presentation.screen.add_card.AddCardFragment"
+        android:label="fragment_add_card"
+        app:enterAnim="@anim/from_right"
+        app:exitAnim="@anim/to_left"
+        app:popEnterAnim="@anim/from_left"
+        app:popExitAnim="@anim/to_right"
+        tools:layout="@layout/fragment_add_card" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.movietheatre.feature_payment.presentation.screen.payment.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment">
+        <action
+            android:id="@+id/action_paymentFragment_to_addCardFragment"
+            app:destination="@id/addCardFragment" />
+        <argument
+            android:name="screeningId"
+            app:argType="integer" />
+        <argument
+            android:name="seats"
+            app:argType="string[]" />
+        <argument
+            android:name="totalPrice"
+            app:argType="float" />
+        <action
+            android:id="@+id/action_paymentFragment_to_id_home_fragment"
+            app:destination="@id/id_home_fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/id_home_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

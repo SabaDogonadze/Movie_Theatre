@@ -1,0 +1,19 @@
+package com.example.movietheatre.feature_payment.domain.use_case.validation
+
+import com.example.movietheatre.core.domain.util.Resource
+import com.example.movietheatre.feature_payment.domain.util.CVVError
+import javax.inject.Inject
+
+class ValidateCVVUseCase @Inject constructor() {
+
+    fun validate(cvv: String): Resource<Unit, CVVError> {
+        val trimmed = cvv.trim()
+        if (trimmed.isEmpty()) {
+            return Resource.Error(CVVError.EMPTY)
+        }
+        if (!trimmed.matches(Regex("^\\d{3}\$"))) {
+            return Resource.Error(CVVError.INVALID_FORMAT)
+        }
+        return Resource.Success(Unit)
+    }
+}
