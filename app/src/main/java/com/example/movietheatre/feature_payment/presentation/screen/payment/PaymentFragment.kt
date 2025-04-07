@@ -41,7 +41,6 @@ class PaymentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize the ActivityResultLauncher for payment results
         paymentResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
@@ -57,7 +56,6 @@ class PaymentFragment : Fragment() {
                 )
             )
             Log.d("googlepay", resultCode.toString() + data.toString())
-            // Pass the result to the GooglePayFragment
             if (::googlePayFragment.isInitialized) {
                 googlePayFragment.handlePaymentResult(resultCode, data)
             }
@@ -80,7 +78,6 @@ class PaymentFragment : Fragment() {
         if (savedInstanceState == null) {
             googlePayFragment = GooglePayFragment.newInstance()
 
-            // Add GooglePayFragment to the nested container
             childFragmentManager.beginTransaction()
                 .replace(R.id.google_pay_container, googlePayFragment)
                 .commit()
@@ -89,10 +86,8 @@ class PaymentFragment : Fragment() {
                 childFragmentManager.findFragmentById(R.id.google_pay_container) as GooglePayFragment
         }
 
-        // Wait for fragment to be attached to ensure it gets the launcher
         childFragmentManager.executePendingTransactions()
 
-        // Set the launcher on the GooglePayFragment
         googlePayFragment.setActivityResultLauncher(paymentResultLauncher)
         googlePayFragment.setTotalPrice(args.totalPrice.toString())
 

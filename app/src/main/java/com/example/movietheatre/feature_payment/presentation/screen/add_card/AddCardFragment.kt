@@ -30,15 +30,6 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
         binding.etCardNumber.addTextChangedListener { text ->
             viewModel.onEvent(AddCardEvent.CardNumberChanged(text.toString()))
         }
-        binding.etCardExpiresDate.addTextChangedListener { text ->
-            if (text?.length == 2) {
-                val formattedText = getString(R.string.expire_date_format, text)
-                binding.etCardExpiresDate.setText(formattedText)
-                binding.etCardExpiresDate.setSelection(formattedText.length)
-            }
-            viewModel.onEvent(AddCardEvent.ExpiryDateChanged(text.toString()))
-        }
-
 
         binding.etCardCCV.addTextChangedListener { text ->
             viewModel.onEvent(AddCardEvent.CVVChanged(text.toString()))
@@ -49,7 +40,7 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
         }
         expiryDateTextWatcher()
 
-        binding.rbGroups.setOnCheckedChangeListener { radioGroup, i ->
+        binding.rbGroups.setOnCheckedChangeListener { _, i ->
             when (i) {
                 R.id.rbVisaCard -> viewModel.onEvent(AddCardEvent.CardTypeChanged(CardType.VISA))
                 R.id.rbMasterCard -> viewModel.onEvent(AddCardEvent.CardTypeChanged(CardType.MASTERCARD))
@@ -84,11 +75,10 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
                         binding.etCardExpiresDate.setSelection(formattedText.length)
                         isFormatting = false
                     }
-
-                    if (isDeleting) {
+                    if (isDeleting && previousLength == 3 && it.length == 2) {
                         isFormatting = true
-                        binding.etCardExpiresDate.setText("")
-                        binding.etCardExpiresDate.setSelection(0)
+                        binding.etCardExpiresDate.setText(it.toString().replace("/", ""))
+                        binding.etCardExpiresDate.setSelection(2)
                         isFormatting = false
                     }
 

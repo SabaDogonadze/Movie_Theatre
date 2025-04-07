@@ -99,7 +99,7 @@ object PaymentsUtil {
     private fun getMerchantInfo(): JSONObject {
         return JSONObject().apply {
             put("merchantName", "Example Merchant")
-            put("merchantId", "01234567890123456789") // Replace with your actual merchant ID
+            put("merchantId", "01234567890123456789")
         }
     }
 }

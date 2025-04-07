@@ -1,10 +1,13 @@
 package com.example.movietheatre.feature_seat.presentation.screen
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.asMoneyFormat
@@ -98,9 +101,14 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
 
             SeatSideEffect.ShowSuccessfulHoldScreen -> {
                 binding.apply {
-                    SuccessBookingLayout.root.isVisible = true
                     btnBuyOption.isVisible = false
                     btnBookTickets.isVisible = false
+
+                    val transition = AutoTransition().apply {
+                        duration = 300
+                    }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    SuccessBookingLayout.root.visibility = View.VISIBLE
                 }
             }
 

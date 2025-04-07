@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.fragment.app.Fragment
@@ -39,7 +38,6 @@ class GooglePayFragment : Fragment() {
     private var activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
 
     private val viewModel: PaymentViewModel by lazy {
-        // Retrieve from parent fragment
         (parentFragment as? PaymentFragment)?.viewModel
             ?: ViewModelProvider(requireActivity())[PaymentViewModel::class.java]
     }
@@ -61,8 +59,8 @@ class GooglePayFragment : Fragment() {
         )
         const val COUNTRY_CODE = "GE"
         const val CURRENCY_CODE = "GEL"
-        const val PAYMENT_GATEWAY = "example" // Replace with your payment gateway
-        const val GATEWAY_MERCHANT_ID = "exampleGatewayMerchantId" // Replace with your merchant ID
+        const val PAYMENT_GATEWAY = "example"
+        const val GATEWAY_MERCHANT_ID = "exampleGatewayMerchantId"
 
         private const val TAG = "GooglePayFragment"
 
@@ -74,9 +72,9 @@ class GooglePayFragment : Fragment() {
     fun setActivityResultLauncher(launcher: ActivityResultLauncher<IntentSenderRequest>) {
         activityResultLauncher = launcher
     }
+
     fun setTotalPrice(price: String) {
         defaultPrice = price
-        Log.d(TAG, "Total price set to: $defaultPrice")
     }
 
     override fun onCreateView(
@@ -91,37 +89,27 @@ class GooglePayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Log to confirm we're inside onViewCreated
-        Log.d(TAG, "onViewCreated called")
-
-        // Initially hide the progress bar
-
-        // Initialize the Google Pay API client in test mode
         paymentsClient = createPaymentsClient(requireActivity())
 
-        // Set up the payment button click listener before initialization
         binding.googlePayButton.setOnClickListener {
             Log.d(TAG, "Google Pay button clicked")
             viewModel.onEvent(PaymentEvent.OnGooglePayClick)
             requestPayment()
         }
 
-        // Check if Google Pay is available
         checkGooglePayAvailability()
     }
 
     private fun createPaymentsClient(activity: Activity): PaymentsClient {
         val walletOptions = Wallet.WalletOptions.Builder()
-            .setEnvironment(WalletConstants.ENVIRONMENT_TEST) // Change to ENVIRONMENT_PRODUCTION for release
+            .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
             .build()
         return Wallet.getPaymentsClient(activity, walletOptions)
     }
 
     private fun checkGooglePayAvailability() {
-        Log.d(TAG, "Checking Google Pay availability")
 
         val isReadyToPayJson = PaymentsUtil.getIsReadyToPayRequest()
-        Log.d(TAG, "isReadyToPayJson: $isReadyToPayJson")
 
         val request = IsReadyToPayRequest.fromJson(isReadyToPayJson.toString())
 
@@ -135,25 +123,16 @@ class GooglePayFragment : Fragment() {
                     )
 
                     if (task.isSuccessful) {
-                        // If Google Pay is available, initialize the button
                         initializeGooglePayButton(result)
 
-                        // For testing, always show the button
                         binding.googlePayButton.visibility = View.VISIBLE
                         Log.d(TAG, "Set button visibility to VISIBLE")
                     } else {
-                        // Handle error
                         Log.e(TAG, "isReadyToPay error: ${task.exception}")
-                        //binding.paymentStatus.text = "Error checking Google Pay availability"
 
-                        // For testing, still show the button
                         binding.googlePayButton.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Exception during isReadyToPay", e)
-                    //binding.paymentStatus.text = "Error checking Google Pay availability: ${e.message}"
-
-                    // For testing, still show the button
                     binding.googlePayButton.visibility = View.VISIBLE
                 }
             }
@@ -161,10 +140,8 @@ class GooglePayFragment : Fragment() {
 
     private fun initializeGooglePayButton(isReadyToPay: Boolean) {
         try {
-            Log.d(TAG, "Initializing Google Pay button, isReadyToPay: $isReadyToPay")
 
             val allowedPaymentMethods = PaymentsUtil.getAllowedPaymentMethodsForButton()
-            Log.d(TAG, "allowedPaymentMethods: $allowedPaymentMethods")
 
             val buttonOptions = ButtonOptions.newBuilder()
                 .setButtonType(ButtonConstants.ButtonType.PAY)
@@ -172,35 +149,23 @@ class GooglePayFragment : Fragment() {
                 .build()
 
             binding.googlePayButton.initialize(buttonOptions)
-            Log.d(TAG, "Google Pay button initialized")
         } catch (e: Exception) {
-            Log.e(TAG, "Error initializing Google Pay button", e)
-            Toast.makeText(
-                requireContext(),
-                "Error initializing Google Pay button: ${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            Log.d("exception", e.toString())
         }
     }
 
     private fun requestPayment() {
         val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(defaultPrice)
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
-        Log.d(TAG, "Requesting payment with totalPrice: $defaultPrice")
-        Log.d(TAG, "Requesting payment with JSON: ${paymentDataRequestJson}")
-        // binding.paymentStatus.text = "Processing payment..."
 
         // Use new ActivityResult API instead of AutoResolveHelper
         paymentsClient.loadPaymentData(request)
             .addOnCompleteListener { task ->
                 try {
                     if (!handlePaymentTask(task)) {
-                        // If the task was not handled (e.g., no resolution needed),
-                        // reset the UI
-                        //        binding.paymentStatus.text = "Payment request failed"
+
                     }
                 } catch (e: Exception) {
-                    //   binding.paymentStatus.text = "Error: ${e.message}"
                     Log.e(TAG, "Exception in loadPaymentData task", e)
                 }
             }
