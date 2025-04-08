@@ -12,7 +12,10 @@ import com.example.movietheatre.feature_payment.domain.model.GetCard
 import com.example.movietheatre.feature_payment.domain.util.AddCardError
 import com.example.movietheatre.feature_payment.domain.util.DatastoreError
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CardManagerImpl @Inject constructor(@ApplicationContext context: Context) : CardManager {
@@ -46,22 +49,23 @@ class CardManagerImpl @Inject constructor(@ApplicationContext context: Context) 
         }
     }
 
-    override suspend fun getCards(): Resource<List<GetCard>, DatastoreError> {
-        return try {
-            val cardsList = dataStore.data.first()
-            val cards = cardsList.cardsList.map { proto ->
-                GetCard(
-                    cardNumber = proto.cardNumber,
-                    cardHolderName = proto.cardHolderName,
-                    expiryDate = proto.expiryDate,
-                    cvv = proto.cvv,
-                    cardType = CardType.valueOf(proto.cardType)
-                )
+    override suspend fun getCards(): Flow<Resource<List<GetCard>, DatastoreError>> {
+        return dataStore.data
+            .map { cardsListProto ->
+                val cards = cardsListProto.cardsList.map { cardProto ->
+                    GetCard(
+                        cardNumber = cardProto.cardNumber,
+                        cardHolderName = cardProto.cardHolderName,
+                        expiryDate = cardProto.expiryDate,
+                        cvv = cardProto.cvv,
+                        cardType = CardType.valueOf(cardProto.cardType)
+                    )
+                }
+                Resource.Success<List<GetCard>, DatastoreError>(cards) as Resource<List<GetCard>, DatastoreError>
             }
-            Resource.Success(cards)
-        } catch (e: Exception) {
-            Resource.Error(DatastoreError.UNKNOWN)
-        }
+            .catch { exception ->
+                emit(Resource.Error<List<GetCard>, DatastoreError>(DatastoreError.UNKNOWN) as Resource<List<GetCard>, DatastoreError>)
+            }
     }
 
     override suspend fun deleteCard(cardNumber: String): Resource<Unit, DatastoreError> {

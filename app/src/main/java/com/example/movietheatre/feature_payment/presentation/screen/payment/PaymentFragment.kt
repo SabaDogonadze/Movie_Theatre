@@ -96,7 +96,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun setUp() {
-        viewModel.onEvent(PaymentEvent.LoadCards)
         binding.txtTotalValue.text = args.totalPrice.asMoneyFormat()
         setUpAdapter()
 
@@ -143,6 +142,11 @@ class PaymentFragment : Fragment() {
                 TransitionManager.beginDelayedTransition(binding.root, transition)
                 binding.SuccessBuyLayout.root.visibility = View.VISIBLE
             }
+
+            PaymentSideEffect.SuccessfulDelete -> binding.root.showSnackBar(
+                getString(R.string.successfully_deleted_card),
+                backgroundColor = R.color.green
+            )
         }
     }
 

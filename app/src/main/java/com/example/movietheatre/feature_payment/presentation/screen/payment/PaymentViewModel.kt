@@ -44,27 +44,14 @@ class PaymentViewModel @Inject constructor(
     val sideEffect: SharedFlow<PaymentSideEffect> = _sideEffect.asSharedFlow()
 
 
+    init {
+        onEvent(PaymentEvent.LoadCards)
+    }
+
     fun onEvent(event: PaymentEvent) {
         when (event) {
             is PaymentEvent.LoadCards -> {
-                viewModelScope.launch {
-                    _uiState.value = _uiState.value.copy(isLoading = true)
-                    when (val result = getCardsUseCase()) {
-                        is Resource.Success -> {
-                            _uiState.value = _uiState.value.copy(
-                                isLoading = false,
-                                cards = result.data.map { it.toPresentation() },
-                            )
-                        }
-
-                        is Resource.Error -> {
-                            _uiState.value = _uiState.value.copy(
-                                isLoading = false,
-                            )
-                            _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
-                        }
-                    }
-                }
+                loadCards()
             }
 
             is PaymentEvent.AddNewCardClicked -> {
@@ -74,35 +61,11 @@ class PaymentViewModel @Inject constructor(
             }
 
             is PaymentEvent.OnBuy -> {
-                _uiState.update { it.copy(isLoading = true) }
-                viewModelScope.launch {
-
-                    if (event.totalPrice > 50) {
-                        _uiState.update { it.copy(isLoading = false) }
-                        _sideEffect.emit(PaymentSideEffect.ShowError(R.string.you_don_t_have_enough_money))
-                        return@launch
-                    }
-
-                    when (val bookedResult = updateTicketUseCase(
-                        screeningId = event.screeningId,
-                        seats = event.seats,
-                        status = TicketStatus.BOOKED.toDomain(),
-                        userId = firebaseAuth.currentUser!!.uid
-                    )) {
-                        is Resource.Error -> {
-
-                            _uiState.update { it.copy(isLoading = false) }
-                            _sideEffect.emit(PaymentSideEffect.ShowError(bookedResult.error.asStringResource()))
-                        }
-
-                        is Resource.Success -> {
-                            _uiState.update { it.copy(isLoading = false) }
-                            _sideEffect.emit(PaymentSideEffect.SuccessfulPayment)
-                            delay(1000)
-                            _sideEffect.emit(PaymentSideEffect.NavigateToHomeScreen)
-                        }
-                    }
-                }
+                onBuy(
+                    screeningId = event.screeningId,
+                    totalPrice = event.totalPrice,
+                    seats = event.seats
+                )
             }
 
             PaymentEvent.OnGooglePayClick -> _uiState.update { it.copy(isLoading = true) }
@@ -117,18 +80,77 @@ class PaymentViewModel @Inject constructor(
             }
 
             is PaymentEvent.OnDeleteCardClick -> {
-                _uiState.update { it.copy(isLoading = true) }
-                viewModelScope.launch {
-                    when (val result = deleteCardUseCase(event.cardNumber)) {
-                        is Resource.Error -> {
-                            _uiState.update { it.copy(isLoading = false) }
-                            _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
-                        }
+                onDeleteCard(event.cardNumber)
+            }
+        }
+    }
 
-                        is Resource.Success -> {
-                            onEvent(PaymentEvent.LoadCards)
-                        }
+    private fun loadCards() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+
+            getCardsUseCase().collect { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _uiState.value = _uiState.value.copy(
+                            isLoading = false,
+                        )
+                        _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
                     }
+
+                    is Resource.Success -> {
+                        _uiState.value = _uiState.value.copy(
+                            isLoading = false,
+                            cards = result.data.map { it.toPresentation() },
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onBuy(screeningId: Int, totalPrice: Double, seats: List<String>) {
+        _uiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+
+            if (totalPrice > 50) {
+                _uiState.update { it.copy(isLoading = false) }
+                _sideEffect.emit(PaymentSideEffect.ShowError(R.string.you_don_t_have_enough_money))
+                return@launch
+            }
+
+            when (val bookedResult = updateTicketUseCase(
+                screeningId = screeningId,
+                seats = seats,
+                status = TicketStatus.BOOKED.toDomain(),
+                userId = firebaseAuth.currentUser!!.uid
+            )) {
+                is Resource.Error -> {
+
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(PaymentSideEffect.ShowError(bookedResult.error.asStringResource()))
+                }
+
+                is Resource.Success -> {
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(PaymentSideEffect.SuccessfulPayment)
+                    delay(1000)
+                    _sideEffect.emit(PaymentSideEffect.NavigateToHomeScreen)
+                }
+            }
+        }
+    }
+
+    private fun onDeleteCard(cardNumber: String) {
+        viewModelScope.launch {
+            when (val result = deleteCardUseCase(cardNumber)) {
+                is Resource.Error -> {
+                    _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
+                }
+
+                is Resource.Success -> {
+                    _sideEffect.emit(PaymentSideEffect.SuccessfulDelete)
                 }
             }
         }
