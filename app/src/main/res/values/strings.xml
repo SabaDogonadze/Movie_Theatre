@@ -77,4 +77,6 @@
     <string name="payment_cancelled">payment Cancelled</string>
     <string name="payment_failed">payment failed</string>
     <string name="error_in_payment_data_try_again">error in payment data try again</string>
+    <string name="something_went_wrong_try_again">Something went wrong try Again</string>
+    <string name="card_with_that_card_number_already_exits">Card with that card number already exits</string>
 </resources>

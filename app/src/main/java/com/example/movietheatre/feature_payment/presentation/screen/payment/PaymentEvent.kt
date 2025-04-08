@@ -5,6 +5,8 @@ import android.content.Intent
 sealed interface PaymentEvent {
     object LoadCards : PaymentEvent
     object AddNewCardClicked : PaymentEvent
+    data class OnDeleteCardClick(val cardNumber: String) : PaymentEvent
+
     data class OnBuy(val screeningId: Int, val seats: List<String>, val totalPrice: Double) :
         PaymentEvent
 

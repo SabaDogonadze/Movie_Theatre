@@ -313,4 +313,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rbGroups" />
 
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/screen_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

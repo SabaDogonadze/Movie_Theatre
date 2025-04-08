@@ -14,8 +14,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-         />
+        tools:src="@drawable/ic_master_card" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imgDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_remove"
+        app:layout_constraintStart_toStartOf="@id/imgCard"
+        app:layout_constraintTop_toTopOf="@id/imgCard" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtCardNumberDisplay"

@@ -11,6 +11,7 @@ import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.core.presentation.extension.toDomain
 import com.example.movietheatre.core.presentation.util.TicketStatus
+import com.example.movietheatre.feature_payment.domain.use_case.DeleteCardUseCase
 import com.example.movietheatre.feature_payment.domain.use_case.GetCardsUseCase
 import com.example.movietheatre.feature_payment.presentation.mapper.asStringResource
 import com.example.movietheatre.feature_payment.presentation.mapper.toPresentation
@@ -33,6 +34,7 @@ class PaymentViewModel @Inject constructor(
     private val getCardsUseCase: GetCardsUseCase,
     private val firebaseAuth: FirebaseAuth,
     private val updateTicketUseCase: UpdateTicketUseCase,
+    private val deleteCardUseCase: DeleteCardUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<PaymentUiState> = MutableStateFlow(PaymentUiState())
@@ -112,6 +114,22 @@ class PaymentViewModel @Inject constructor(
                     event.seats,
                     event.totalPrice
                 )
+            }
+
+            is PaymentEvent.OnDeleteCardClick -> {
+                _uiState.update { it.copy(isLoading = true) }
+                viewModelScope.launch {
+                    when (val result = deleteCardUseCase(event.cardNumber)) {
+                        is Resource.Error -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                            _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
+                        }
+
+                        is Resource.Success -> {
+                            onEvent(PaymentEvent.LoadCards)
+                        }
+                    }
+                }
             }
         }
     }

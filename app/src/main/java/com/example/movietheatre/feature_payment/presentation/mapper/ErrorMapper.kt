@@ -1,6 +1,7 @@
 package com.example.movietheatre.feature_payment.presentation.mapper
 
 import com.example.movietheatre.R
+import com.example.movietheatre.feature_payment.domain.util.AddCardError
 import com.example.movietheatre.feature_payment.domain.util.CVVError
 import com.example.movietheatre.feature_payment.domain.util.CardHolderNameError
 import com.example.movietheatre.feature_payment.domain.util.CardNumberError
@@ -46,5 +47,12 @@ fun CVVError.asStringResource(): Int {
 fun DatastoreError.asStringResource(): Int {
     return when (this) {
         DatastoreError.UNKNOWN -> R.string.can_not_save_value_plz_try_again
+    }
+}
+
+fun AddCardError.asStringResource(): Int {
+    return when (this) {
+        AddCardError.UNKNOWN -> R.string.something_went_wrong_try_again
+        AddCardError.ALREADY_EXISTS -> R.string.card_with_that_card_number_already_exits
     }
 }

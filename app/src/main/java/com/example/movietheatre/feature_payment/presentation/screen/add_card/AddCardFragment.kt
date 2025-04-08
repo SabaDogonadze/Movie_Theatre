@@ -105,14 +105,16 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
         val img =
             if (state.cardTypeSelected == CardType.VISA) R.drawable.ic_visa_card else R.drawable.ic_master_card
 
-        binding.imgCard.setImageResource(img)
-
-        binding.txtCardDateDisplay.text = state.expiryDate
-        binding.txtCardNumberDisplay.text = state.cardNumber.chunked(4).joinToString("  ")
-        binding.txtCardHolderNameDisplay.text = state.cardHolderName
-
 
         binding.apply {
+
+            progressBar.root.isVisible = state.isLoading
+
+            imgCard.setImageResource(img)
+            txtCardDateDisplay.text = state.expiryDate
+            txtCardNumberDisplay.text = state.cardNumber.chunked(4).joinToString("  ")
+            txtCardHolderNameDisplay.text = state.cardHolderName
+
             txtCardHolderNameError.text = state.cardHolderNameError?.let { getString(it) }
             txtCardHolderNameError.isVisible = state.cardHolderNameError != null
 

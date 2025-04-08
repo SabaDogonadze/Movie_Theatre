@@ -20,8 +20,19 @@ object GetCardDiffUtil : DiffUtil.ItemCallback<Card>() {
     }
 }
 
-class PaymentPagerAdapter :
+class PaymentPagerAdapter(val onClick: (String) -> Unit) :
     ListAdapter<Card, PaymentPagerAdapter.CardViewHolder>(GetCardDiffUtil) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemCardBinding.inflate(inflater, parent, false)
+        return CardViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        holder.bind()
+    }
+
 
     inner class CardViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -34,19 +45,14 @@ class PaymentPagerAdapter :
             binding.txtCardHolderNameDisplay.text = card.cardHolderName
             binding.txtCardDateDisplay.text = card.expiryDate
 
+            binding.imgDelete.setOnClickListener {
+                onClick(card.cardNumber)
+            }
+
             val img =
                 if (card.cardType == CardType.MASTERCARD) R.drawable.ic_master_card else R.drawable.ic_visa_card
             binding.imgCard.setImageResource(img)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemCardBinding.inflate(inflater, parent, false)
-        return CardViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.bind()
-    }
 }

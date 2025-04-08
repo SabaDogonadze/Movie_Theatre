@@ -33,7 +33,9 @@ class PaymentFragment : Fragment() {
     private val args: PaymentFragmentArgs by navArgs()
     val viewModel: PaymentViewModel by viewModels()
     private val paymentPagerAdapter: PaymentPagerAdapter by lazy {
-        PaymentPagerAdapter()
+        PaymentPagerAdapter(onClick = {
+            viewModel.onEvent(PaymentEvent.OnDeleteCardClick(it))
+        })
     }
     private lateinit var googlePayFragment: GooglePayFragment
     private lateinit var paymentResultLauncher: ActivityResultLauncher<IntentSenderRequest>

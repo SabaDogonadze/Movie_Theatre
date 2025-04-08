@@ -104,6 +104,7 @@ class AddCardViewModel @Inject constructor(
     }
 
     private fun addCard() {
+
         val card = com.example.movietheatre.feature_payment.presentation.model.Card(
             cardNumber = _uiState.value.cardNumber,
             cardHolderName = _uiState.value.cardHolderName,
@@ -111,13 +112,17 @@ class AddCardViewModel @Inject constructor(
             cvv = _uiState.value.cvv,
             cardType = _uiState.value.cardTypeSelected
         )
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             when (val result = addCardUseCase(card.toDomain())) {
                 is Resource.Success -> {
+                    _uiState.update { it.copy(isLoading = false) }
+
                     _sideEffect.emit(AddCardSideEffect.CardAddedSuccessfully)
                 }
 
                 is Resource.Error -> {
+                    _uiState.update { it.copy(isLoading = false) }
                     _sideEffect.emit(AddCardSideEffect.ShowError(result.error.asStringResource()))
                 }
             }
