@@ -124,7 +124,11 @@
         tools:layout="@layout/fragment_payment">
         <action
             android:id="@+id/action_paymentFragment_to_addCardFragment"
-            app:destination="@id/addCardFragment" />
+            app:destination="@id/addCardFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <argument
             android:name="screeningId"
             app:argType="integer" />

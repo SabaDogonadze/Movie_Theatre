@@ -50,61 +50,109 @@ class AddCardViewModel @Inject constructor(
             }
 
             is AddCardEvent.CVVChanged -> {
-                updateState(cvv = event.text)
+                onCVVChanged(event.text)
             }
 
             is AddCardEvent.CardHolderNameChanged -> {
-                updateState(cardHolderName = event.text)
+                onCardHolderNameChanged(event.text)
             }
 
             is AddCardEvent.CardNumberChanged -> {
-                updateState(cardNumber = event.text)
+                onCardNumberChanged(event.text)
             }
 
-            is AddCardEvent.CardTypeChanged -> _uiState.update { it.copy(cardTypeSelected = event.cardType) }
-            is AddCardEvent.ExpiryDateChanged -> updateState(expiryDate = event.text)
+            is AddCardEvent.CardTypeChanged -> {
+                _uiState.update { it.copy(cardTypeSelected = event.cardType) }
+            }
 
+            is AddCardEvent.ExpiryDateChanged -> {
+                onExpiryDateChanged(event.text)
+            }
         }
     }
 
-    private fun updateState(
-        cardHolderName: String? = null,
-        cardNumber: String? = null,
-        expiryDate: String? = null,
-        cvv: String? = null,
-    ) {
-        val currentState = _uiState.value
+    private fun onCardHolderNameChanged(cardHolderName: String) {
+        val validation = validateCardHolderNameUseCase(cardHolderName)
+        val error = if (validation is Resource.Error) validation.error.asStringResource() else null
 
-        val newCardHolderName = cardHolderName ?: currentState.cardHolderName
-        val newCardNumber = cardNumber ?: currentState.cardNumber
-        val newExpiryDate = expiryDate ?: currentState.expiryDate
-        val newCvv = cvv ?: currentState.cvv
+        _uiState.update { currentState ->
+            currentState.copy(
+                cardHolderName = cardHolderName,
+                cardHolderNameError = error,
+                isAddCardEnabled = isFormValid(
+                    cardHolderNameValid = error == null && cardHolderName.isNotEmpty(),
+                    cardNumberValid = currentState.cardNumberError == null && currentState.cardNumber.isNotEmpty(),
+                    expiryDateValid = currentState.expiryDateError == null && currentState.expiryDate.isNotEmpty(),
+                    cvvValid = currentState.cvvError == null && currentState.cvv.isNotEmpty()
+                )
+            )
+        }
+    }
 
-        val holderValidation = validateCardHolderNameUseCase(newCardHolderName)
-        val numberValidation = validateCardNumberUseCase(newCardNumber)
-        val expiryValidation = validateExpiryDateUseCase(newExpiryDate)
-        val cvvValidation = validateCVVUseCase(newCvv)
+    private fun onCardNumberChanged(cardNumber: String) {
+        val validation = validateCardNumberUseCase(cardNumber)
+        val error = if (validation is Resource.Error) validation.error.asStringResource() else null
 
-        val updatedState = currentState.copy(
-            cardHolderName = newCardHolderName,
-            cardHolderNameError = if (holderValidation is Resource.Error) holderValidation.error.asStringResource() else null,
-            cardNumber = newCardNumber,
-            cardNumberError = if (numberValidation is Resource.Error) numberValidation.error.asStringResource() else null,
-            expiryDate = newExpiryDate,
-            expiryDateError = if (expiryValidation is Resource.Error) expiryValidation.error.asStringResource() else null,
-            cvv = newCvv,
-            cvvError = if (cvvValidation is Resource.Error) cvvValidation.error.asStringResource() else null,
-            isAddCardEnabled = (holderValidation is Resource.Success &&
-                    numberValidation is Resource.Success &&
-                    expiryValidation is Resource.Success &&
-                    cvvValidation is Resource.Success)
-        )
+        _uiState.update { currentState ->
+            currentState.copy(
+                cardNumber = cardNumber,
+                cardNumberError = error,
+                isAddCardEnabled = isFormValid(
+                    cardHolderNameValid = currentState.cardHolderNameError == null && currentState.cardHolderName.isNotEmpty(),
+                    cardNumberValid = error == null && cardNumber.isNotEmpty(),
+                    expiryDateValid = currentState.expiryDateError == null && currentState.expiryDate.isNotEmpty(),
+                    cvvValid = currentState.cvvError == null && currentState.cvv.isNotEmpty()
+                )
+            )
+        }
+    }
 
-        _uiState.value = updatedState
+    private fun onExpiryDateChanged(expiryDate: String) {
+        val validation = validateExpiryDateUseCase(expiryDate)
+        val error = if (validation is Resource.Error) validation.error.asStringResource() else null
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                expiryDate = expiryDate,
+                expiryDateError = error,
+                isAddCardEnabled = isFormValid(
+                    cardHolderNameValid = currentState.cardHolderNameError == null && currentState.cardHolderName.isNotEmpty(),
+                    cardNumberValid = currentState.cardNumberError == null && currentState.cardNumber.isNotEmpty(),
+                    expiryDateValid = error == null && expiryDate.isNotEmpty(),
+                    cvvValid = currentState.cvvError == null && currentState.cvv.isNotEmpty()
+                )
+            )
+        }
+    }
+
+    private fun onCVVChanged(cvv: String) {
+        val validation = validateCVVUseCase(cvv)
+        val error = if (validation is Resource.Error) validation.error.asStringResource() else null
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                cvv = cvv,
+                cvvError = error,
+                isAddCardEnabled = isFormValid(
+                    cardHolderNameValid = currentState.cardHolderNameError == null && currentState.cardHolderName.isNotEmpty(),
+                    cardNumberValid = currentState.cardNumberError == null && currentState.cardNumber.isNotEmpty(),
+                    expiryDateValid = currentState.expiryDateError == null && currentState.expiryDate.isNotEmpty(),
+                    cvvValid = error == null && cvv.isNotEmpty()
+                )
+            )
+        }
+    }
+
+    private fun isFormValid(
+        cardHolderNameValid: Boolean,
+        cardNumberValid: Boolean,
+        expiryDateValid: Boolean,
+        cvvValid: Boolean,
+    ): Boolean {
+        return cardHolderNameValid && cardNumberValid && expiryDateValid && cvvValid
     }
 
     private fun addCard() {
-
         val card = com.example.movietheatre.feature_payment.presentation.model.Card(
             cardNumber = _uiState.value.cardNumber,
             cardHolderName = _uiState.value.cardHolderName,
@@ -117,7 +165,6 @@ class AddCardViewModel @Inject constructor(
             when (val result = addCardUseCase(card.toDomain())) {
                 is Resource.Success -> {
                     _uiState.update { it.copy(isLoading = false) }
-
                     _sideEffect.emit(AddCardSideEffect.CardAddedSuccessfully)
                 }
 
