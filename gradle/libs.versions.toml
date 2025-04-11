@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.1"
 firebaseBom = "33.11.0"
+firebaseMessaging = "24.1.1"
 flexbox = "3.0.0"
 flexboxVersion = "3.0.0"
 kotlin = "2.1.0"
@@ -28,6 +29,7 @@ datastore = "1.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexboxVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
