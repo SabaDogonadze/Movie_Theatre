@@ -185,14 +185,14 @@
         tools:text="96.00 ₾" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBuyTickets"
+        android:id="@+id/btnBuyOption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/bg_green_rounded_shape"
-        android:text="@string/buy_tickets"
+        android:text="@string/buy_options"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnBookTickets"
@@ -210,7 +210,7 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBuyTickets" />
+        app:layout_constraintStart_toEndOf="@id/btnBuyOption" />
 
     <include
         android:id="@+id/SuccessBookingLayout"
@@ -219,11 +219,4 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-
-    <include
-        android:id="@+id/SuccessBuyLayout"
-        layout="@layout/screen_ticket_buy"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

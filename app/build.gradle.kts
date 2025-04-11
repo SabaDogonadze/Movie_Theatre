@@ -6,6 +6,8 @@ plugins {
     kotlin("plugin.serialization") version "2.1.0"
     alias(libs.plugins.safeargs)
     id("com.google.gms.google-services")
+    id("com.google.protobuf") version "0.9.4"
+
 }
 
 android {
@@ -24,7 +26,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.5:8080/api/\"")
         }
         release {
             buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
@@ -47,6 +49,23 @@ android {
         buildConfig = true
     }
 }
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.29.0"
+    }
+    generateProtoTasks {
+        all().configureEach {
+            plugins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
+
 
 dependencies {
 
@@ -92,6 +111,13 @@ dependencies {
 
     //flexbox
     implementation(libs.flexbox)
+
+    //protobuf
+    implementation (libs.protobuf.javalite)
+    implementation(libs.androidx.datastore)
+
+    //google pay
+    implementation(libs.play.services.wallet)
 
 }
 

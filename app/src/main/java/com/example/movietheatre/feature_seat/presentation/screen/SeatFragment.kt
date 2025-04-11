@@ -1,10 +1,13 @@
 package com.example.movietheatre.feature_seat.presentation.screen
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.asMoneyFormat
@@ -61,7 +64,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             btnBookTickets.setOnClickListener {
                 viewModel.onEvent(SeatUiEvent.BookTicket(args.screeningId))
             }
-            btnBuyTickets.setOnClickListener {
+            btnBuyOption.setOnClickListener {
                 viewModel.onEvent(
                     SeatUiEvent.BuyTicket(
                         args.screeningId,
@@ -83,28 +86,40 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             txtSeatsValue.text = selectedSeats.joinToString(", ") { it.asString() }
             txtVipAddOnValue.text = selectedSeats.sumOf { it.vipAddOn }.toFloat().asMoneyFormat()
             txtTotalPriceValue.text =
-                selectedSeats.sumOf { it.vipAddOn + args.ticketPrice }.roundToTwoDecimalPlaces().asMoneyFormat()
+                selectedSeats.sumOf { it.vipAddOn + args.ticketPrice }.roundToTwoDecimalPlaces()
+                    .asMoneyFormat()
         }
     }
 
     private fun handleSideEffects(effect: SeatSideEffect) {
         when (effect) {
             SeatSideEffect.NavigateToDetailScreen -> findNavController().navigateUp()
-            is SeatSideEffect.ShowError -> binding.root.showSnackBar(getString(effect.message), backgroundColor = R.color.red)
+            is SeatSideEffect.ShowError -> binding.root.showSnackBar(
+                getString(effect.message),
+                backgroundColor = R.color.red
+            )
+
             SeatSideEffect.ShowSuccessfulHoldScreen -> {
                 binding.apply {
-                    SuccessBookingLayout.root.isVisible = true
-                    btnBuyTickets.isVisible = false
-                    btnBookTickets.isVisible = false
-                }
-            }
-            SeatSideEffect.ShowSuccessfulBuyScreen -> {
-                binding.apply {
-                    SuccessBuyLayout.root.isVisible = true
-                    btnBuyTickets.isVisible = false
+                    btnBuyOption.isVisible = false
                     btnBookTickets.isVisible = false
 
+                    val transition = AutoTransition().apply {
+                        duration = 300
+                    }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    SuccessBookingLayout.root.visibility = View.VISIBLE
                 }
+            }
+
+            is SeatSideEffect.NavigateToPaymentScreen -> {
+                findNavController().navigate(
+                    SeatFragmentDirections.actionSeatFragmentToPaymentFragment(
+                        args.screeningId,
+                        seats = effect.seats.toTypedArray(),
+                        totalPrice = effect.totalPrice.toFloat()
+                    )
+                )
             }
         }
     }
