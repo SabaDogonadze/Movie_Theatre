@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val bottomNavDestinations = setOf(
                 R.id.id_home_fragment,
+                R.id.id_profile_fragment,
             )
 
             binding.bottomNavigationView.visibility = if (destination.id in bottomNavDestinations) {
