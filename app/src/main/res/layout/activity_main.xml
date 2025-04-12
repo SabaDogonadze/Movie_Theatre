@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:backgroundTint="@color/light_blue"
+        android:elevation="15dp"
         app:itemIconTint="@color/bg_bottom_navigation_item_text"
         app:itemTextColor="@color/bg_bottom_navigation_item_text"
         app:layout_constraintBottom_toBottomOf="parent"

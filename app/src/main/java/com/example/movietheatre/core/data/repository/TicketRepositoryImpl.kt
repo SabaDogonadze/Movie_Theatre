@@ -27,5 +27,4 @@ class TicketRepositoryImpl @Inject constructor(
             )
         }.mapData { }
     }
-
 }
