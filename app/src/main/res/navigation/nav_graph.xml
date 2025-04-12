@@ -52,6 +52,8 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <deepLink
+            app:uri="movieapp://moviedetail/{movieId}" />
         <action
             android:id="@+id/action_movieDetailFragment_to_seatFragment"
             app:destination="@id/seatFragment"

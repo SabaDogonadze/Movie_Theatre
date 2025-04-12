@@ -1,10 +1,11 @@
 package com.example.movietheatre
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.movietheatre.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,14 +14,40 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        val navController = navHostFragment?.findNavController()
-            ?: throw IllegalStateException("NavController not found. Check your layout's NavHostFragment ID.")
+        setupNavigation()
+
+        if (intent.action == Intent.ACTION_VIEW) {
+            handleDeepLink(intent)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+
+        if (intent.action == Intent.ACTION_VIEW) {
+            handleDeepLink(intent)
+        }
+    }
+
+    private fun handleDeepLink(intent: Intent) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        navController.handleDeepLink(intent)
+    }
+
+    private fun setupNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             if (menuItem.itemId == navController.currentDestination?.id) {
@@ -48,5 +75,6 @@ class MainActivity : AppCompatActivity() {
             }
             binding.bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
         }
+
     }
 }
