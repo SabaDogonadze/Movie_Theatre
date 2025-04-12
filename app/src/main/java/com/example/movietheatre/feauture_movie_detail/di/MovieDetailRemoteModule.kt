@@ -1,6 +1,5 @@
 package com.example.movietheatre.feauture_movie_detail.di
 
-import com.example.movietheatre.feature_home.data.remote.service.GenresService
 import com.example.movietheatre.feauture_movie_detail.data.remote.service.MovieDetailService
 import dagger.Module
 import dagger.Provides

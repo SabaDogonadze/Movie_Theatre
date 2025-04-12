@@ -1,9 +1,7 @@
-package com.example.movietheatre.core.di
+package com.example.movietheatre.feature_profile.di
 
 import com.example.movietheatre.feature_profile.data.remote.service.DeleteUsersTicketService
 import com.example.movietheatre.feature_profile.data.remote.service.ProfileTicketService
-import com.example.movietheatre.core.data.remote.service.TicketService
-import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,16 +11,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RemoteModule {
+object ProfileRemoteModule {
 
-    @Provides
     @Singleton
-    fun provideFirebase(): FirebaseAuth = FirebaseAuth.getInstance()
+    @Provides
+    fun provideProfileTicketService(retrofit: Retrofit): ProfileTicketService {
+        return retrofit.create(ProfileTicketService::class.java)
+    }
 
-    @Provides
+
     @Singleton
-    fun provideTicketRepository(retrofit: Retrofit): TicketService {
-        return retrofit.create(TicketService::class.java)
+    @Provides
+    fun provideDeleteUsersTicketService(retrofit: Retrofit): DeleteUsersTicketService {
+        return retrofit.create(DeleteUsersTicketService::class.java)
     }
 
 }
