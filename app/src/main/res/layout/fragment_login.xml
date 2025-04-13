@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    tools:context=".feature_login.presentation.screen.LoginFragment">
+    tools:context=".feature_login.presentation.screen.login.LoginFragment">
 
 
     <androidx.appcompat.widget.AppCompatTextView

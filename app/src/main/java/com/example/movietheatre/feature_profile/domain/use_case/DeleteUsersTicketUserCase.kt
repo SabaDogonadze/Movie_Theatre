@@ -1,4 +1,4 @@
-package com.example.movietheatre.core.domain.use_case
+package com.example.movietheatre.feature_profile.domain.use_case
 
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.domain.util.error.NetworkError

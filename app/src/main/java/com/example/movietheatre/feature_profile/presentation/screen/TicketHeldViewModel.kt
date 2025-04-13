@@ -3,8 +3,8 @@ package com.example.movietheatre.feature_profile.presentation.screen
 import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movietheatre.core.domain.use_case.DeleteUsersTicketUserCase
-import com.example.movietheatre.core.domain.use_case.GetUserTicketsByStatusUseCase
+import com.example.movietheatre.feature_profile.domain.use_case.DeleteUsersTicketUserCase
+import com.example.movietheatre.feature_profile.domain.use_case.GetUserTicketsByStatusUseCase
 import com.example.movietheatre.core.domain.use_case.UpdateTicketUseCase
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource

@@ -67,7 +67,7 @@
         app:startDestination="@id/loginFragment">
         <fragment
             android:id="@+id/loginFragment"
-            android:name="com.example.movietheatre.feature_login.presentation.screen.LoginFragment"
+            android:name="com.example.movietheatre.feature_login.presentation.screen.login.LoginFragment"
             android:label="fragment_login"
             tools:layout="@layout/fragment_login">
             <action
@@ -79,7 +79,11 @@
                 app:popExitAnim="@anim/to_right" />
             <action
                 android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
-                app:destination="@id/forgotPasswordFragment" />
+                app:destination="@id/forgotPasswordFragment"
+                app:enterAnim="@anim/from_right"
+                app:exitAnim="@anim/to_left"
+                app:popEnterAnim="@anim/from_left"
+                app:popExitAnim="@anim/to_right" />
         </fragment>
         <fragment
             android:id="@+id/registerFragment"
@@ -115,7 +119,11 @@
             app:argType="float" />
         <action
             android:id="@+id/action_seatFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" />
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addCardFragment"
@@ -164,10 +172,18 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_id_profile_fragment_to_ticketBookedFragment"
-            app:destination="@id/ticketHeldFragment" />
+            app:destination="@id/ticketHeldFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_id_profile_fragment_to_ticketBookedFragment2"
-            app:destination="@id/ticketBookedFragment" />
+            app:destination="@id/ticketBookedFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/ticketHeldFragment"
@@ -176,7 +192,11 @@
         tools:layout="@layout/fragment_ticket_held">
         <action
             android:id="@+id/action_ticketHeldFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" />
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeFragment"
@@ -189,7 +209,11 @@
         android:label="TicketBookedFragment">
         <action
             android:id="@+id/action_ticketBookedFragment_to_qrCodeFragment"
-            app:destination="@id/qrCodeFragment" />
+            app:destination="@id/qrCodeFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 
 </navigation>

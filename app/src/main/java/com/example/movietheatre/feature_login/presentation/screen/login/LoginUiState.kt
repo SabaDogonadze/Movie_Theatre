@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_login.presentation.screen
+package com.example.movietheatre.feature_login.presentation.screen.login
 
 data class LoginUiState(
     val isLoading: Boolean = false,

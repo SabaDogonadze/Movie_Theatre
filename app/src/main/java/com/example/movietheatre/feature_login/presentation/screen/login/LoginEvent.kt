@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_login.presentation.screen
+package com.example.movietheatre.feature_login.presentation.screen.login
 
 sealed interface LoginEvent {
     data class Login(val email: String, val password: String, val rememberMe: Boolean) : LoginEvent
