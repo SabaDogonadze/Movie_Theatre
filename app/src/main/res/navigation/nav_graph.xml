@@ -52,8 +52,7 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
-        <deepLink
-            app:uri="movieapp://moviedetail/{movieId}" />
+        <deepLink app:uri="movieapp://moviedetail/{movieId}" />
         <action
             android:id="@+id/action_movieDetailFragment_to_seatFragment"
             app:destination="@id/seatFragment"
@@ -78,6 +77,9 @@
                 app:exitAnim="@anim/to_left"
                 app:popEnterAnim="@anim/from_left"
                 app:popExitAnim="@anim/to_right" />
+            <action
+                android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+                app:destination="@id/forgotPasswordFragment" />
         </fragment>
         <fragment
             android:id="@+id/registerFragment"
@@ -93,6 +95,11 @@
             app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/navigation"
             app:popUpToInclusive="true" />
+        <fragment
+            android:id="@+id/forgotPasswordFragment"
+            android:name="com.example.movietheatre.feature_login.presentation.screen.forgot_password.ForgotPasswordFragment"
+            android:label="fragment_forgot_password"
+            tools:layout="@layout/fragment_forgot_password" />
     </navigation>
 
     <fragment
@@ -154,7 +161,7 @@
         android:id="@+id/id_profile_fragment"
         android:name="com.example.movietheatre.feature_profile.presentation.screen.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_id_profile_fragment_to_ticketBookedFragment"
             app:destination="@id/ticketHeldFragment" />
@@ -179,9 +186,10 @@
     <fragment
         android:id="@+id/ticketBookedFragment"
         android:name="com.example.movietheatre.feature_profile.presentation.screen.TicketBookedFragment"
-        android:label="TicketBookedFragment" >
+        android:label="TicketBookedFragment">
         <action
             android:id="@+id/action_ticketBookedFragment_to_qrCodeFragment"
             app:destination="@id/qrCodeFragment" />
     </fragment>
+
 </navigation>

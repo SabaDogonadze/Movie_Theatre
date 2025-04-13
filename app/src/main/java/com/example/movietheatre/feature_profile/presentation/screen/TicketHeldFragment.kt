@@ -1,6 +1,5 @@
 package com.example.movietheatre.feature_profile.presentation.screen
 
-import android.util.Log.d
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -8,11 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
+import com.example.movietheatre.core.presentation.extension.SwipeAndDeleteCallback
 import com.example.movietheatre.core.presentation.extension.collectLatestFlow
 import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.core.presentation.util.TicketStatus
 import com.example.movietheatre.databinding.FragmentTicketHeldBinding
-import com.example.movietheatre.core.presentation.extension.SwipeAndDeleteCallback
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldEvent
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldSideEffect
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +40,11 @@ class TicketHeldFragment :
     override fun clickListeners() {
         tickedHeldAdapter.setonItemClickedListener {
             ticketHeldViewModel.event(
-                TicketHeldEvent.TicketItemClicked(screeningId = it.screeningId, ticketPrice = it.totalMoney.toFloat(), seatNumbers = it.seatNumbers.split(","))
+                TicketHeldEvent.TicketItemClicked(
+                    screeningId = it.screeningId,
+                    totalPrice = it.totalMoney.toFloat(),
+                    seatNumbers = it.seatNumbers.split(",")
+                )
             )
         }
     }
@@ -62,6 +65,7 @@ class TicketHeldFragment :
             tickedHeldAdapter.submitList(state.userTickets.tickets)
         }
     }
+
     private fun swipeAndDelete() {
         val swipeAndDelete = object : SwipeAndDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -85,7 +89,11 @@ class TicketHeldFragment :
                         userId = currentUser?.uid ?: ""
                     )
                 )
-                binding.root.showSnackBar("Your Ticket Has Been Deleted", backgroundColor = R.color.red, textColor = R.color.white)
+                binding.root.showSnackBar(
+                    "Your Ticket Has Been Deleted",
+                    backgroundColor = R.color.red,
+                    textColor = R.color.white
+                )
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeAndDelete)
@@ -98,17 +106,23 @@ class TicketHeldFragment :
                 is TicketHeldSideEffect.NavigateToProfileFragment -> {
                     // Implement navigation to profile fragment
                     findNavController().navigate(
-                        binding.root.showSnackBar("Your Ticket Has Been Deleted", backgroundColor = R.color.red, textColor = R.color.white)
+                        binding.root.showSnackBar(
+                            "Your Ticket Has Been Deleted",
+                            backgroundColor = R.color.red,
+                            textColor = R.color.white
+                        )
                     )
                 }
+
                 is TicketHeldSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
                 is TicketHeldSideEffect.NavigateToPaymentFragment -> findNavController().navigate(
                     TicketHeldFragmentDirections.actionTicketHeldFragmentToPaymentFragment(
                         screeningId = event.screeningId,
-                        ticketPrice = event.ticketPrice,
-                        seatNumber = event.seatNumbers.toTypedArray()
+                        totalPrice = event.ticketPrice,
+                        seats = event.seatNumbers.toTypedArray()
                     )
                 )
+
                 is TicketHeldSideEffect.TicketUpdatedSuccessfully -> {
                     ticketHeldViewModel.event(
                         TicketHeldEvent.GetTickets(

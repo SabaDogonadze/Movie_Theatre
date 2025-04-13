@@ -3,12 +3,11 @@ package com.example.movietheatre.feature_profile.presentation.screen
 import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movietheatre.core.domain.use_case.DeleteUsersTicketUserCase
+import com.example.movietheatre.core.domain.use_case.GetUserTicketsByStatusUseCase
 import com.example.movietheatre.core.domain.use_case.UpdateTicketUseCase
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
-import com.example.movietheatre.core.domain.use_case.DeleteUsersTicketUserCase
-import com.example.movietheatre.core.domain.use_case.GetUserTicketsByStatusUseCase
-import com.example.movietheatre.feature_profile.presentation.event.TicketBookedSideEffect
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldEvent
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldSideEffect
 import com.example.movietheatre.feature_profile.presentation.mapper.toPresenter
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class TicketHeldViewModel @Inject constructor(
     private val getUserTicketsByStatusUseCase: GetUserTicketsByStatusUseCase,
     private val deleteUsersTicketUserCase: DeleteUsersTicketUserCase,
-    private val updateTicketUseCase : UpdateTicketUseCase,
+    private val updateTicketUseCase: UpdateTicketUseCase,
 ) :
     ViewModel() {
     private val _state = MutableStateFlow(TicketHeldState())
@@ -45,7 +44,7 @@ class TicketHeldViewModel @Inject constructor(
 
             is TicketHeldEvent.TicketItemClicked -> navigateToPaymentFragment(
                 screeningId = event.screeningId,
-                ticketPrice = event.ticketPrice,
+                ticketPrice = event.totalPrice,
                 seatNumbers = event.seatNumbers
             )
 
@@ -116,7 +115,11 @@ class TicketHeldViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToPaymentFragment(screeningId: Int, ticketPrice: Float,seatNumbers:List<String>) {
+    private fun navigateToPaymentFragment(
+        screeningId: Int,
+        ticketPrice: Float,
+        seatNumbers: List<String>,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiEvents.emit(
                 TicketHeldSideEffect.NavigateToPaymentFragment(
@@ -128,7 +131,12 @@ class TicketHeldViewModel @Inject constructor(
         }
     }
 
-    private fun updateTicket(screeningId: Int, seats: List<String>, status: String, userId: String) {
+    private fun updateTicket(
+        screeningId: Int,
+        seats: List<String>,
+        status: String,
+        userId: String,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
 
@@ -147,6 +155,7 @@ class TicketHeldViewModel @Inject constructor(
                     d("TicketHeldViewModel", "Error updating ticket: ${result.error}")
                     _uiEvents.emit(TicketHeldSideEffect.ShowError(result.error.asStringResource()))
                 }
+
                 is Resource.Success -> {
                     _state.update {
                         it.copy(
