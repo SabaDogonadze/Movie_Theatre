@@ -7,9 +7,7 @@ import com.example.movietheatre.core.domain.util.error.NetworkError
 import com.example.movietheatre.feature_profile.data.remote.mapper.toDomain
 import com.example.movietheatre.feature_profile.data.remote.service.DeleteUsersTicketService
 import com.example.movietheatre.feature_profile.domain.model.DeleteUsersTicket
-import com.example.movietheatre.core.domain.repository.DeleteUsersTicketRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.example.movietheatre.feature_profile.domain.repository.DeleteUsersTicketRepository
 import javax.inject.Inject
 
 class DeleteUsersTicketRepositoryImpl @Inject constructor(
@@ -18,16 +16,14 @@ class DeleteUsersTicketRepositoryImpl @Inject constructor(
 ) :
     DeleteUsersTicketRepository {
 
-    override fun deleteUserTicket(
+    override suspend fun deleteUserTicket(
         bookingId: Int,
-    ): Flow<Resource<DeleteUsersTicket, NetworkError>> {
-        return flow {
-            val resource = apiHelper.handleHttpRequest(
-                apiCall = {
-                    deleteUsersTicketService.deleteUserTickets(bookingId = bookingId)
-                }
-            ).mapData { deleteUsersTicketDto -> deleteUsersTicketDto.toDomain() }
-            emit(resource)
-        }
+    ): Resource<DeleteUsersTicket, NetworkError> {
+        return apiHelper.handleHttpRequest(
+            apiCall = {
+                deleteUsersTicketService.deleteUserTickets(bookingId = bookingId)
+            }
+        ).mapData { deleteUsersTicketDto -> deleteUsersTicketDto.toDomain() }
+
     }
 }

@@ -1,7 +1,7 @@
 package com.example.movietheatre.feature_profile.di
 
-import com.example.movietheatre.core.domain.repository.DeleteUsersTicketRepository
-import com.example.movietheatre.core.domain.repository.ProfileTicketByStatusRepository
+import com.example.movietheatre.feature_profile.domain.repository.DeleteUsersTicketRepository
+import com.example.movietheatre.feature_profile.domain.repository.ProfileTicketByStatusRepository
 import com.example.movietheatre.feature_profile.data.remote.repository.DeleteUsersTicketRepositoryImpl
 import com.example.movietheatre.feature_profile.data.remote.repository.ProfileTicketByStatusRepositoryImpl
 import dagger.Binds

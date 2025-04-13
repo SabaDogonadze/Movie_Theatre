@@ -1,5 +1,6 @@
 package com.example.movietheatre.feature_profile.presentation.screen
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -10,12 +11,9 @@ import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.SwipeAndDeleteCallback
 import com.example.movietheatre.core.presentation.extension.collectLatestFlow
 import com.example.movietheatre.core.presentation.extension.showSnackBar
-import com.example.movietheatre.core.presentation.util.TicketStatus
 import com.example.movietheatre.databinding.FragmentTicketBookedBinding
 import com.example.movietheatre.feature_profile.presentation.event.TicketBookedEvent
 import com.example.movietheatre.feature_profile.presentation.event.TicketBookedSideEffect
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,15 +22,9 @@ class TicketBookedFragment :
 
     private val ticketBookedViewModel: TicketBookedViewModel by viewModels()
     private lateinit var tickedBookedAdapter: TicketBookedRecyclerView
-    private val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun setUp() {
-        ticketBookedViewModel.event(
-            TicketBookedEvent.GetTickets(
-                userId = currentUser?.uid ?: "",
-                ticketStatus = TicketStatus.BOOKED.toString().uppercase()
-            )
-        )
+
         stateObserver()
         eventObserver()
         setUpActorsRecycler()
@@ -57,8 +49,8 @@ class TicketBookedFragment :
 
     private fun stateObserver() {
         collectLatestFlow(ticketBookedViewModel.state) { state ->
-            // binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-            tickedBookedAdapter.submitList(state.userTickets.tickets)
+            binding.progressBar.root.isVisible = state.isLoading
+            tickedBookedAdapter.submitList(state.userTickets.tickets.toList())
         }
     }
 
@@ -70,14 +62,8 @@ class TicketBookedFragment :
                 val itemToDelete = tickedBookedAdapter.currentList[position]
                 val bookingId = itemToDelete.bookingId
                 ticketBookedViewModel.event(TicketBookedEvent.DeleteTicket(bookingId = bookingId))
-                val updatedList = tickedBookedAdapter.currentList.toMutableList()
-                updatedList.removeAt(position)
-                tickedBookedAdapter.submitList(updatedList)
-                binding.root.showSnackBar(
-                    "Your Ticket Has Been Deleted",
-                    backgroundColor = R.color.red,
-                    textColor = R.color.white
-                )
+
+
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeAndDelete)
@@ -87,18 +73,20 @@ class TicketBookedFragment :
     private fun eventObserver() {
         collectLatestFlow(ticketBookedViewModel.uiEvents) { event ->
             when (event) {
-                TicketBookedSideEffect.NavigateToProfileFragment -> TODO()
-                is TicketBookedSideEffect.ShowError -> TODO()
+                is TicketBookedSideEffect.ShowError -> binding.root.showSnackBar(
+                    getString(event.message),
+                    backgroundColor = R.color.red
+                )
+
                 TicketBookedSideEffect.NavigateToQrFragment -> findNavController().navigate(
                     TicketBookedFragmentDirections.actionTicketBookedFragmentToQrCodeFragment()
                 )
 
-                TicketBookedSideEffect.TicketUpdatedSuccessfully -> {
-                    ticketBookedViewModel.event(
-                        TicketBookedEvent.GetTickets(
-                            userId = currentUser?.uid ?: "",
-                            ticketStatus = TicketStatus.HELD.toString().uppercase()
-                        )
+                TicketBookedSideEffect.SuccessfulDelete -> {
+                    binding.root.showSnackBar(
+                        getString(R.string.your_ticket_has_been_deleted),
+                        backgroundColor = R.color.green,
+                        textColor = R.color.white
                     )
                 }
             }
