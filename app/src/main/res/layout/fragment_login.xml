@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    tools:context=".feature_login.presentation.screen.LoginFragment">
+    tools:context=".feature_login.presentation.screen.login.LoginFragment">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -61,6 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:endIconMode="password_toggle"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +73,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:background="@drawable/background_form_rounded"
             android:hint="@string/enter_password"
             android:inputType="textPassword"
@@ -122,6 +122,16 @@
         app:buttonTint="@color/white"
         app:layout_constraintStart_toEndOf="@id/txtRememberMe"
         app:layout_constraintTop_toBottomOf="@id/txtPasswordError" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/cbRememberMe"
+        app:layout_constraintEnd_toEndOf="@id/tilPassword"
+        app:layout_constraintTop_toTopOf="@id/cbRememberMe" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"

@@ -6,13 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.use_case.UpdateTicketUseCase
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
-import com.example.movietheatre.core.domain.use_case.DeleteUsersTicketUserCase
-import com.example.movietheatre.core.domain.use_case.GetUserTicketsByStatusUseCase
-import com.example.movietheatre.feature_profile.presentation.event.TicketBookedSideEffect
+import com.example.movietheatre.core.presentation.extension.toDomain
+import com.example.movietheatre.core.presentation.util.TicketStatus
+import com.example.movietheatre.feature_profile.domain.use_case.GetUserTicketsByStatusUseCase
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldEvent
 import com.example.movietheatre.feature_profile.presentation.event.TicketHeldSideEffect
 import com.example.movietheatre.feature_profile.presentation.mapper.toPresenter
 import com.example.movietheatre.feature_profile.presentation.state.TicketHeldState
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,8 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketHeldViewModel @Inject constructor(
     private val getUserTicketsByStatusUseCase: GetUserTicketsByStatusUseCase,
-    private val deleteUsersTicketUserCase: DeleteUsersTicketUserCase,
-    private val updateTicketUseCase : UpdateTicketUseCase,
+    private val updateTicketUseCase: UpdateTicketUseCase,
+    private val firebaseAuth: FirebaseAuth,
 ) :
     ViewModel() {
     private val _state = MutableStateFlow(TicketHeldState())
@@ -36,25 +37,26 @@ class TicketHeldViewModel @Inject constructor(
     private val _uiEvents = MutableSharedFlow<TicketHeldSideEffect>()
     val uiEvents = _uiEvents.asSharedFlow()
 
+    init {
+        event(TicketHeldEvent.GetTickets)
+    }
+
     fun event(event: TicketHeldEvent) {
         when (event) {
             is TicketHeldEvent.GetTickets -> getUserTicket(
-                userId = event.userId,
-                status = event.ticketStatus
+                userId = firebaseAuth.currentUser!!.uid,
+                status = TicketStatus.HELD.toDomain()
             )
 
             is TicketHeldEvent.TicketItemClicked -> navigateToPaymentFragment(
                 screeningId = event.screeningId,
-                ticketPrice = event.ticketPrice,
+                ticketPrice = event.totalPrice,
                 seatNumbers = event.seatNumbers
             )
 
-            is TicketHeldEvent.DeleteTicket -> deleteUserTicket(bookingId = event.bookingId)
             is TicketHeldEvent.UpdateTicket -> updateTicket(
                 screeningId = event.screeningId,
                 seats = event.seats,
-                status = event.status,
-                userId = event.userId
             )
         }
     }
@@ -62,61 +64,36 @@ class TicketHeldViewModel @Inject constructor(
     private fun getUserTicket(userId: String, status: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
-            getUserTicketsByStatusUseCase.invoke(userId = userId, status = status)
-                .collect { result ->
-                    when (result) {
-                        is Resource.Error -> {  // stops loading
-                            _state.update {
-                                it.copy(isLoading = false)
-                            }
-                            d("TicketBookedViewModel", "Error: ${result.error}")
-                            _uiEvents.emit(TicketHeldSideEffect.ShowError(result.error.asStringResource()))
-                        }
-
-                        is Resource.Success -> {
-                            val userTickets = result.data.toPresenter()
-                            d("TicketBookedViewModel", " ${result}")
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    userTickets = userTickets
-                                )
-                            }
-                        }
+            when (val result =
+                getUserTicketsByStatusUseCase.invoke(userId = userId, status = status)) {
+                is Resource.Error -> {
+                    _state.update {
+                        it.copy(isLoading = false)
                     }
+                    d("TicketBookedViewModel", "Error: ${result.error}")
+                    _uiEvents.emit(TicketHeldSideEffect.ShowError(result.error.asStringResource()))
+
                 }
-        }
-    }
 
-    private fun deleteUserTicket(bookingId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isLoading = true) }
-            deleteUsersTicketUserCase.invoke(bookingId = bookingId).collect { result ->
-                when (result) {
-                    is Resource.Error -> {  // stops loading
-                        _state.update {
-                            it.copy(isLoading = false)
-                        }
-                        d("TicketBookedViewModel", "Error: ${result.error}")
-                        _uiEvents.emit(TicketHeldSideEffect.ShowError(result.error.asStringResource()))
-                    }
-
-                    is Resource.Success -> {
-                        val ticketStatus = result.data.deletedTicketStatus
-                        _uiEvents.emit(TicketHeldSideEffect.TicketUpdatedSuccessfully)
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                                isTicketDeleted = ticketStatus
-                            )
-                        }
+                is Resource.Success -> {
+                    val userTickets = result.data.toPresenter()
+                    d("TicketBookedViewModel", " ${result}")
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            userTickets = userTickets
+                        )
                     }
                 }
             }
         }
     }
 
-    private fun navigateToPaymentFragment(screeningId: Int, ticketPrice: Float,seatNumbers:List<String>) {
+    private fun navigateToPaymentFragment(
+        screeningId: Int,
+        ticketPrice: Float,
+        seatNumbers: List<String>,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiEvents.emit(
                 TicketHeldSideEffect.NavigateToPaymentFragment(
@@ -128,15 +105,18 @@ class TicketHeldViewModel @Inject constructor(
         }
     }
 
-    private fun updateTicket(screeningId: Int, seats: List<String>, status: String, userId: String) {
+    private fun updateTicket(
+        screeningId: Int,
+        seats: List<String>,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
 
             val result = updateTicketUseCase.invoke(
                 screeningId = screeningId,
                 seats = seats,
-                status = status,
-                userId = userId
+                status = TicketStatus.FREE.toDomain(),
+                userId = firebaseAuth.currentUser!!.uid
             )
 
             when (result) {
@@ -147,14 +127,10 @@ class TicketHeldViewModel @Inject constructor(
                     d("TicketHeldViewModel", "Error updating ticket: ${result.error}")
                     _uiEvents.emit(TicketHeldSideEffect.ShowError(result.error.asStringResource()))
                 }
+
                 is Resource.Success -> {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            isTicketUpdated = true
-                        )
-                    }
-                    _uiEvents.emit(TicketHeldSideEffect.TicketUpdatedSuccessfully)
+                    _uiEvents.emit(TicketHeldSideEffect.SuccessfulDelete)
+                    event(TicketHeldEvent.GetTickets)
                 }
             }
         }

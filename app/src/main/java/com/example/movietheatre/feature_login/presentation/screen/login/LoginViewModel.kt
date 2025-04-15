@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_login.presentation.screen
+package com.example.movietheatre.feature_login.presentation.screen.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

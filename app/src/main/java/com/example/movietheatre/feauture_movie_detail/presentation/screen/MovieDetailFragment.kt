@@ -1,8 +1,8 @@
 package com.example.movietheatre.feauture_movie_detail.presentation.screen
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.webkit.WebViewClient
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -63,7 +63,7 @@ class MovieDetailFragment :
 
     private fun stateObserver() {
         collectLatestFlow(movieDetailViewModel.state) { state ->
-            binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.root.isVisible = state.isLoading
             actorsAdapter.submitList(state.detailedMovie.actors.toList())
             screeningsAdapter.submitList(state.detailedMovie.screenings.toList())
             Glide.with(this)

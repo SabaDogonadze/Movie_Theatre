@@ -1,6 +1,8 @@
 package com.example.movietheatre.feature_login.di
 
+import com.example.movietheatre.feature_login.data.repository.ForgotPasswordRepositoryImpl
 import com.example.movietheatre.feature_login.data.repository.LoginRepositoryImpl
+import com.example.movietheatre.feature_login.domain.repository.ForgotPasswordRepository
 import com.example.movietheatre.feature_login.domain.repository.LoginRepository
 import dagger.Binds
 import dagger.Module
@@ -14,4 +16,8 @@ abstract class LoginRepositoryModule {
     @Binds
     @Singleton
     abstract fun bindLoginRepository(impl: LoginRepositoryImpl): LoginRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindForgotPasswordRepository(impl: ForgotPasswordRepositoryImpl): ForgotPasswordRepository
 }

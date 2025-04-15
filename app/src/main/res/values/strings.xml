@@ -81,4 +81,10 @@
     <string name="card_with_that_card_number_already_exits">Card with that card number already exits</string>
     <string name="successfully_deleted_card">Successfully deleted card</string>
     <string name="profile">Profile</string>
+    <string name="password_reset_link_sent_to_your_email">Password reset link sent to your email</string>
+    <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
+    <string name="network_error_please_check_your_connection">Network error. Please check your connection</string>
+    <string name="too_many_requests_please_try_again_later">Too many requests. Please try again later</string>
+    <string name="no_account_found_with_this_email">No account found with this email</string>
+    <string name="your_ticket_has_been_deleted">Your Ticket Has Been Deleted</string>
 </resources>

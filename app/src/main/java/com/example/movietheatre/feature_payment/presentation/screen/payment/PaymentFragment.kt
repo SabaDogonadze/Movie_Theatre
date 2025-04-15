@@ -31,6 +31,7 @@ class PaymentFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: PaymentFragmentArgs by navArgs()
+
     val viewModel: PaymentViewModel by viewModels()
     private val paymentPagerAdapter: PaymentPagerAdapter by lazy {
         PaymentPagerAdapter(onClick = {
@@ -152,6 +153,9 @@ class PaymentFragment : Fragment() {
 
 
     private fun updateUiState(state: PaymentUiState) {
+
+        binding.pager.isVisible = state.cards.isNotEmpty()
+
         paymentPagerAdapter.submitList(state.cards.toList())
         binding.progressBar.root.isVisible = state.isLoading
         binding.btnBuyTickets.isVisible = !state.isLoading

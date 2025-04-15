@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_login.presentation.screen
+package com.example.movietheatre.feature_login.presentation.screen.login
 
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -29,11 +29,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun clickListeners() {
         binding.apply {
             etEmail.doAfterTextChanged { text ->
-                viewModel.onEvent(LoginEvent.ValidateEmail(text.toString()))
+                if (etEmail.hasFocus()) {
+                    viewModel.onEvent(LoginEvent.ValidateEmail(text.toString()))
+                }
             }
 
             etPassword.doAfterTextChanged { text ->
-                viewModel.onEvent(LoginEvent.ValidatePassword(text.toString()))
+                if (etPassword.hasFocus()) {
+                    viewModel.onEvent(LoginEvent.ValidatePassword(text.toString()))
+                }
             }
 
             btnLogin.setOnClickListener {
@@ -43,8 +47,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             txtRegister.setOnClickListener {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
             }
+
+            txtForgotPassword.setOnClickListener {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment())
+            }
         }
     }
+
     private fun updateUi(state: LoginUiState) {
         showLoadingScreen(state.isLoading)
 
