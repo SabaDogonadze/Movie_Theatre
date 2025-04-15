@@ -87,4 +87,5 @@
     <string name="too_many_requests_please_try_again_later">Too many requests. Please try again later</string>
     <string name="no_account_found_with_this_email">No account found with this email</string>
     <string name="your_ticket_has_been_deleted">Your Ticket Has Been Deleted</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
 </resources>
