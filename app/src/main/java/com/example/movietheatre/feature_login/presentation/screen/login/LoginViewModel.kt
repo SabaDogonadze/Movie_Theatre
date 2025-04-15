@@ -30,16 +30,19 @@ class LoginViewModel @Inject constructor(
 
     fun onEvent(event: LoginEvent) {
         when (event) {
-            is LoginEvent.Login -> login(event.email, event.password, rememberMe = event.rememberMe)
+            LoginEvent.Login -> login()
             is LoginEvent.ValidateEmail -> validateEmail(event.email)
             is LoginEvent.ValidatePassword -> validatePassword(event.password)
+            LoginEvent.PasswordVisibilityChanged -> _uiState.update { it.copy(passwordIsVisible = !_uiState.value.passwordIsVisible) }
+            LoginEvent.RememberMeChanged -> _uiState.update { it.copy(rememberMeChecked = !_uiState.value.rememberMeChecked) }
         }
     }
 
-    private fun login(email: String, password: String, rememberMe: Boolean) {
+    private fun login() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            when (val result = loginUseCaseWrapper.loginUseCase(email, password)) {
+            when (val result =
+                loginUseCaseWrapper.loginUseCase(_uiState.value.email, _uiState.value.password)) {
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffects.emit(LoginSideEffect.ShowSnackBar(result.error.asStringResource()))
@@ -48,7 +51,10 @@ class LoginViewModel @Inject constructor(
                 is Resource.Success -> {
                     /**to make sure that when navigating remember me values is saved*/
                     withContext(NonCancellable) {
-                        loginUseCaseWrapper.saveValueToLocalStorageUseCase(REMEMBER_ME, rememberMe)
+                        loginUseCaseWrapper.saveValueToLocalStorageUseCase(
+                            REMEMBER_ME,
+                            _uiState.value.rememberMeChecked
+                        )
                     }
                     _sideEffects.emit(LoginSideEffect.SuccessFullLogin)
                 }
@@ -58,6 +64,7 @@ class LoginViewModel @Inject constructor(
 
     /**asStringResource is extension function for mapping error types to string resources*/
     private fun validateEmail(email: String) {
+        _uiState.update { it.copy(email = email) }
         when (val result = loginUseCaseWrapper.validateEmailUseCase(email)) {
             is Resource.Error -> _uiState.update {
                 it.copy(
@@ -80,6 +87,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun validatePassword(password: String) {
+
+        _uiState.update { it.copy(password = password) }
         when (val result = loginUseCaseWrapper.validatePasswordUseCase(password)) {
             is Resource.Error -> _uiState.update {
                 it.copy(
