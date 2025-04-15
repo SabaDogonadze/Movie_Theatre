@@ -176,7 +176,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Register text
                     TextButton(onClick = onRegisterClick) {
                         Text(
                             text = stringResource(id = R.string.don_t_have_account_sign_up),
