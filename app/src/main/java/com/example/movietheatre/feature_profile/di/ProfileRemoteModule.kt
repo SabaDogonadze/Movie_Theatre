@@ -2,6 +2,7 @@ package com.example.movietheatre.feature_profile.di
 
 import com.example.movietheatre.feature_profile.data.remote.service.DeleteUsersTicketService
 import com.example.movietheatre.feature_profile.data.remote.service.ProfileTicketService
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,7 @@ object ProfileRemoteModule {
         return retrofit.create(DeleteUsersTicketService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
 }
