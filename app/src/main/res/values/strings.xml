@@ -90,4 +90,7 @@
     <string name="toggle_password_visibility">Toggle password visibility</string>
     <string name="shop">Shop</string>
     <string name="place_order">Place Order</string>
+    <string name="order_successful">Order Successful</string>
+    <string name="tracking_code">Tracking code: %1$s</string>
+    <string name="ok">OK</string>
 </resources>

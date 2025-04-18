@@ -2,6 +2,7 @@ package com.example.movietheatre.feature_shop.presentation.screen
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.movietheatre.R
 import com.example.movietheatre.core.presentation.BaseFragment
 import com.example.movietheatre.core.presentation.extension.collectLatestFlow
@@ -10,6 +11,7 @@ import com.example.movietheatre.databinding.FragmentShopBinding
 import com.example.movietheatre.feature_shop.presentation.extension.calculateTotalPrice
 import com.example.movietheatre.feature_shop.presentation.extension.formatSelectedProducts
 import com.example.movietheatre.feature_shop.presentation.screen.category_product_adapter.CategoryProductAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -35,7 +37,7 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
 
     override fun clickListeners() {
         binding.btnPlaceOrder.setOnClickListener {
-
+            viewModel.onEvent(ShopEvent.Order)
         }
     }
 
@@ -44,6 +46,8 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
             is ShopSideEffect.ShowError -> binding.root.showSnackBar(
                 getString(sideEffect.message), backgroundColor = R.color.red
             )
+
+            is ShopSideEffect.SuccessfulOrder -> showTrackingCodeDialog(trackingCode = sideEffect.trackingCode.toString())
         }
     }
 
@@ -56,6 +60,18 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
         binding.txtCartItems.text = state.selectedProduct.formatSelectedProducts()
         binding.txtTotalPrice.text = state.selectedProduct.calculateTotalPrice()
 
+    }
+
+    private fun showTrackingCodeDialog(trackingCode: String) {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        builder.setTitle(getString(R.string.order_successful))
+        builder.setMessage(getString(R.string.tracking_code, trackingCode))
+        builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+            dialog.dismiss()
+            findNavController().navigateUp()
+        }
+        builder.setCancelable(false)
+        builder.show()
     }
 
 }

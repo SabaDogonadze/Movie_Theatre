@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
+import com.example.movietheatre.feature_shop.domain.model.OrderItem
+import com.example.movietheatre.feature_shop.domain.use_case.CreateOrderUseCase
 import com.example.movietheatre.feature_shop.domain.use_case.GetProductUseCase
 import com.example.movietheatre.feature_shop.presentation.mapper.groupByCategory
 import com.example.movietheatre.feature_shop.presentation.model.Product
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShopViewModel @Inject constructor(
     private val getProductUseCase: GetProductUseCase,
+    private val createOrderUseCase: CreateOrderUseCase,
+    private val firebaseAuth: FirebaseAuth,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ShopUiState> = MutableStateFlow(ShopUiState())
@@ -38,6 +43,28 @@ class ShopViewModel @Inject constructor(
             ShopEvent.GetProducts -> getProducts()
             is ShopEvent.AddProduct -> addProduct(event.product)
             is ShopEvent.RemoveProduct -> removeProduct(event.product)
+            ShopEvent.Order -> order()
+        }
+    }
+
+    private fun order() {
+        _uiState.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            when (val result = createOrderUseCase(
+                userId = firebaseAuth.currentUser!!.uid,
+                orderItems = _uiState.value.selectedProduct.map { OrderItem(it.id, it.quantity) }
+            )) {
+                is Resource.Error -> {
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
+                }
+
+                is Resource.Success -> {
+                    _uiState.update { it.copy(isLoading = false) }
+                    _sideEffect.emit(ShopSideEffect.SuccessfulOrder(result.data.trackingCode))
+                }
+            }
         }
     }
 

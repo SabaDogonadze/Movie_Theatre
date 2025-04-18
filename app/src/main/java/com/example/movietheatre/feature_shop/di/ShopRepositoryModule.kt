@@ -1,6 +1,8 @@
 package com.example.movietheatre.feature_shop.di
 
+import com.example.movietheatre.feature_shop.data.repository.OrderRepositoryImpl
 import com.example.movietheatre.feature_shop.data.repository.ProductRepositoryImpl
+import com.example.movietheatre.feature_shop.domain.repository.OrderRepository
 import com.example.movietheatre.feature_shop.domain.repository.ProductRepository
 import dagger.Binds
 import dagger.Module
@@ -16,5 +18,8 @@ abstract class ShopRepositoryModule {
     @Singleton
     abstract fun bindShopRepository(impl: ProductRepositoryImpl): ProductRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindOrderRepository(impl: OrderRepositoryImpl): OrderRepository
 
 }

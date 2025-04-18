@@ -9,4 +9,5 @@ sealed interface ShopEvent {
     data class AddProduct(val product: Product) : ShopEvent
     data class RemoveProduct(val product: Product) : ShopEvent
 
+    data object Order : ShopEvent
 }
