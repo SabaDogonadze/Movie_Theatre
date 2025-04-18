@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/shopFragment"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/shop" />
     <item
         android:id="@+id/id_home_fragment"
         android:icon="@drawable/ic_home"

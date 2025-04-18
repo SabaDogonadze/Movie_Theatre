@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
+import com.bumptech.glide.Glide
 import com.example.movietheatre.R
 import com.google.android.material.snackbar.Snackbar
 
@@ -50,4 +51,12 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
         this,
         ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
     )
+}
+
+fun ImageView.loadImg(url: String?) {
+    Glide.with(this.context)
+        .load(url)
+        .placeholder(R.drawable.ic_launcher_background)
+        .error(R.drawable.ic_launcher_background)
+        .into(this)
 }
