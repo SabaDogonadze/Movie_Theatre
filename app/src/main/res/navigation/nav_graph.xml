@@ -184,6 +184,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_id_profile_fragment_to_myShopFragment"
+            app:destination="@id/myShopFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/ticketHeldFragment"
@@ -215,5 +222,15 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
     </fragment>
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.example.movietheatre.feature_shop.presentation.screen.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" />
+    <fragment
+        android:id="@+id/myShopFragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.my_shop.MyShopFragment"
+        android:label="fragment_my_shop"
+        tools:layout="@layout/fragment_my_shop" />
 
 </navigation>

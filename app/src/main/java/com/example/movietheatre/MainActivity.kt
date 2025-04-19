@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             val bottomNavDestinations = setOf(
                 R.id.id_home_fragment,
                 R.id.id_profile_fragment,
+                R.id.shopFragment
             )
 
             binding.bottomNavigationView.visibility = if (destination.id in bottomNavDestinations) {

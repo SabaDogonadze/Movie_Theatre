@@ -5,17 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/blue">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgPause"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imgSuccess"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check" />
+        app:lottie_rawRes="@raw/completed_animation" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
@@ -26,6 +24,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgPause" />
+        app:layout_constraintTop_toBottomOf="@id/imgSuccess" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

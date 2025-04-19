@@ -88,4 +88,10 @@
     <string name="no_account_found_with_this_email">No account found with this email</string>
     <string name="your_ticket_has_been_deleted">Your Ticket Has Been Deleted</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="shop">Shop</string>
+    <string name="place_order">Place Order</string>
+    <string name="order_successful">Order Successful</string>
+    <string name="tracking_code">Tracking code: %1$s</string>
+    <string name="ok">OK</string>
+    <string name="my_orders">My Orders</string>
 </resources>
