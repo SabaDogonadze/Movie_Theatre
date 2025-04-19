@@ -103,6 +103,7 @@ class PaymentFragment : Fragment() {
         collectLatestFlow(viewModel.uiState) { updateUiState(it) }
         collectLatestFlow(viewModel.sideEffect) { getEffects(it) }
 
+
     }
 
     private fun clickListeners() {
@@ -117,6 +118,10 @@ class PaymentFragment : Fragment() {
                     totalPrice = args.totalPrice.toDouble()
                 )
             )
+        }
+
+        binding.btnArrowBack.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
