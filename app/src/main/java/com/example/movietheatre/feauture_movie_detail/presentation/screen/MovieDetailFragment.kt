@@ -76,6 +76,7 @@ class MovieDetailFragment :
                 tvMovieImdb.text = state.detailedMovie.imdbRating.toString()
                 tvActualAgeRestriction.text = state.detailedMovie.ageRestriction
                 tvMovieDescription.text = state.detailedMovie.description
+                tvMovieGenre.text = state.detailedMovie.genres.joinToString { "," }
             }
             val embedUrl = convertToEmbedUrl(state.detailedMovie.youtubeUrl)
             loadVideoInWebView(embedUrl)

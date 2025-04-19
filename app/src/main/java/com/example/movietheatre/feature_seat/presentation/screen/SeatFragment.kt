@@ -72,6 +72,10 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
                     )
                 )
             }
+
+            btnArrowBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
     }
 
