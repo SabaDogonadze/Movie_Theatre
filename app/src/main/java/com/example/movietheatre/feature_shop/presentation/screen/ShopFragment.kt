@@ -39,6 +39,13 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
         binding.btnPlaceOrder.setOnClickListener {
             viewModel.onEvent(ShopEvent.Order)
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
+            viewModel.onEvent(ShopEvent.GetProducts)
+            binding.swipeRefresh.isRefreshing = false
+
+
+        }
     }
 
     private fun getSideEffects(sideEffect: ShopSideEffect) {

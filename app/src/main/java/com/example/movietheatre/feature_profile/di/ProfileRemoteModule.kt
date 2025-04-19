@@ -2,6 +2,7 @@ package com.example.movietheatre.feature_profile.di
 
 import com.example.movietheatre.feature_profile.data.remote.service.DeleteUsersTicketService
 import com.example.movietheatre.feature_profile.data.remote.service.ProfileTicketService
+import com.example.movietheatre.feature_profile.data.remote.service.UserOrderService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,9 @@ object ProfileRemoteModule {
         return retrofit.create(DeleteUsersTicketService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideUserOrderService(retrofit: Retrofit): UserOrderService {
+        return retrofit.create(UserOrderService::class.java)
+    }
 }

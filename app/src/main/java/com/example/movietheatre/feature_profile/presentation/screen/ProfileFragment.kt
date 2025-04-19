@@ -12,11 +12,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     override fun clickListeners() {
-       binding.ivSeeBookedTickets.setOnClickListener {
-           findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment())
-       }
+        binding.ivSeeBookedTickets.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment())
+        }
         binding.ivSeePurchasedTickets.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment2())
+        }
+        binding.ivMyShop.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToMyShopFragment())
         }
     }
 
