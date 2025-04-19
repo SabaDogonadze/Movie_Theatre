@@ -135,6 +135,7 @@ class PaymentFragment : Fragment() {
             }
 
             PaymentSideEffect.SuccessfulPayment -> {
+                binding.SuccessBuyLayout.imgSuccess.playAnimation()
                 binding.btnBuyTickets.isVisible = false
                 val transition = AutoTransition().apply {
                     duration = 300

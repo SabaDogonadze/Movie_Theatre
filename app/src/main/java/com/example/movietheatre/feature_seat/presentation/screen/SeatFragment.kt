@@ -104,6 +104,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
                     btnBuyOption.isVisible = false
                     btnBookTickets.isVisible = false
 
+                    binding.SuccessBookingLayout.imgPause.playAnimation()
                     val transition = AutoTransition().apply {
                         duration = 300
                     }
