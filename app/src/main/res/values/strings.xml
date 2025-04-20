@@ -88,4 +88,9 @@
     <string name="no_account_found_with_this_email">No account found with this email</string>
     <string name="your_ticket_has_been_deleted">Your Ticket Has Been Deleted</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
+
+    <string name="question_number">Question %1$d of %2$d</string>
+    <string name="quiz_results">You scored %1$d out of %2$d</string>
+    <string name="next">Next</string>
+    <string name="quiz_category_intro">Choose a movie category to start the quiz and earn rewards!</string>
 </resources>
