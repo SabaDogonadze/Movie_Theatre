@@ -1,6 +1,7 @@
 package com.example.movietheatre.feauture_movie_detail.presentation.screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -22,6 +23,9 @@ class MovieDetailFragment :
     private val movieDetailViewModel: MovieDetailViewModel by viewModels()
     private lateinit var actorsAdapter: MovieDetailActorsRecyclerView
     private lateinit var screeningsAdapter: MovieDetailScreeningsRecyclerView
+    private lateinit var screeningChooserAdapter: ScreeningChooserAdapter
+
+
     private val args: MovieDetailFragmentArgs by navArgs()
     override fun setUp() {
         stateObserver()
@@ -30,6 +34,7 @@ class MovieDetailFragment :
         setUpActorsRecycler()
         setUpScreeningsRecycler()
         clickListeners()
+        setUpScreeningChooseRecycler()
     }
 
     override fun clickListeners() {
@@ -52,6 +57,15 @@ class MovieDetailFragment :
         }
     }
 
+    private fun setUpScreeningChooseRecycler() {
+        screeningChooserAdapter = ScreeningChooserAdapter(onClick = {
+            movieDetailViewModel.event(MovieDetailEvent.OnChangedScreeningChooser(it.number))
+        })
+        binding.rvScreenDateCategory.apply {
+            adapter = screeningChooserAdapter
+        }
+    }
+
     private fun setUpScreeningsRecycler() {
         screeningsAdapter = MovieDetailScreeningsRecyclerView()
         binding.screeningsRecyclerview.apply {
@@ -63,9 +77,12 @@ class MovieDetailFragment :
 
     private fun stateObserver() {
         collectLatestFlow(movieDetailViewModel.state) { state ->
+            Log.d("detailsate", state.toString())
             binding.progressBar.root.isVisible = state.isLoading
             actorsAdapter.submitList(state.detailedMovie.actors.toList())
-            screeningsAdapter.submitList(state.detailedMovie.screenings.toList())
+            screeningsAdapter.submitList(state.detailedMovie.screeningsFiltered.toList())
+            screeningChooserAdapter.submitList(state.detailedMovie.screeningsChooser.toList())
+
             Glide.with(this)
                 .load(state.detailedMovie.movieImgUrl)
                 .into(binding.ivMovieImage)
