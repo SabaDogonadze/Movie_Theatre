@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailViewModel @Inject constructor(private val movieDetailUseCase: GetMovieDetailUseCase):ViewModel(){
+class MovieDetailViewModel @Inject constructor(private val movieDetailUseCase: GetMovieDetailUseCase) :
+    ViewModel() {
 
     private val _state = MutableStateFlow(MovieDetailState())
     val state = _state.asStateFlow()
@@ -28,27 +29,45 @@ class MovieDetailViewModel @Inject constructor(private val movieDetailUseCase: G
     private val _uiEvents = MutableSharedFlow<MovieDetailSideEffect>()
     val uiEvents = _uiEvents.asSharedFlow()
 
-    fun event(event:MovieDetailEvent){
-        when(event){
+    fun event(event: MovieDetailEvent) {
+        when (event) {
             is MovieDetailEvent.GetMovieDetails -> loadDetailMovie(movieId = event.movieId)
             is MovieDetailEvent.ScreeningItemClicked -> {
-                screeningItemClicked(event.movieId,event.moviePrice.toFloat())
+                screeningItemClicked(event.movieId, event.moviePrice.toFloat())
             }
+
+            is MovieDetailEvent.OnChangedScreeningChooser -> onChangedScreeningChooser(event.number)
         }
     }
 
 
-    private fun loadDetailMovie(movieId:Int){
+    private fun onChangedScreeningChooser(number: Int) {
+        _state.update { currentState ->
+            val updatedChooser = currentState.detailedMovie.screeningsChooser.map { chooser ->
+                chooser.copy(isSelected = chooser.number == number)
+            }
+
+            val updatedDetailedMovie = currentState.detailedMovie.copy(
+                screeningsChooser = updatedChooser
+            )
+
+            currentState.copy(detailedMovie = updatedDetailedMovie)
+        }
+    }
+
+
+    private fun loadDetailMovie(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
-            movieDetailUseCase.invoke(movieId).collect{result->
-                when(result){
+            movieDetailUseCase.invoke(movieId).collect { result ->
+                when (result) {
                     is Resource.Error -> {  // stops loading
                         _state.update {
                             it.copy(isLoading = false)
                         }
                         _uiEvents.emit(MovieDetailSideEffect.ShowError(result.error.asStringResource()))
                     }
+
                     is Resource.Success -> {
                         val movieDetail = result.data.toPresenter()
                         _state.update {
@@ -64,9 +83,14 @@ class MovieDetailViewModel @Inject constructor(private val movieDetailUseCase: G
         }
     }
 
-    private fun screeningItemClicked(movieId:Int,moviePrice:Float){
+    private fun screeningItemClicked(movieId: Int, moviePrice: Float) {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiEvents.emit(MovieDetailSideEffect.NavigateToBookingFragment(movieId=movieId,moviePrice = moviePrice))
+            _uiEvents.emit(
+                MovieDetailSideEffect.NavigateToBookingFragment(
+                    movieId = movieId,
+                    moviePrice = moviePrice
+                )
+            )
         }
     }
 }
