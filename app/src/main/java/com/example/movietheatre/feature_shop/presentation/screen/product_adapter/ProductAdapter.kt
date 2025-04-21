@@ -48,7 +48,6 @@ class ProductAdapter(
 
                 txtProductName.text = product.name
                 txtProductPrice.text = product.price.toFloat().asMoneyFormat()
-                txtProductCategory.text = product.category
                 txtProductDescription.text = product.description
                 btnAddToCartButton.setOnClickListener {
                     onAdd(product)
