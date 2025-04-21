@@ -63,7 +63,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
     private fun setUpUpcomingMovieRecycler() {
-        upComingMoviesAdapter = UpComingMoviesAdapter()
+        upComingMoviesAdapter = UpComingMoviesAdapter(onClick = {
+            navigateToMovieDetailFragment(it.id)
+        })
         binding.upcomingMovieRecyclerAdapter.apply {
             adapter = upComingMoviesAdapter
         }
@@ -94,7 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             binding.progressBar.root.isVisible = state.isLoading
             d("recyclermovie","${state.movies}")
             homeMovieAdapter.submitList(state.movies.toList())
-            upComingMoviesAdapter.submitList(state.movies.toList())
+            upComingMoviesAdapter.submitList(state.upcomingMovies.toList())
             genreAdapter.submitList(state.genres.toList())
             updateTimeButtonBackgrounds(state.selectedTimeFilter)
         }

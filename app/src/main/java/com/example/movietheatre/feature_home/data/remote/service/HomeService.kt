@@ -15,4 +15,7 @@ interface HomeService {
         @Query("startTime") startTime: LocalDateTime?,
         @Query("endTime") endTime: LocalDateTime?,
     ): Response<List<HomeMovieListResponseDto>>
+
+    @GET("movies/upcoming")
+    suspend fun getUpcomingMovies(): Response<List<HomeMovieListResponseDto>>
 }

@@ -11,7 +11,7 @@ import com.example.movietheatre.R
 import com.example.movietheatre.databinding.MovieViewholderBinding
 import com.example.movietheatre.feature_home.presentation.model.HomeMovieListUi
 
-class UpComingMoviesAdapter :
+class UpComingMoviesAdapter(val onClick: (HomeMovieListUi) -> Unit) :
     ListAdapter<HomeMovieListUi, RecyclerView.ViewHolder>(object :
         DiffUtil.ItemCallback<HomeMovieListUi>() {
         override fun areItemsTheSame(oldItem: HomeMovieListUi, newItem: HomeMovieListUi): Boolean {
@@ -27,11 +27,6 @@ class UpComingMoviesAdapter :
 
     }) {
 
-    private var onItemClicked: ((HomeMovieListUi) -> Unit)? = null
-
-    fun setonItemClickedListener(listener: (HomeMovieListUi) -> Unit) {
-        onItemClicked = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return MovieItemViewHolder(
@@ -58,7 +53,7 @@ class UpComingMoviesAdapter :
                 tvMovieTitle.text = item.title
                 tvMovieDuration.text = item.duration.toString()
                 root.setOnClickListener {
-                    onItemClicked?.invoke(item)
+                    onClick(item)
                 }
             }
 
