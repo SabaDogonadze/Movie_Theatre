@@ -15,25 +15,26 @@ data class MovieDetailDto(
     val youtubeUrl: String,
     val genres: List<GenreDto>,
     val actors: List<ActorDto>,
-    val screenings: List<ScreeningDto>
+    val screenings: List<ScreeningDto>,
 )
 
 @Serializable
 data class GenreDto(
     val id: Int,
-    val name: String
+    val name: String,
 )
 
 @Serializable
 data class ActorDto(
     val id: Int,
     val name: String,
-    val actorImgUrl: String
+    val actorImgUrl: String,
 )
 
 @Serializable
 data class ScreeningDto(
     val id: Int,
     val screeningTime: String,
-    val screeningPrice: Double
+    val screeningPrice: Double,
+    val iconUrl: String,
 )

@@ -6,14 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.movietheatre.core.presentation.extension.loadImg
 import com.example.movietheatre.databinding.MovieDetailScreeningViewholderBinding
 import com.example.movietheatre.feauture_movie_detail.presentation.extension.toFormattedDateTime
 import com.example.movietheatre.feauture_movie_detail.presentation.model.ScreeningPresenter
 
-class MovieDetailScreeningsRecyclerView:
+class MovieDetailScreeningsRecyclerView :
     ListAdapter<ScreeningPresenter, RecyclerView.ViewHolder>(object :
         DiffUtil.ItemCallback<ScreeningPresenter>() {
-        override fun areItemsTheSame(oldItem: ScreeningPresenter, newItem: ScreeningPresenter): Boolean {
+        override fun areItemsTheSame(
+            oldItem: ScreeningPresenter,
+            newItem: ScreeningPresenter,
+        ): Boolean {
             return oldItem.id == newItem.id
         }
 
@@ -59,6 +63,8 @@ class MovieDetailScreeningsRecyclerView:
                 root.setOnClickListener {
                     onItemClicked?.invoke(item)
                 }
+
+                imgIcon.loadImg(item.iconUrl)
             }
         }
     }

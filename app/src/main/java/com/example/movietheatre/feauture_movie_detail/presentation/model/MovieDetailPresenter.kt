@@ -39,4 +39,5 @@ data class ScreeningPresenter(
     val id: Int,
     val screeningTime: String,
     val screeningPrice: Double,
+    val iconUrl: String,
 )

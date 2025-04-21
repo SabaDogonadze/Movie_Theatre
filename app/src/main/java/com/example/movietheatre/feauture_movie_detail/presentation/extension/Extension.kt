@@ -5,9 +5,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 fun String.toFormattedDateTime(): String {
-    val dateTime = LocalDateTime.parse(this)
-    val formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy h:mm a")
-    return dateTime.format(formatter)
+    val dateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    return dateTime.format(timeFormatter)
 }
 
 fun List<ScreeningPresenter>.filterByDay(day: Int): List<ScreeningPresenter> {

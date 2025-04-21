@@ -9,7 +9,7 @@ import com.example.movietheatre.feauture_movie_detail.domain.model.Genre
 import com.example.movietheatre.feauture_movie_detail.domain.model.MovieDetail
 import com.example.movietheatre.feauture_movie_detail.domain.model.Screening
 
-fun MovieDetailDto.toDomain():MovieDetail{
+fun MovieDetailDto.toDomain(): MovieDetail {
     return MovieDetail(
         id = id,
         title = title,
@@ -26,14 +26,19 @@ fun MovieDetailDto.toDomain():MovieDetail{
     )
 }
 
-fun GenreDto.toDomain():Genre{
-    return Genre(id = id, name =name)
+fun GenreDto.toDomain(): Genre {
+    return Genre(id = id, name = name)
 }
 
-fun ActorDto.toDomain():Actor{
+fun ActorDto.toDomain(): Actor {
     return Actor(id = id, name = name, actorImgUrl = actorImgUrl)
 }
 
-fun ScreeningDto.toDomain():Screening{
-    return Screening(id = id, screeningTime = screeningTime, screeningPrice = screeningPrice)
+fun ScreeningDto.toDomain(): Screening {
+    return Screening(
+        id = id,
+        screeningTime = screeningTime,
+        screeningPrice = screeningPrice,
+        iconUrl = iconUrl
+    )
 }
