@@ -108,7 +108,7 @@
 
     <fragment
         android:id="@+id/seatFragment"
-        android:name="com.example.movietheatre.feature_seat.presentation.screen.SeatFragment"
+        android:name="com.example.movietheatre.feature_seat.presentation.screen.seat.SeatFragment"
         android:label="fragment_seat"
         tools:layout="@layout/fragment_seat">
         <argument
@@ -120,6 +120,13 @@
         <action
             android:id="@+id/action_seatFragment_to_paymentFragment"
             app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_seatFragment_to_panoramaFragment"
+            app:destination="@id/panoramaFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -232,5 +239,10 @@
         android:name="com.example.movietheatre.feature_profile.presentation.my_shop.MyShopFragment"
         android:label="fragment_my_shop"
         tools:layout="@layout/fragment_my_shop" />
+    <fragment
+        android:id="@+id/panoramaFragment"
+        android:name="com.example.movietheatre.feature_seat.presentation.screen.panorama.PanoramaFragment"
+        android:label="fragment_panorama"
+        tools:layout="@layout/fragment_panorama" />
 
 </navigation>

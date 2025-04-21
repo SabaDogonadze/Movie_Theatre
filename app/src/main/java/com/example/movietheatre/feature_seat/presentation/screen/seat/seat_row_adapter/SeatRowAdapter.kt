@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen.seat_row_adapter
+package com.example.movietheatre.feature_seat.presentation.screen.seat.seat_row_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movietheatre.databinding.ViewholderSeatRowBinding
 import com.example.movietheatre.feature_seat.presentation.model.Seat
 import com.example.movietheatre.feature_seat.presentation.model.SeatRow
-import com.example.movietheatre.feature_seat.presentation.screen.seat_adapter.SeatAdapter
+import com.example.movietheatre.feature_seat.presentation.screen.seat.seat_adapter.SeatAdapter
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent

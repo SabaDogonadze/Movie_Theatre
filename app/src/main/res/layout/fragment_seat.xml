@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    tools:context=".feature_seat.presentation.screen.SeatFragment">
+    tools:context=".feature_seat.presentation.screen.seat.SeatFragment">
 
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -197,6 +197,22 @@
         app:layout_constraintStart_toEndOf="@id/txtSeats"
         app:layout_constraintTop_toTopOf="@id/txtTotalPrice"
         tools:text="96.00 ₾" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPanorama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_purple_rounded_shape"
+        android:text="@string/see_your_seat_in_360"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnBuyOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTotalPrice" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnBuyOption"

@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen
+package com.example.movietheatre.feature_seat.presentation.screen.seat
 
 sealed interface SeatSideEffect {
 

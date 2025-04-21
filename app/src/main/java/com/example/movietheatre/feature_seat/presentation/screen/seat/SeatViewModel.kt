@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen
+package com.example.movietheatre.feature_seat.presentation.screen.seat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

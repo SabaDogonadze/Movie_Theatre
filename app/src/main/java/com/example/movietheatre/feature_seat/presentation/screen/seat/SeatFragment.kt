@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen
+package com.example.movietheatre.feature_seat.presentation.screen.seat
 
 import android.view.View
 import androidx.core.view.isVisible
@@ -17,8 +17,8 @@ import com.example.movietheatre.databinding.FragmentSeatBinding
 import com.example.movietheatre.feature_seat.presentation.extension.asString
 import com.example.movietheatre.feature_seat.presentation.extension.roundToTwoDecimalPlaces
 import com.example.movietheatre.feature_seat.presentation.mapper.createRowModels
-import com.example.movietheatre.feature_seat.presentation.screen.seat_row_adapter.SeatRowAdapter
-import com.example.movietheatre.feature_seat.presentation.screen.seat_type_adapter.SeatTypeAdapter
+import com.example.movietheatre.feature_seat.presentation.screen.seat.seat_row_adapter.SeatRowAdapter
+import com.example.movietheatre.feature_seat.presentation.screen.seat.seat_type_adapter.SeatTypeAdapter
 import com.example.movietheatre.feature_seat.presentation.util.SeatType
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -76,6 +76,10 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             btnArrowBack.setOnClickListener {
                 findNavController().navigateUp()
             }
+
+            btnPanorama.setOnClickListener {
+                findNavController().navigate(SeatFragmentDirections.actionSeatFragmentToPanoramaFragment())
+            }
         }
     }
 
@@ -92,6 +96,10 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             txtTotalPriceValue.text =
                 selectedSeats.sumOf { it.vipAddOn + args.ticketPrice }.roundToTwoDecimalPlaces()
                     .asMoneyFormat()
+
+            uiState.seats.firstOrNull { it.status == SeatType.SELECTED }?.let {
+                binding.btnPanorama.isVisible = true
+            } ?: run { binding.btnPanorama.isVisible = false }
         }
     }
 

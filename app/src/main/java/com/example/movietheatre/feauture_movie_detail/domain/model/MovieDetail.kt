@@ -12,23 +12,24 @@ data class MovieDetail(
     val youtubeUrl: String,
     val genres: List<Genre>,
     val actors: List<Actor>,
-    val screenings: List<Screening>
+    val screenings: List<Screening>,
 )
 
 
 data class Genre(
     val id: Int,
-    val name: String
+    val name: String,
 )
 
 data class Actor(
     val id: Int,
     val name: String,
-    val actorImgUrl: String
+    val actorImgUrl: String,
 )
 
 data class Screening(
     val id: Int,
     val screeningTime: String,
-    val screeningPrice: Double
+    val screeningPrice: Double,
+    val iconUrl: String,
 )

@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen
+package com.example.movietheatre.feature_seat.presentation.screen.seat
 
 import com.example.movietheatre.feature_seat.presentation.model.Seat
 import com.example.movietheatre.feature_seat.presentation.model.SeatTypeInfo

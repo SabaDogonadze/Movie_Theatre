@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen.seat_row_adapter
+package com.example.movietheatre.feature_seat.presentation.screen.seat.seat_row_adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movietheatre.feature_seat.presentation.model.SeatRow

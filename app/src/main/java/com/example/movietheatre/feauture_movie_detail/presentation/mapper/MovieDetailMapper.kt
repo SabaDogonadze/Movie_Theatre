@@ -66,6 +66,7 @@ fun Screening.toPresenter(): ScreeningPresenter {
     return ScreeningPresenter(
         id = id,
         screeningTime = screeningTime,
-        screeningPrice = screeningPrice
+        screeningPrice = screeningPrice,
+        iconUrl = iconUrl
     )
 }
