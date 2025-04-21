@@ -1,4 +1,4 @@
-package com.example.movietheatre.feature_seat.presentation.screen.seat_type_adapter
+package com.example.movietheatre.feature_seat.presentation.screen.seat.seat_type_adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movietheatre.feature_seat.presentation.model.SeatTypeInfo
