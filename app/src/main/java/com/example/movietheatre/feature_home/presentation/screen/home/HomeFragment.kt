@@ -4,6 +4,7 @@ import android.util.Log.d
 import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,12 +25,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var homeMovieAdapter: HomeMovieRecyclerAdapter
     private lateinit var genreAdapter: GenreRecyclerAdapter
+    private lateinit var upComingMoviesAdapter: UpComingMoviesAdapter
+
 
     override fun setUp() {
         stateObserver()
         eventObserver()
         setUpMovieRecycler()
         setUpGenreRecycler()
+        setUpUpcomingMovieRecycler()
         homeViewModel.event(HomeEvent.LoadMovies)
         homeViewModel.event(HomeEvent.LoadGenres)
         setUpSearch()
@@ -54,8 +58,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setUpMovieRecycler() {
         homeMovieAdapter = HomeMovieRecyclerAdapter()
         binding.movieRecyclerAdapter.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+           // layoutManager = LinearLayoutManager(requireContext())
             adapter = homeMovieAdapter
+        }
+    }
+    private fun setUpUpcomingMovieRecycler() {
+        upComingMoviesAdapter = UpComingMoviesAdapter(onClick = {
+            navigateToMovieDetailFragment(it.id)
+        })
+        binding.upcomingMovieRecyclerAdapter.apply {
+            adapter = upComingMoviesAdapter
         }
     }
 
@@ -81,10 +93,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // calling updateTimeButtonBackgrounds function
     private fun stateObserver() {
         collectLatestFlow(homeViewModel.state) { state ->
-            binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.root.isVisible = state.isLoading
             d("recyclermovie","${state.movies}")
             homeMovieAdapter.submitList(state.movies.toList())
-
+            upComingMoviesAdapter.submitList(state.upcomingMovies.toList())
             genreAdapter.submitList(state.genres.toList())
             updateTimeButtonBackgrounds(state.selectedTimeFilter)
         }

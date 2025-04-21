@@ -36,4 +36,9 @@ class HomeRepositoryImpl @Inject constructor(
         ).mapData { movieDto -> movieDto.map { it.toDomain() } }
         emit(resource)
     }
+
+    override suspend fun getUpcomingMovies(): Resource<List<HomeMovieListResponse>, NetworkError> {
+        return apiHelper.handleHttpRequest { homeService.getUpcomingMovies() }
+            .mapData { it.map { it.toDomain() } }
+    }
 }

@@ -6,6 +6,8 @@ import java.time.LocalDateTime
 sealed class HomeEvent {
     data object LoadMovies : HomeEvent()
     data object LoadGenres : HomeEvent()
+    data object LoadUpcomingMovies : HomeEvent()
+
     data class SearchMovies(val movieTitle: String) : HomeEvent()
     data class FilterMoviesByTime(
         val startTime: LocalDateTime,

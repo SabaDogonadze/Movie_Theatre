@@ -13,4 +13,8 @@ interface HomeRepository {
         search: String?,
         startTime: LocalDateTime?,
     ): Flow<Resource<List<HomeMovieListResponse>, NetworkError>>
+
+
+    suspend fun getUpcomingMovies(
+    ): Resource<List<HomeMovieListResponse>, NetworkError>
 }
