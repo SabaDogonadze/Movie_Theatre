@@ -34,8 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setUpMovieRecycler()
         setUpGenreRecycler()
         setUpUpcomingMovieRecycler()
-        homeViewModel.event(HomeEvent.LoadMovies)
-        homeViewModel.event(HomeEvent.LoadGenres)
         setUpSearch()
         clickListeners()
         setUpPopularMovieRecycler()

@@ -43,6 +43,8 @@ class HomeViewModel @Inject constructor(
 
 
     init {
+        event(HomeEvent.LoadMovies)
+        event(HomeEvent.LoadGenres)
         event(HomeEvent.LoadUpcomingMovies)
         event(HomeEvent.LoadPopularMovies)
 

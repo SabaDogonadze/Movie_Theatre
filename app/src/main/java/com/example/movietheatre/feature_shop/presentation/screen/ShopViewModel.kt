@@ -2,6 +2,9 @@ package com.example.movietheatre.feature_shop.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movietheatre.R
+import com.example.movietheatre.core.domain.use_case.GetCoinsUseCase
+import com.example.movietheatre.core.domain.use_case.UpdateCoinUseCase
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.feature_shop.domain.model.OrderItem
@@ -26,6 +29,8 @@ class ShopViewModel @Inject constructor(
     private val getProductUseCase: GetProductUseCase,
     private val createOrderUseCase: CreateOrderUseCase,
     private val firebaseAuth: FirebaseAuth,
+    private val getCoinsUseCase: GetCoinsUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ShopUiState> = MutableStateFlow(ShopUiState())
@@ -36,6 +41,7 @@ class ShopViewModel @Inject constructor(
 
     init {
         onEvent(ShopEvent.GetProducts)
+        onEvent(ShopEvent.GetCoin)
     }
 
     fun onEvent(event: ShopEvent) {
@@ -44,6 +50,56 @@ class ShopViewModel @Inject constructor(
             is ShopEvent.AddProduct -> addProduct(event.product)
             is ShopEvent.RemoveProduct -> removeProduct(event.product)
             ShopEvent.Order -> order()
+            ShopEvent.GetCoin -> getCoins()
+            ShopEvent.BuyWithCoin -> buyWithCoin()
+        }
+    }
+
+    private fun buyWithCoin() {
+        val totalPriceCoin =
+            (_uiState.value.selectedProduct.sumOf { product -> product.price * product.quantity }
+                .toFloat() * 100).toInt()
+
+        viewModelScope.launch {
+            if (_uiState.value.userCoins < totalPriceCoin) {
+                _sideEffect.emit(ShopSideEffect.ShowError(R.string.you_don_t_have_enough_coins))
+            } else {
+                when (val result = updateCoinUseCase(totalPriceCoin)) {
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(isLoading = false) }
+                        _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
+                    }
+
+                    is Resource.Success -> {
+                        onEvent(ShopEvent.Order)
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
+
+    private fun getCoins() {
+        _uiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            when (val result = getCoinsUseCase()) {
+                is Resource.Error -> {
+                    _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
+                    _uiState.update { it.copy(isLoading = false) }
+                }
+
+                is Resource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            userCoins = result.data.coins
+                        )
+                    }
+                }
+            }
         }
     }
 

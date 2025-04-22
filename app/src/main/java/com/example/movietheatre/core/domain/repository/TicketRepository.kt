@@ -9,5 +9,6 @@ interface TicketRepository {
         seats: List<String>,
         status: String,
         userId: String,
+        discount: Double,
     ): Resource<Unit, NetworkError>
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentPaymentBinding
 import com.example.movietheatre.feature_payment.presentation.screen.payment.adapter.PaymentPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
 class PaymentFragment : Fragment() {
@@ -33,6 +35,7 @@ class PaymentFragment : Fragment() {
     private val args: PaymentFragmentArgs by navArgs()
 
     val viewModel: PaymentViewModel by viewModels()
+
     private val paymentPagerAdapter: PaymentPagerAdapter by lazy {
         PaymentPagerAdapter(onClick = {
             viewModel.onEvent(PaymentEvent.OnDeleteCardClick(it))
@@ -92,13 +95,17 @@ class PaymentFragment : Fragment() {
         childFragmentManager.executePendingTransactions()
 
         googlePayFragment.setActivityResultLauncher(paymentResultLauncher)
-        googlePayFragment.setTotalPrice(args.totalPrice.toString())
 
     }
 
     private fun setUp() {
-        binding.txtTotalValue.text = args.totalPrice.asMoneyFormat()
+
+        binding.apply {
+            txtTotalValue.text = args.totalPrice.asMoneyFormat()
+            skCoinChooser.seekBarCoins.progress = 0
+        }
         setUpAdapter()
+
 
         collectLatestFlow(viewModel.uiState) { updateUiState(it) }
         collectLatestFlow(viewModel.sideEffect) { getEffects(it) }
@@ -123,6 +130,22 @@ class PaymentFragment : Fragment() {
         binding.btnArrowBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.skCoinChooser.seekBarCoins.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+
+                viewModel.onEvent(PaymentEvent.OnChangeSelectedCoin(progress))
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+            }
+        })
+
+
     }
 
     private fun getEffects(effect: PaymentSideEffect) {
@@ -160,11 +183,26 @@ class PaymentFragment : Fragment() {
 
     private fun updateUiState(state: PaymentUiState) {
 
-        binding.pager.isVisible = state.cards.isNotEmpty()
+        binding.apply {
+            pager.isVisible = state.cards.isNotEmpty()
+            progressBar.root.isVisible = state.isLoading
+            btnBuyTickets.isVisible = !state.isLoading
+            line.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscount.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscountValue.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscountValue.text =
+                (args.totalPrice - (state.selectedCoins.toDouble() / 100.0)).toFloat().absoluteValue.asMoneyFormat()
+            val totalPriceCoin = (args.totalPrice * 100).toInt()
+            skCoinChooser.seekBarCoins.max =
+                if (totalPriceCoin < state.userCoins) totalPriceCoin else state.userCoins
+            totalCoins.txtCoinCount.text = state.userCoins.toString()
+            skCoinChooser.txtSelectedCoins.text = state.selectedCoins.toString()
+        }
 
         paymentPagerAdapter.submitList(state.cards.toList())
-        binding.progressBar.root.isVisible = state.isLoading
-        binding.btnBuyTickets.isVisible = !state.isLoading
+
+        googlePayFragment.setTotalPrice("%.2f".format(args.totalPrice - (state.selectedCoins / 100.0)))
+
     }
 
     private fun setUpAdapter() {
