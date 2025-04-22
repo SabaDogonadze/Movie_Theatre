@@ -20,8 +20,7 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
     private val viewModel: ShopViewModel by viewModels()
 
     private val categoryProductAdapter by lazy {
-        CategoryProductAdapter(
-            onAdd = { viewModel.onEvent(ShopEvent.AddProduct(it)) },
+        CategoryProductAdapter(onAdd = { viewModel.onEvent(ShopEvent.AddProduct(it)) },
             onRemove = { viewModel.onEvent(ShopEvent.RemoveProduct(it)) })
     }
 
@@ -44,7 +43,10 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
             viewModel.onEvent(ShopEvent.GetProducts)
             binding.swipeRefresh.isRefreshing = false
 
+        }
 
+        binding.btnBuyWithCoin.setOnClickListener {
+            viewModel.onEvent(ShopEvent.BuyWithCoin)
         }
     }
 
@@ -66,6 +68,8 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
         binding.cartSummaryContainer.isVisible = state.selectedProduct.isNotEmpty()
         binding.txtCartItems.text = state.selectedProduct.formatSelectedProducts()
         binding.txtTotalPrice.text = state.selectedProduct.calculateTotalPrice()
+
+        binding.totalCoins.txtCoinCount.text = state.userCoins.toString()
 
     }
 

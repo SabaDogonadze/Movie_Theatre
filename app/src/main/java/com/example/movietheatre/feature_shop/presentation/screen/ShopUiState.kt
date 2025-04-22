@@ -7,4 +7,5 @@ data class ShopUiState(
     val isLoading: Boolean = false,
     val products: List<CategoryProducts> = listOf(),
     val selectedProduct: List<Product> = listOf(),
+    val userCoins: Int = 0,
 )

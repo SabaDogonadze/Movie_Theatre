@@ -5,6 +5,10 @@ import com.example.movietheatre.feature_shop.presentation.model.Product
 sealed interface ShopEvent {
 
     object GetProducts : ShopEvent
+    object GetCoin : ShopEvent
+
+    object BuyWithCoin : ShopEvent
+
 
     data class AddProduct(val product: Product) : ShopEvent
     data class RemoveProduct(val product: Product) : ShopEvent

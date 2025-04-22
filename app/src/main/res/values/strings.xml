@@ -99,4 +99,6 @@
     <string name="see_your_seat_in_360">See your seat in 360</string>
     <string name="all_movies">All Movies</string>
     <string name="use_coins">Use Coins</string>
+    <string name="buy_with_coin">Buy With Coin</string>
+    <string name="you_don_t_have_enough_coins">You don\'t have enough Coins</string>
 </resources>
