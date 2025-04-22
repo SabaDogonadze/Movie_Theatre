@@ -29,7 +29,7 @@ class QuizCategoryViewModel @Inject constructor(
     private val getQuizCategoriesUseCase: GetQuizCategoriesUseCase,
     private val getQuizCompletedUseCase: GetQuizCompletedUseCase,
     private val markQuizCompletedUseCase: MarkQuizCompletedUseCase,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
 ) : ViewModel() {
 
     private val currentUserId: String
@@ -102,7 +102,7 @@ class QuizCategoryViewModel @Inject constructor(
 
     private fun updateStateWithResults(
         categories: List<QuizCategoryPresenter>,
-        completedQuizzes: List<QuizCompletedPresenter>
+        completedQuizzes: List<QuizCompletedPresenter>,
     ) {
         val completedQuizIds = completedQuizzes.map { it.quizId }
 
@@ -162,7 +162,12 @@ class QuizCategoryViewModel @Inject constructor(
                         it.copy(categories = updatedCategories)
                     }
 
-                    _uiEvents.emit(QuizCategorySideEffect.NavigateToQuiz(categoryId))
+                    _uiEvents.emit(
+                        QuizCategorySideEffect.NavigateToQuiz(
+                            categoryId = categoryId,
+                            coins = category.rewardCoins
+                        )
+                    )
                 } catch (e: Exception) {
                     _uiEvents.emit(QuizCategorySideEffect.ShowError("Failed to update quiz status: ${e.message}"))
                 }

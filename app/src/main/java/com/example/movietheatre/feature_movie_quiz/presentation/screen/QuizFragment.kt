@@ -87,14 +87,12 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
 
     override fun onResume() {
         super.onResume()
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     findNavController().popBackStack(R.id.quizCategoryFragment, false)
                 }
-            }
-        )
+            })
     }
 
 
@@ -106,12 +104,11 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         )
 
         state.currentQuestion?.let { question ->
-            binding.tvQuestionNumber.text =
-                getString(
-                    R.string.question,
-                    (state.currentQuestionIndex + 1).toString(),
-                    state.totalQuestions.toString()
-                )
+            binding.tvQuestionNumber.text = getString(
+                R.string.question,
+                (state.currentQuestionIndex + 1).toString(),
+                state.totalQuestions.toString()
+            )
             binding.linearIndicator.max = state.totalQuestions
             binding.linearIndicator.progress = state.currentQuestionIndex + 1
 
@@ -143,7 +140,8 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         val state = viewModel.state.value
         val dialog = QuizResultDialog.newInstance(
             correctAnswers = state.correctAnswersCount,
-            totalQuestions = state.totalQuestions
+            totalQuestions = state.totalQuestions,
+            coins = args.coins
         )
         dialog.show(childFragmentManager, "quiz_result_dialog")
 

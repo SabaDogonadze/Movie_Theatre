@@ -32,7 +32,8 @@ class QuizCategoryFragment :
             viewModel.event(QuizCategoryEvent.SelectCategory(category.id))
         }
     }
-    private fun setUpCategoryRecycler(){
+
+    private fun setUpCategoryRecycler() {
         categoryAdapter = QuizCategoryAdapter()
         binding.recyclerCategories.apply {
             adapter = categoryAdapter
@@ -54,15 +55,22 @@ class QuizCategoryFragment :
     private fun observeEvents() {
         collectLatestFlow(viewModel.uiEvents) { event ->
             when (event) {
-                is QuizCategorySideEffect.NavigateToQuiz -> navigateToQuiz(event.categoryId)
+                is QuizCategorySideEffect.NavigateToQuiz -> navigateToQuiz(
+                    categoryId = event.categoryId,
+                    coins = event.coins
+                )
+
                 is QuizCategorySideEffect.ShowError -> binding.root.showSnackBar(event.message)
             }
         }
     }
 
-    private fun navigateToQuiz(categoryId: Int) {
+    private fun navigateToQuiz(categoryId: Int, coins: Int) {
         findNavController().navigate(
-            QuizCategoryFragmentDirections.actionQuizCategoryFragmentToQuizFragment(categoryId)
+            QuizCategoryFragmentDirections.actionQuizCategoryFragmentToQuizFragment(
+                categoryId = categoryId,
+                coins = coins
+            )
         )
     }
 }

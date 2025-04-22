@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.feature_movie_quiz.domain.usecase.CompleteQuizUseCase
 import com.example.movietheatre.feature_movie_quiz.domain.usecase.GetQuizQuestionsUseCase
-import com.example.movietheatre.feature_movie_quiz.domain.usecase.SubmitAnswerUseCase
 import com.example.movietheatre.feature_movie_quiz.presentation.event.QuizEvent
 import com.example.movietheatre.feature_movie_quiz.presentation.mapper.toPresenter
 import com.example.movietheatre.feature_movie_quiz.presentation.state.QuizState
@@ -20,13 +19,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val QUIZ_TIMER_SECONDS = 45
-private const val QUIZ_TIMER_MILLIS = QUIZ_TIMER_SECONDS * 1000L
 private const val TIMER_INTERVAL = 1000L
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     private val getQuizQuestionsUseCase: GetQuizQuestionsUseCase,
-    private val submitAnswerUseCase: SubmitAnswerUseCase,
     private val completeQuizUseCase: CompleteQuizUseCase,
 ) : ViewModel() {
 
