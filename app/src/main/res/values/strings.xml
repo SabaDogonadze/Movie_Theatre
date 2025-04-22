@@ -101,4 +101,15 @@
     <string name="use_coins">Use Coins</string>
     <string name="buy_with_coin">Buy With Coin</string>
     <string name="you_don_t_have_enough_coins">You don\'t have enough Coins</string>
+
+    <string name="question_number">Question %1$d of %2$d</string>
+    <string name="quiz_results">You scored %1$d out of %2$d</string>
+    <string name="next">Next</string>
+    <string name="quiz_category_intro">Choose a movie category to start the quiz and earn rewards!</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_passed_the_quiz">You passed the quiz!</string>
+    <string name="better_luck_next_time">Better luck next time!</string>
+    <string name="you_didn_t_pass_this_quiz">You didn\'t pass this quiz</string>
+    <string name="out_of">%1$s out of %2$s</string>
+    <string name="question">Question %1$s/%2$s</string>
 </resources>

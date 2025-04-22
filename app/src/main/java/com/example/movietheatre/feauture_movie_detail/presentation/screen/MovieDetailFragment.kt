@@ -46,6 +46,9 @@ class MovieDetailFragment :
                 )
             )
         }
+        binding.ivMovieImage.setOnClickListener {
+            findNavController().navigate(MovieDetailFragmentDirections.actionMovieDetailFragmentToQuizCategoryFragment())
+        }
     }
 
     private fun setUpActorsRecycler() {
