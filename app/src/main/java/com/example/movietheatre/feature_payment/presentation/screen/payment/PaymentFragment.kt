@@ -24,6 +24,7 @@ import com.example.movietheatre.core.presentation.extension.showSnackBar
 import com.example.movietheatre.databinding.FragmentPaymentBinding
 import com.example.movietheatre.feature_payment.presentation.screen.payment.adapter.PaymentPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
 class PaymentFragment : Fragment() {
@@ -182,25 +183,26 @@ class PaymentFragment : Fragment() {
 
     private fun updateUiState(state: PaymentUiState) {
 
-        binding.pager.isVisible = state.cards.isNotEmpty()
+        binding.apply {
+            pager.isVisible = state.cards.isNotEmpty()
+            progressBar.root.isVisible = state.isLoading
+            btnBuyTickets.isVisible = !state.isLoading
+            line.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscount.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscountValue.isVisible = state.selectedCoins != 0
+            txtTotalAfterDiscountValue.text =
+                (args.totalPrice - (state.selectedCoins.toDouble() / 100.0)).toFloat().absoluteValue.asMoneyFormat()
+            val totalPriceCoin = (args.totalPrice * 100).toInt()
+            skCoinChooser.seekBarCoins.max =
+                if (totalPriceCoin < state.userCoins) totalPriceCoin else state.userCoins
+            totalCoins.txtCoinCount.text = state.userCoins.toString()
+            skCoinChooser.txtSelectedCoins.text = state.selectedCoins.toString()
+        }
 
         paymentPagerAdapter.submitList(state.cards.toList())
-        binding.progressBar.root.isVisible = state.isLoading
-        binding.btnBuyTickets.isVisible = !state.isLoading
 
-        binding.line.isVisible = state.selectedCoins != 0
-
-        binding.txtTotalAfterDiscount.isVisible = state.selectedCoins != 0
-        binding.txtTotalAfterDiscountValue.isVisible = state.selectedCoins != 0
-        binding.txtTotalAfterDiscountValue.text =
-            (args.totalPrice - (state.selectedCoins.toDouble() / 100.0)).toFloat().asMoneyFormat()
-
-
-        binding.skCoinChooser.seekBarCoins.max = state.userCoins
-        binding.totalCoins.txtCoinCount.text = state.userCoins.toString()
         googlePayFragment.setTotalPrice("%.2f".format(args.totalPrice - (state.selectedCoins / 100.0)))
 
-        binding.skCoinChooser.txtSelectedCoins.text = state.selectedCoins.toString()
     }
 
     private fun setUpAdapter() {
