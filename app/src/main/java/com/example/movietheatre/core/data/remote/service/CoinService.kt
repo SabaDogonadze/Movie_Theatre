@@ -14,6 +14,9 @@ interface CoinService {
     suspend fun getCoins(@Path("userUid") userUid: String): Response<CoinResponse>
 
     @POST("coins/{userUid}")
-    suspend fun updateCoins(@Body request: CoinRequest): Response<CoinResponse>
+    suspend fun updateCoins(
+        @Path("userUid") userUid: String,
+        @Body request: CoinRequest,
+    ): Response<CoinResponse>
 
 }

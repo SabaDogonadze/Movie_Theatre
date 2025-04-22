@@ -25,7 +25,7 @@ class CoinRepositoryImpl @Inject constructor(
 
     override suspend fun updateCoins(amount: Int): Resource<GetCoin, NetworkError> {
         return apiHelper.handleHttpRequest {
-            coinService.updateCoins(CoinRequest(amount = amount))
+            coinService.updateCoins(firebaseAuth.currentUser!!.uid,CoinRequest(amount = -amount))
         }.mapData { it.toDomain() }
     }
 }

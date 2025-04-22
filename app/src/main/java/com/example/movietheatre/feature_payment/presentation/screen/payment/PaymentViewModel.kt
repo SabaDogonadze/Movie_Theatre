@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietheatre.R
+import com.example.movietheatre.core.domain.use_case.GetCoinsUseCase
+import com.example.movietheatre.core.domain.use_case.UpdateCoinUseCase
 import com.example.movietheatre.core.domain.use_case.UpdateTicketUseCase
 import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
@@ -35,6 +37,8 @@ class PaymentViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val deleteCardUseCase: DeleteCardUseCase,
+    private val getCoinsUseCase: GetCoinsUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<PaymentUiState> = MutableStateFlow(PaymentUiState())
@@ -46,6 +50,8 @@ class PaymentViewModel @Inject constructor(
 
     init {
         onEvent(PaymentEvent.LoadCards)
+        onEvent(PaymentEvent.GetCoins)
+
     }
 
     fun onEvent(event: PaymentEvent) {
@@ -81,6 +87,30 @@ class PaymentViewModel @Inject constructor(
 
             is PaymentEvent.OnDeleteCardClick -> {
                 onDeleteCard(event.cardNumber)
+            }
+
+            is PaymentEvent.OnChangeSelectedCoin -> _uiState.update { it.copy(selectedCoins = event.coin) }
+            PaymentEvent.GetCoins -> getCoins()
+        }
+    }
+
+    private fun getCoins() {
+        _uiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            when (val result = getCoinsUseCase()) {
+                is Resource.Error -> {
+                    _sideEffect.emit(PaymentSideEffect.ShowError(result.error.asStringResource()))
+                    _uiState.update { it.copy(isLoading = false) }
+                }
+
+                is Resource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            userCoins = result.data.coins
+                        )
+                    }
+                }
             }
         }
     }
@@ -124,7 +154,8 @@ class PaymentViewModel @Inject constructor(
                 screeningId = screeningId,
                 seats = seats,
                 status = TicketStatus.BOOKED.toDomain(),
-                userId = firebaseAuth.currentUser!!.uid
+                userId = firebaseAuth.currentUser!!.uid,
+                discount = _uiState.value.selectedCoins.toDouble()
             )) {
                 is Resource.Error -> {
 
@@ -133,10 +164,20 @@ class PaymentViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(isLoading = false) }
-                    _sideEffect.emit(PaymentSideEffect.SuccessfulPayment)
-                    delay(1000)
-                    _sideEffect.emit(PaymentSideEffect.NavigateToHomeScreen)
+
+                    when (val paymentResult = updateCoinUseCase(_uiState.value.selectedCoins)) {
+                        is Resource.Error -> {
+                            _sideEffect.emit(PaymentSideEffect.ShowError(paymentResult.error.asStringResource()))
+
+                        }
+
+                        is Resource.Success -> {
+                            _sideEffect.emit(PaymentSideEffect.SuccessfulPayment)
+                            delay(1000)
+                            _sideEffect.emit(PaymentSideEffect.NavigateToHomeScreen)
+                        }
+                    }
+
                 }
             }
         }

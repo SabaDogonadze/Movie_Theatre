@@ -12,7 +12,8 @@ class UpdateTicketUseCase @Inject constructor(private val ticketRepository: Tick
         seats: List<String>,
         status: String,
         userId: String,
+        discount: Double = 0.0,
     ): Resource<Unit, NetworkError> {
-        return ticketRepository.updateTickets(screeningId, seats, status, userId)
+        return ticketRepository.updateTickets(screeningId, seats, status, userId, discount)
     }
 }
