@@ -165,7 +165,7 @@ class PaymentViewModel @Inject constructor(
 
                 is Resource.Success -> {
 
-                    when (val paymentResult = updateCoinUseCase(_uiState.value.selectedCoins)) {
+                    when (val paymentResult = updateCoinUseCase(-_uiState.value.selectedCoins)) {
                         is Resource.Error -> {
                             _sideEffect.emit(PaymentSideEffect.ShowError(paymentResult.error.asStringResource()))
 

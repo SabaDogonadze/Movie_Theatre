@@ -64,7 +64,7 @@ class ShopViewModel @Inject constructor(
             if (_uiState.value.userCoins < totalPriceCoin) {
                 _sideEffect.emit(ShopSideEffect.ShowError(R.string.you_don_t_have_enough_coins))
             } else {
-                when (val result = updateCoinUseCase(totalPriceCoin)) {
+                when (val result = updateCoinUseCase(-totalPriceCoin)) {
                     is Resource.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
                         _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
