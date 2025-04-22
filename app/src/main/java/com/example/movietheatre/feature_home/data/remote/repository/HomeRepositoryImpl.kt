@@ -41,4 +41,9 @@ class HomeRepositoryImpl @Inject constructor(
         return apiHelper.handleHttpRequest { homeService.getUpcomingMovies() }
             .mapData { it.map { it.toDomain() } }
     }
+
+    override suspend fun getPopularMovies(): Resource<List<HomeMovieListResponse>, NetworkError> {
+        return apiHelper.handleHttpRequest { homeService.getPopularMovies() }
+            .mapData { it.map { it.toDomain() } }
+    }
 }

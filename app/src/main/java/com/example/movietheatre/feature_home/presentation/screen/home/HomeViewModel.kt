@@ -6,6 +6,7 @@ import com.example.movietheatre.core.domain.util.Resource
 import com.example.movietheatre.core.presentation.extension.asStringResource
 import com.example.movietheatre.feature_home.domain.usecase.GetGenreListUseCase
 import com.example.movietheatre.feature_home.domain.usecase.GetMovieListUseCase
+import com.example.movietheatre.feature_home.domain.usecase.GetPopularMoviesUseCase
 import com.example.movietheatre.feature_home.domain.usecase.GetUpcomingMoviesUseCase
 import com.example.movietheatre.feature_home.presentation.event.HomeEvent
 import com.example.movietheatre.feature_home.presentation.event.HomeSideEffect
@@ -29,7 +30,9 @@ class HomeViewModel @Inject constructor(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val getGenreListUseCase: GetGenreListUseCase,
     private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase,
-) :
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
+
+    ) :
     ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -41,9 +44,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         event(HomeEvent.LoadUpcomingMovies)
+        event(HomeEvent.LoadPopularMovies)
+
     }
 
-    //handling events
     fun event(event: HomeEvent) {
         when (event) {
             HomeEvent.LoadMovies -> {
@@ -81,6 +85,7 @@ class HomeViewModel @Inject constructor(
             }
 
             HomeEvent.LoadUpcomingMovies -> loadUpcomingMovies()
+            HomeEvent.LoadPopularMovies -> loadPopularMovies()
         }
     }
 
@@ -100,6 +105,28 @@ class HomeViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             upcomingMovies = result.data.map { it.toPresentation() })
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun loadPopularMovies() {
+        _state.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            when (val result = getPopularMoviesUseCase()) {
+                is Resource.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _uiEvents.emit(HomeSideEffect.ShowError(result.error.asStringResource()))
+                }
+
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            popularMovies = result.data.map { it.toPresentation() })
                     }
 
                 }
