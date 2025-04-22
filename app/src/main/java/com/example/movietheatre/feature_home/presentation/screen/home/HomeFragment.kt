@@ -1,7 +1,6 @@
 package com.example.movietheatre.feature_home.presentation.screen.home
 
 import android.util.Log.d
-import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -26,6 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private lateinit var homeMovieAdapter: HomeMovieRecyclerAdapter
     private lateinit var genreAdapter: GenreRecyclerAdapter
     private lateinit var upComingMoviesAdapter: UpComingMoviesAdapter
+    private lateinit var popularMoviesAdapter: PopularMoviesAdapter
 
 
     override fun setUp() {
@@ -38,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         homeViewModel.event(HomeEvent.LoadGenres)
         setUpSearch()
         clickListeners()
+        setUpPopularMovieRecycler()
     }
 
     override fun clickListeners() {
@@ -58,16 +59,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setUpMovieRecycler() {
         homeMovieAdapter = HomeMovieRecyclerAdapter()
         binding.movieRecyclerAdapter.apply {
-           // layoutManager = LinearLayoutManager(requireContext())
+            // layoutManager = LinearLayoutManager(requireContext())
             adapter = homeMovieAdapter
         }
     }
+
     private fun setUpUpcomingMovieRecycler() {
         upComingMoviesAdapter = UpComingMoviesAdapter(onClick = {
             navigateToMovieDetailFragment(it.id)
         })
         binding.upcomingMovieRecyclerAdapter.apply {
             adapter = upComingMoviesAdapter
+        }
+    }
+
+    private fun setUpPopularMovieRecycler() {
+        popularMoviesAdapter = PopularMoviesAdapter(onClick = {
+            navigateToMovieDetailFragment(it.id)
+        })
+        binding.popularMovieRecyclerAdapter.apply {
+            adapter = popularMoviesAdapter
         }
     }
 
@@ -94,10 +105,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun stateObserver() {
         collectLatestFlow(homeViewModel.state) { state ->
             binding.progressBar.root.isVisible = state.isLoading
-            d("recyclermovie","${state.movies}")
+            d("recyclermovie", "${state.movies}")
             homeMovieAdapter.submitList(state.movies.toList())
             upComingMoviesAdapter.submitList(state.upcomingMovies.toList())
             genreAdapter.submitList(state.genres.toList())
+            popularMoviesAdapter.submitList(state.popularMovies.toList())
             updateTimeButtonBackgrounds(state.selectedTimeFilter)
         }
     }
@@ -130,8 +142,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     // using findNavController to navigate MovieDetailFragment
-    private fun navigateToMovieDetailFragment(movieId:Int) {
-        findNavController().navigate(HomeFragmentDirections.actionIdHomeFragmentToMovieDetailFragment(movieId = movieId))
+    private fun navigateToMovieDetailFragment(movieId: Int) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionIdHomeFragmentToMovieDetailFragment(
+                movieId = movieId
+            )
+        )
     }
 
     // we have 3 day times statically written.

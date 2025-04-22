@@ -17,4 +17,7 @@ interface HomeRepository {
 
     suspend fun getUpcomingMovies(
     ): Resource<List<HomeMovieListResponse>, NetworkError>
+    suspend fun getPopularMovies(
+    ): Resource<List<HomeMovieListResponse>, NetworkError>
+
 }

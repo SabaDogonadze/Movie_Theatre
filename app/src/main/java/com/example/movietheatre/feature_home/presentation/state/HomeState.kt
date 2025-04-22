@@ -7,6 +7,7 @@ data class HomeState(
     val isLoading: Boolean = false,
     val movies: List<HomeMovieListUi> = emptyList(),
     val upcomingMovies: List<HomeMovieListUi> = emptyList(),
+    val popularMovies: List<HomeMovieListUi> = emptyList(),
     val genres: List<GenresListUi> = emptyList(),
     val selectedGenreId: Int? = null,
     val search: String? = null,
