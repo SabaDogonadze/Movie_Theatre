@@ -1,7 +1,6 @@
 package com.example.movietheatre.core.di
 
-import com.example.movietheatre.feature_profile.data.remote.service.DeleteUsersTicketService
-import com.example.movietheatre.feature_profile.data.remote.service.ProfileTicketService
+import com.example.movietheatre.core.data.remote.service.CoinService
 import com.example.movietheatre.core.data.remote.service.TicketService
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -23,6 +22,12 @@ object RemoteModule {
     @Singleton
     fun provideTicketRepository(retrofit: Retrofit): TicketService {
         return retrofit.create(TicketService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinRepository(retrofit: Retrofit): CoinService {
+        return retrofit.create(CoinService::class.java)
     }
 
 }

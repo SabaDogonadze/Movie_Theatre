@@ -1,6 +1,8 @@
 package com.example.movietheatre.core.di
 
+import com.example.movietheatre.core.data.repository.CoinRepositoryImpl
 import com.example.movietheatre.core.data.repository.TicketRepositoryImpl
+import com.example.movietheatre.core.domain.repository.CoinRepository
 import com.example.movietheatre.core.domain.repository.TicketRepository
 import dagger.Binds
 import dagger.Module
@@ -16,4 +18,8 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindTicketRepository(impl: TicketRepositoryImpl): TicketRepository
 
+
+    @Binds
+    @Singleton
+    abstract fun bindCoinRepository(impl: CoinRepositoryImpl): CoinRepository
 }
