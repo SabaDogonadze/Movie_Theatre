@@ -9,9 +9,19 @@ import com.example.movietheatre.R
 import com.example.movietheatre.databinding.QuizAnswerViewholderBinding
 import com.example.movietheatre.feature_movie_quiz.presentation.model.AnswerOptionPresenter
 
+class AnswerRecyclerAdapter :
+    ListAdapter<AnswerOptionPresenter, AnswerRecyclerAdapter.AnswerViewHolder>(object :
+        DiffUtil.ItemCallback<AnswerOptionPresenter>() {
+        override fun areItemsTheSame(
+            oldItem: AnswerOptionPresenter,
+            newItem: AnswerOptionPresenter,
+        ): Boolean = oldItem.id == newItem.id
 
-class QuizAnswerAdapter :
-    ListAdapter<AnswerOptionPresenter, QuizAnswerAdapter.AnswerViewHolder>(AnswerDiffCallback()) {
+        override fun areContentsTheSame(
+            oldItem: AnswerOptionPresenter,
+            newItem: AnswerOptionPresenter,
+        ): Boolean = oldItem == newItem
+    }) {
 
     private var onItemClick: ((String) -> Unit)? = null
     private var selectedAnswerId: String? = null
@@ -60,42 +70,27 @@ class QuizAnswerAdapter :
             binding.tvAnswerOption.text = option.letter
             binding.tvAnswerText.text = option.text
 
-            // Update visual state based on selection
             val isSelected = option.id == selectedAnswerId
             val isCorrect = option.id == correctAnswerId
 
-            // Set background colors based on selection state
             when {
                 showResult && isCorrect -> {
-                    // Show correct answer
                     binding.root.setBackgroundResource(R.drawable.bg_correct_answer)
                 }
+
                 showResult && isSelected && !isCorrect -> {
-                    // Show incorrect selection
                     binding.root.setBackgroundResource(R.drawable.bg_incorrect_answer)
                 }
+
                 isSelected -> {
-                    // Just show selected state (before showing result)
                     binding.root.setBackgroundResource(R.drawable.bg_correct_answer)
                 }
+
                 else -> {
-                    // Unselected items - no special background
-                    binding.root.setBackgroundResource(R.drawable.bg_question_answer) // This removes any background resource
+                    binding.root.setBackgroundResource(R.drawable.bg_question_answer)
                 }
             }
         }
     }
 }
-
-    private class AnswerDiffCallback : DiffUtil.ItemCallback<AnswerOptionPresenter>() {
-        override fun areItemsTheSame(
-            oldItem: AnswerOptionPresenter,
-            newItem: AnswerOptionPresenter,
-        ): Boolean = oldItem.id == newItem.id
-
-        override fun areContentsTheSame(
-            oldItem: AnswerOptionPresenter,
-            newItem: AnswerOptionPresenter,
-        ): Boolean = oldItem == newItem
-    }
 

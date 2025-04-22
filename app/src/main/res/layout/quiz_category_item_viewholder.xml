@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_margin="8dp"
+    android:layout_margin="15dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
     app:cardBackgroundColor="?attr/colorSurface">
@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Movie category poster -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_category_image"
             android:layout_width="0dp"
@@ -25,7 +24,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Light gradient overlay -->
         <View
             android:id="@+id/light_overlay"
             android:layout_width="0dp"
@@ -36,20 +34,19 @@
             app:layout_constraintEnd_toEndOf="@id/iv_category_image"
             app:layout_constraintBottom_toBottomOf="@id/iv_category_image" />
 
-        <!-- Category title -->
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_category_title"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Action Adventure"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tv_movie_count"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="4dp" />
 
-        <!-- Movie count -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_movie_count"
             style="@style/TextAppearance.MaterialComponents.Body2"
@@ -62,7 +59,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Reward icon -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_reward_icon"
             android:layout_width="16dp"
@@ -73,7 +69,6 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Reward amount -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_reward"
             style="@style/TextAppearance.MaterialComponents.Subtitle2"

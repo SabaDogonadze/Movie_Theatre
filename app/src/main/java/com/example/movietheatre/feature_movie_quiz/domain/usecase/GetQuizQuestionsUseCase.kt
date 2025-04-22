@@ -11,15 +11,10 @@ class GetQuizQuestionsUseCase @Inject constructor(
     private val quizQuestionsRepository: QuizQuestionsRepository
 ) {
     suspend operator fun invoke(categoryId: Int): Resource<List<QuizQuestion>, NetworkError> {
-        Log.d("GetQuizQuestionsUseCase", "Invoking with categoryId: $categoryId")
         val result = quizQuestionsRepository.getQuizzesQuestion(categoryId)
-
         when (result) {
             is Resource.Success -> {
-                Log.d("GetQuizQuestionsUseCase", "Success: ${result.data}")
-                // Validate response - ensure we have questions with options
                 if (result.data.isEmpty() || result.data.any { it.options.isEmpty() }) {
-                    Log.e("GetQuizQuestionsUseCase", "Empty response or questions without options")
                     return Resource.Error(NetworkError.UnknownError)
                 }
             }
@@ -27,7 +22,6 @@ class GetQuizQuestionsUseCase @Inject constructor(
                 Log.e("GetQuizQuestionsUseCase", "Error: ${result.error}")
             }
         }
-
         return result
     }
 }

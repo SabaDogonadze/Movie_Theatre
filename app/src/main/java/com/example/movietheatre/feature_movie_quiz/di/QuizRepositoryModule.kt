@@ -3,7 +3,7 @@ package com.example.movietheatre.feature_movie_quiz.di
 import com.example.movietheatre.feature_movie_quiz.data.remote.repository.QuizCategoryRepositoryImpl
 import com.example.movietheatre.feature_movie_quiz.data.remote.repository.QuizCompletedRepositoryImpl
 import com.example.movietheatre.feature_movie_quiz.data.remote.repository.QuizQuestionRepositoryImpl
-import com.example.movietheatre.feature_movie_quiz.data.repository.SubmitAnswerRepositoryImpl
+import com.example.movietheatre.feature_movie_quiz.data.remote.repository.SubmitAnswerRepositoryImpl
 import com.example.movietheatre.feature_movie_quiz.domain.repository.QuizCategoryRepository
 import com.example.movietheatre.feature_movie_quiz.domain.repository.QuizCompletedRepository
 import com.example.movietheatre.feature_movie_quiz.domain.repository.QuizQuestionsRepository

@@ -1,5 +1,6 @@
 package com.example.movietheatre.feature_movie_quiz.presentation.screen
 
+import android.annotation.SuppressLint
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
@@ -16,7 +17,24 @@ import com.example.movietheatre.databinding.QuizCategoryItemViewholderBinding
 import com.example.movietheatre.feature_movie_quiz.presentation.model.QuizCategoryPresenter
 
 class QuizCategoryAdapter :
-    ListAdapter<QuizCategoryPresenter, QuizCategoryAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<QuizCategoryPresenter, QuizCategoryAdapter.CategoryViewHolder>(object :
+        DiffUtil.ItemCallback<QuizCategoryPresenter>() {
+        override fun areItemsTheSame(
+            oldItem: QuizCategoryPresenter,
+            newItem: QuizCategoryPresenter,
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: QuizCategoryPresenter,
+            newItem: QuizCategoryPresenter,
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+    ) {
 
     private var onCategoryClickListener: ((QuizCategoryPresenter) -> Unit)? = null
 
@@ -45,18 +63,20 @@ class QuizCategoryAdapter :
             binding.root.setOnClickListener {
                 val pos = adapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
-                    onCategoryClickListener?.invoke(getItem(pos))
+                    val item = getItem(pos)
+                    if (!item.isCompleted) {
+                        onCategoryClickListener?.invoke(item)
+                    }
                 }
             }
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(category: QuizCategoryPresenter) {
             binding.apply {
-                // Texts
                 tvCategoryTitle.text = category.title
                 tvReward.text = "${category.rewardCoins} coins"
 
-                // Image
                 Glide.with(itemView)
                     .load(category.imageUrl)
                     .transition(DrawableTransitionOptions.withCrossFade())
@@ -66,27 +86,22 @@ class QuizCategoryAdapter :
                     .into(ivCategoryImage)
 
                 if (category.isCompleted) {
-                    // --- COMPLETED: BLUR (API 31+) OR DIM (older) ---
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        // Apply RenderEffect blur to entire card
                         val radius = 20f
                         val blurEffect = RenderEffect.createBlurEffect(
                             radius, radius, Shader.TileMode.CLAMP
                         )
                         root.setRenderEffect(blurEffect)
                     } else {
-                        // Fallback: semi‐transparent overlay + reduced alpha
                         root.alpha = 0.7f
                         lightOverlay.setBackgroundColor(
                             ContextCompat.getColor(itemView.context, R.color.completed_quiz_overlay)
                         )
                     }
-                    // Title color for completed
                     tvCategoryTitle.setTextColor(
                         ContextCompat.getColor(itemView.context, R.color.completed_quiz_text)
                     )
                 } else {
-                    // --- AVAILABLE: CLEAR RENDER + DEFAULT STYLING ---
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         root.setRenderEffect(null)
                     }
@@ -101,18 +116,6 @@ class QuizCategoryAdapter :
             }
         }
     }
-
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<QuizCategoryPresenter>() {
-            override fun areItemsTheSame(
-                oldItem: QuizCategoryPresenter,
-                newItem: QuizCategoryPresenter,
-            ): Boolean = oldItem.id == newItem.id
-
-            override fun areContentsTheSame(
-                oldItem: QuizCategoryPresenter,
-                newItem: QuizCategoryPresenter,
-            ): Boolean = oldItem == newItem
-        }
-    }
 }
+
+

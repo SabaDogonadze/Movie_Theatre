@@ -7,5 +7,4 @@ data class QuizCategoryState(
     val isLoading: Boolean = false,
     val categories: List<QuizCategoryPresenter> = emptyList(),
     val completedQuizzes: List<QuizCompletedPresenter> = emptyList(),
-    val error: String? = null
 )

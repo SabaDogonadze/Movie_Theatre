@@ -230,7 +230,7 @@
             android:id="@+id/action_quizFragment_to_quizCategoryFragment"
             app:destination="@id/quizCategoryFragment"
             app:popUpTo="@id/quizCategoryFragment"
-            app:popUpToInclusive="false"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"

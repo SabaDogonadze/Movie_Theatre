@@ -6,9 +6,8 @@
     android:id="@+id/quiz_category_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:background="@color/blue">
 
-    <!-- Introductory Text -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_intro"
         android:layout_width="0dp"
@@ -18,7 +17,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/quiz_category_intro"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/white"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Loading Indicator -->
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"

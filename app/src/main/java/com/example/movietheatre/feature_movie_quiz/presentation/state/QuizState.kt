@@ -4,12 +4,11 @@ import com.example.movietheatre.feature_movie_quiz.presentation.model.QuizQuesti
 
 data class QuizState(
     val isLoading: Boolean = false,
-    val error: String? = null,
     val questions: List<QuizQuestionPresenter> = emptyList(),
     val currentQuestionIndex: Int = 0,
     val currentQuestion: QuizQuestionPresenter? = null,
     val selectedAnswerId: String? = null,
-    val timeRemaining: Int = 45, // 45 seconds per question
+    val timeRemaining: Int = 45,
     val hasAnswered: Boolean = false,
     val isCorrectAnswer: Boolean? = null,
     val correctAnswersCount: Int = 0,

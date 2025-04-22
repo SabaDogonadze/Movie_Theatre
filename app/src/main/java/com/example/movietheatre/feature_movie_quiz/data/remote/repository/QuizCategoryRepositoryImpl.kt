@@ -27,13 +27,7 @@ class QuizCategoryRepositoryImpl @Inject constructor(
         return apiHelper.handleHttpRequest(
             apiCall = { quizService.getQuizCompleted(userId) }
         ).mapData {
-            it.map { dto ->
-                QuizCompleted(
-                    userUid = dto.userUid,
-                    quizId = dto.quizId,
-                    score = dto.score
-                )
-            }
+           it.map { it.toDomain() }
         }
     }
 
@@ -41,13 +35,7 @@ class QuizCategoryRepositoryImpl @Inject constructor(
         return apiHelper.handleHttpRequest(
             apiCall = { quizService.quizUpdate(userId, quizId) }
         ).mapData {
-            it.map { dto ->
-                QuizCompleted(
-                    userUid = dto.userUid,
-                    quizId = dto.quizId,
-                    score = dto.score
-                )
-            }
+            it.map { it.toDomain() }
         }
     }
 }

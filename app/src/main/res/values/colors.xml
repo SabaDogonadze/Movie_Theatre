@@ -19,6 +19,6 @@
     <color name="answer_incorrect">#F44336</color>
     <color name="completed_quiz_overlay">#99000000</color>
     <color name="completed_quiz_text">#99FFFFFF</color>
-    <color name="available_quiz_text">@color/white</color>
+    <color name="available_quiz_text">@color/black</color>
 
 </resources>

@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class QuizCompletedDto(
     val userUid: String,
     val quizId: Int,
-    val score: Int
+    val score: Int?
 )

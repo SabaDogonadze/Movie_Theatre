@@ -1,6 +1,5 @@
 package com.example.movietheatre.feature_movie_quiz.data.remote.model
 
-import com.example.movietheatre.feature_movie_quiz.domain.model.AnswerOption
 import kotlinx.serialization.Serializable
 
 @Serializable

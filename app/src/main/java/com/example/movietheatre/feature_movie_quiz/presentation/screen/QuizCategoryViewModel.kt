@@ -32,9 +32,8 @@ class QuizCategoryViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
-    // Get current user ID from Firebase
     private val currentUserId: String
-        get() = firebaseAuth.currentUser?.uid ?: "anonymous"
+        get() = firebaseAuth.currentUser?.uid!!
 
     private val _state = MutableStateFlow(QuizCategoryState())
     val state = _state.asStateFlow()
@@ -43,7 +42,6 @@ class QuizCategoryViewModel @Inject constructor(
     val uiEvents = _uiEvents.asSharedFlow()
 
     init {
-        // Load both data sources on initialization
         loadData()
     }
 
@@ -56,25 +54,21 @@ class QuizCategoryViewModel @Inject constructor(
     }
 
     private fun loadData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
 
-            // Load both categories and completed quizzes in parallel
             val categoriesDeferred = async(Dispatchers.IO) { loadCategoriesAsync() }
             val completedQuizzesDeferred = async(Dispatchers.IO) { loadCompletedQuizzesAsync() }
 
             try {
-                // Wait for both operations to complete
                 val categories = categoriesDeferred.await()
                 val completedQuizzes = completedQuizzesDeferred.await()
 
-                // Update state with both results
                 updateStateWithResults(categories, completedQuizzes)
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        error = "Failed to load quiz data: ${e.message}"
                     )
                 }
                 _uiEvents.emit(QuizCategorySideEffect.ShowError("Failed to load quiz data"))
@@ -112,7 +106,6 @@ class QuizCategoryViewModel @Inject constructor(
     ) {
         val completedQuizIds = completedQuizzes.map { it.quizId }
 
-        // Mark categories as completed if they're in the completed list
         val updatedCategories = categories.map { category ->
             category.copy(isCompleted = category.id in completedQuizIds)
         }
@@ -122,13 +115,12 @@ class QuizCategoryViewModel @Inject constructor(
                 isLoading = false,
                 categories = updatedCategories,
                 completedQuizzes = completedQuizzes,
-                error = null
             )
         }
     }
 
     private fun loadCompletedQuizzes() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val completedQuizzes = loadCompletedQuizzesAsync()
                 val updatedCategories = _state.value.categories.map { category ->
@@ -150,16 +142,17 @@ class QuizCategoryViewModel @Inject constructor(
     private fun selectCategory(categoryId: Int) {
         val category = _state.value.categories.find { it.id == categoryId }
 
-        viewModelScope.launch {
-            if (category?.isCompleted == true) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (category == null) {
+                _uiEvents.emit(QuizCategorySideEffect.ShowError("Quiz category not found"))
+                return@launch
+            }
+
+            if (category.isCompleted) {
                 _uiEvents.emit(QuizCategorySideEffect.ShowError("This quiz has already been completed"))
             } else {
-                // Mark the quiz as completed first, then navigate
                 try {
-                    // Call the backend to mark this quiz as completed
-                    markQuizCompletedUseCase(currentUserId, categoryId)
-
-                    _uiEvents.emit(QuizCategorySideEffect.NavigateToQuiz(categoryId))
+                    val result = markQuizCompletedUseCase(currentUserId, categoryId)
 
                     val updatedCategories = _state.value.categories.map {
                         if (it.id == categoryId) it.copy(isCompleted = true) else it
@@ -168,8 +161,10 @@ class QuizCategoryViewModel @Inject constructor(
                     _state.update {
                         it.copy(categories = updatedCategories)
                     }
+
+                    _uiEvents.emit(QuizCategorySideEffect.NavigateToQuiz(categoryId))
                 } catch (e: Exception) {
-                    _uiEvents.emit(QuizCategorySideEffect.ShowError("Failed to update quiz status"))
+                    _uiEvents.emit(QuizCategorySideEffect.ShowError("Failed to update quiz status: ${e.message}"))
                 }
             }
         }

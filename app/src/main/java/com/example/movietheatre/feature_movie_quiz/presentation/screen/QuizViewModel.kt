@@ -8,16 +8,12 @@ import com.example.movietheatre.feature_movie_quiz.domain.usecase.CompleteQuizUs
 import com.example.movietheatre.feature_movie_quiz.domain.usecase.GetQuizQuestionsUseCase
 import com.example.movietheatre.feature_movie_quiz.domain.usecase.SubmitAnswerUseCase
 import com.example.movietheatre.feature_movie_quiz.presentation.event.QuizEvent
-import com.example.movietheatre.feature_movie_quiz.presentation.event.QuizSideEffect
 import com.example.movietheatre.feature_movie_quiz.presentation.mapper.toPresenter
 import com.example.movietheatre.feature_movie_quiz.presentation.state.QuizState
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,24 +27,23 @@ private const val TIMER_INTERVAL = 1000L
 class QuizViewModel @Inject constructor(
     private val getQuizQuestionsUseCase: GetQuizQuestionsUseCase,
     private val submitAnswerUseCase: SubmitAnswerUseCase,
-    private val completeQuizUseCase: CompleteQuizUseCase
+    private val completeQuizUseCase: CompleteQuizUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<QuizSideEffect>()
-    val effect: SharedFlow<QuizSideEffect> = _effect.asSharedFlow()
+    private val _showWrongAnswerDialog = MutableStateFlow(false)
+    val showWrongAnswerDialog: StateFlow<Boolean> = _showWrongAnswerDialog
+
+    private val _showTimeUpDialog = MutableStateFlow(false)
+    val showTimeUpDialog: StateFlow<Boolean> = _showTimeUpDialog
+
+    private val _showResultsDialog = MutableStateFlow(false)
+    val showResultsDialog: StateFlow<Boolean> = _showResultsDialog
 
     private var countDownTimer: CountDownTimer? = null
-
-    // Track dialog visibility to prevent multiple dialogs
-    private var isDialogShowing = false
-
-    // Store the remaining time
     private var currentTimeRemaining = QUIZ_TIMER_SECONDS
-
-    // Flag to track if the timer has been started
     private var timerStarted = false
 
     fun onEvent(event: QuizEvent) {
@@ -56,10 +51,13 @@ class QuizViewModel @Inject constructor(
             is QuizEvent.LoadQuestions -> loadQuestions(event.categoryId)
             is QuizEvent.SelectAnswer -> selectAnswer(event.answerId)
             is QuizEvent.NextQuestion -> moveToNextQuestion()
-            is QuizEvent.TimerTick -> { /* Handled by CountDownTimer */ }
             is QuizEvent.QuizComplete -> completeQuiz()
             is QuizEvent.TimeUp -> handleTimeUp()
-            is QuizEvent.DialogDismissed -> isDialogShowing = false
+            is QuizEvent.DialogDismissed -> {
+                _showWrongAnswerDialog.value = false
+                _showTimeUpDialog.value = false
+                _showResultsDialog.value = false
+            }
         }
     }
 
@@ -77,12 +75,10 @@ class QuizViewModel @Inject constructor(
                                 questions = questionPresenters,
                                 currentQuestion = questionPresenters.first(),
                                 totalQuestions = questionPresenters.size,
-                                error = null,
                                 timeRemaining = QUIZ_TIMER_SECONDS
                             )
                         }
                         currentTimeRemaining = QUIZ_TIMER_SECONDS
-                        // Start the timer only once when questions are first loaded
                         if (!timerStarted) {
                             startTimer()
                             timerStarted = true
@@ -91,34 +87,30 @@ class QuizViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                error = "No questions found for this quiz"
                             )
                         }
-                        showMessage("No questions found for this quiz")
                     }
                 }
+
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            error = "Failed to load questions: ${result.error}"
                         )
                     }
-                    showMessage("Failed to load questions")
                 }
             }
         }
     }
 
+
     private fun selectAnswer(answerId: String) {
-        if (_state.value.hasAnswered) return // Prevent changing answer after submission
+        if (_state.value.hasAnswered) {
+            return
+        }
 
         val currentQuestion = _state.value.currentQuestion ?: return
-        val questionId = currentQuestion.id
         val isCorrect = answerId == currentQuestion.correctOptionId
-
-        // Save the current timer value
-        currentTimeRemaining = _state.value.timeRemaining
 
         _state.update {
             it.copy(
@@ -127,28 +119,13 @@ class QuizViewModel @Inject constructor(
                 isCorrectAnswer = isCorrect
             )
         }
-
-        viewModelScope.launch {
-            try {
-                // Submit the answer using the use case
-                val submissionSuccessful = submitAnswerUseCase(questionId, answerId)
-
-                if (submissionSuccessful) {
-                    if (isCorrect) {
-                        _state.update {
-                            it.copy(correctAnswersCount = it.correctAnswersCount + 1)
-                        }
-                    } else {
-                        // Wrong answer - show feedback and end quiz
-                        showWrongAnswerDialog()
-                        countDownTimer?.cancel()
-                    }
-                } else {
-                    showMessage("Failed to submit answer")
-                }
-            } catch (e: Exception) {
-                showMessage("Error: ${e.message}")
+        if (isCorrect) {
+            _state.update {
+                it.copy(correctAnswersCount = it.correctAnswersCount + 1)
             }
+        } else {
+            countDownTimer?.cancel()
+            _showWrongAnswerDialog.value = true
         }
     }
 
@@ -157,7 +134,6 @@ class QuizViewModel @Inject constructor(
         val nextIndex = currentState.currentQuestionIndex + 1
 
         if (nextIndex < currentState.questions.size) {
-            // Don't reset timer - maintain the current time
             _state.update {
                 it.copy(
                     currentQuestionIndex = nextIndex,
@@ -165,13 +141,9 @@ class QuizViewModel @Inject constructor(
                     selectedAnswerId = null,
                     hasAnswered = false,
                     isCorrectAnswer = null
-                    // Not updating timeRemaining here - let the timer continue
                 )
             }
-
-            // No need to restart timer - it's already running continuously
         } else {
-            // All questions completed
             completeQuiz()
         }
     }
@@ -179,10 +151,9 @@ class QuizViewModel @Inject constructor(
     private fun startTimer() {
         countDownTimer?.cancel()
 
-        // Start with the full time for the first time
-        val millisRemaining = QUIZ_TIMER_MILLIS
+        val remainingMillis = currentTimeRemaining * 1000L
 
-        countDownTimer = object : CountDownTimer(millisRemaining, TIMER_INTERVAL) {
+        countDownTimer = object : CountDownTimer(remainingMillis, TIMER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = (millisUntilFinished / 1000).toInt()
                 _state.update {
@@ -200,52 +171,19 @@ class QuizViewModel @Inject constructor(
     }
 
     private fun handleTimeUp() {
-        if (!isDialogShowing) {
-            viewModelScope.launch {
-                showTimeUpDialog()
-                countDownTimer?.cancel()
-            }
-        }
+        _showTimeUpDialog.value = true
+        countDownTimer?.cancel()
+        completeQuiz()
     }
 
     private fun completeQuiz() {
-        if (!isDialogShowing) {
-            viewModelScope.launch {
-                // Get the current user ID from Firebase Auth
-                val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-                val quizId = _state.value.quizCategoryId
+        viewModelScope.launch {
+            countDownTimer?.cancel()
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            val quizId = _state.value.quizCategoryId
 
-                completeQuizUseCase(userId, quizId)
-
-                // Navigate to results
-                showResultsDialog()
-            }
-        }
-    }
-
-    // Helper methods to control dialog visibility
-    private suspend fun showMessage(message: String) {
-        _effect.emit(QuizSideEffect.ShowMessage(message))
-    }
-
-    private suspend fun showWrongAnswerDialog() {
-        if (!isDialogShowing) {
-            isDialogShowing = true
-            _effect.emit(QuizSideEffect.ShowWrongAnswerDialog)
-        }
-    }
-
-    private suspend fun showTimeUpDialog() {
-        if (!isDialogShowing) {
-            isDialogShowing = true
-            _effect.emit(QuizSideEffect.ShowTimeUpDialog)
-        }
-    }
-
-    private suspend fun showResultsDialog() {
-        if (!isDialogShowing) {
-            isDialogShowing = true
-            _effect.emit(QuizSideEffect.NavigateToResults)
+            completeQuizUseCase(userId, quizId)
+            _showResultsDialog.value = true
         }
     }
 
