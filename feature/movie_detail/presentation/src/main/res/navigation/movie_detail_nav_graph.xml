@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_detail_nav_graph">
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.example.feature.movie_detail.presentation.screen.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/fragment_movie_detail">
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+        <deepLink app:uri="movieapp://moviedetail/{movieId}" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_seatFragment"
+            app:destination="@id/seatFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_quizCategoryFragment"
+            app:destination="@id/quizCategoryFragment" />
+    </fragment>
+</navigation>

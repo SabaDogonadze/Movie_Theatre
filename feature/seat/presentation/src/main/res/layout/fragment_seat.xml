@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    tools:context="com.example.feature.seat.presentation.screen.seat.SeatFragment">
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnArrowBack"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/arrow_back"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/txtBookTheSeat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtBookTheSeat" />
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/screen_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtBookTheSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/book_the_seat"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSeatType"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtBookTheSeat" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSeatRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvSeatType" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgCinemaScreen"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvSeatRow"
+        app:srcCompat="@drawable/ic_cinema_screen" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/screen"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgCinemaScreen" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTicketPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/ticket_price"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtScreen" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTicketPriceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtScreen"
+        tools:text="13.99 ₾" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSeats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/seats"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
+        app:layout_constraintTop_toBottomOf="@id/txtTicketPrice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSeatsValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtSeats"
+        app:layout_constraintTop_toTopOf="@id/txtSeats"
+        tools:text="A1(VIP),A1(VIP),A1(VIP)" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtVipAddOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/added_on_vip_fee"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
+        app:layout_constraintTop_toBottomOf="@id/txtSeatsValue" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtVipAddOnValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtSeats"
+        app:layout_constraintTop_toTopOf="@id/txtVipAddOn"
+        tools:text="12.00 ₾" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/dark_white"
+        app:layout_constraintTop_toBottomOf="@id/txtVipAddOnValue" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/total_price"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
+        app:layout_constraintTop_toBottomOf="@id/separator" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTotalPriceValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtSeats"
+        app:layout_constraintTop_toTopOf="@id/txtTotalPrice"
+        tools:text="96.00 ₾" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPanorama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_purple_rounded_shape"
+        android:text="@string/see_your_seat_in_360"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnBuyOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTotalPrice" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBuyOption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_green_rounded_shape"
+        android:text="@string/buy_options"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnBookTickets"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBookTickets"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_orangle_rounded_shape"
+        android:text="@string/book_tickets"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBuyOption" />
+
+    <include
+        android:id="@+id/SuccessBookingLayout"
+        layout="@layout/screen_ticket_hold"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

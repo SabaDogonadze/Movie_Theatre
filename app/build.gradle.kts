@@ -26,9 +26,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.0.6:8080/api/\"")
-        }
+
         release {
             buildConfigField("String", "BASE_URL", "\"http://192.168.1.32:8080/api/\"")
             isMinifyEnabled = false
@@ -45,7 +43,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         buildConfig = true
         compose = true
@@ -74,6 +72,9 @@ protobuf {
 
 
 dependencies {
+    implementation(project(":feature:home"))
+    implementation(project(":resource"))
+    implementation(project(":core"))
 
     //compose
     implementation(platform(libs.androidx.compose.bom))
@@ -133,12 +134,11 @@ dependencies {
     implementation(libs.flexbox)
 
     //protobuf
-    implementation (libs.protobuf.javalite)
+    implementation(libs.protobuf.javalite)
     implementation(libs.androidx.datastore)
 
     //google pay
     implementation(libs.play.services.wallet)
-
 
 
     //lotie
@@ -147,5 +147,5 @@ dependencies {
 }
 
 kapt {
-    correctErrorTypes =  true
+    correctErrorTypes = true
 }
