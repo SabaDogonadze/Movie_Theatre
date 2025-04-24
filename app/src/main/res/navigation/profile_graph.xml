@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_graph"
+    app:startDestination="@id/id_profile_fragment">
+
+    <fragment
+        android:id="@+id/id_profile_fragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.screen.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_id_profile_fragment_to_ticketHeldFragment"
+            app:destination="@id/ticketHeldFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_id_profile_fragment_to_ticketBookedFragment"
+            app:destination="@id/ticketBookedFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_id_profile_fragment_to_myShopFragment"
+            app:destination="@id/myShopFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketHeldFragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.screen.TicketHeldFragment"
+        android:label="fragment_ticket_held"
+        tools:layout="@layout/fragment_ticket_held">
+        <action
+            android:id="@+id/action_ticketHeldFragment_to_paymentFragment"
+            app:destination="@id/payment_graph" >
+            <argument
+                android:name="screeningId"
+                app:argType="integer" />
+            <argument
+                android:name="seats"
+                app:argType="string[]" />
+            <argument
+                android:name="totalPrice"
+                app:argType="float" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketBookedFragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.screen.TicketBookedFragment"
+        android:label="TicketBookedFragment"
+        tools:layout="@layout/fragment_ticket_booked">
+        <action
+            android:id="@+id/action_ticketBookedFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.screen.QrCodeFragment"
+        android:label="fragment_qr_code"
+        tools:layout="@layout/fragment_qr_code" />
+
+    <fragment
+        android:id="@+id/myShopFragment"
+        android:name="com.example.movietheatre.feature_profile.presentation.my_shop.MyShopFragment"
+        android:label="fragment_my_shop"
+        tools:layout="@layout/fragment_my_shop" />
+</navigation>

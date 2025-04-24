@@ -35,10 +35,10 @@ class LoginFragment : Fragment() {
                     uiState = uiState,
                     onEvent = viewModel::onEvent,
                     onRegisterClick = {
-                        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
                     },
                     onForgotPasswordClick = {
-                        findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
                     },
                     navigateToHomeScreen = {
                         findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())

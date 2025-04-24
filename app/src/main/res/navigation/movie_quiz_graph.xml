@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_quiz_graph"
+    app:startDestination="@id/quizCategoryFragment">
+
+    <fragment
+        android:id="@+id/quizCategoryFragment"
+        android:name="com.example.movietheatre.feature_movie_quiz.presentation.screen.QuizCategoryFragment"
+        android:label="QuizCategoryFragment">
+        <action
+            android:id="@+id/action_quizCategoryFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.movietheatre.feature_movie_quiz.presentation.screen.QuizFragment"
+        android:label="fragment_quiz">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="coins"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_quizFragment_to_quizCategoryFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"
+            app:popUpTo="@id/quizCategoryFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/quizResultDialog"
+        android:name="com.example.movietheatre.feature_movie_quiz.presentation.screen.dialog.QuizResultDialog"
+        android:label="QuizResultDialog">
+        <action
+            android:id="@+id/action_quizResultDialog_to_quizCategoryFragment"
+            app:destination="@id/quizCategoryFragment" />
+    </dialog>
+</navigation>
