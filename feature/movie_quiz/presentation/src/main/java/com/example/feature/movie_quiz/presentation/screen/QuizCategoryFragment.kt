@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
+import com.example.feature.movie_quiz.presentation.databinding.FragmentQuizCategoryBinding
 import com.example.feature.movie_quiz.presentation.event.QuizCategoryEvent
 import com.example.feature.movie_quiz.presentation.event.QuizCategorySideEffect
-import com.example.presentation.databinding.FragmentQuizCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

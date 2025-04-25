@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
+import com.example.feature.home.presentation.databinding.FragmentHomeBinding
 import com.example.feature.home.presentation.event.HomeEvent
 import com.example.feature.home.presentation.event.HomeSideEffect
 import com.example.feature.home.presentation.state.TimeFilter
 import com.example.feature.home.presentation.util.getTimeRangeForInterval
 import com.example.navigation.NavigationCommands
-import com.example.presentation.databinding.FragmentHomeBinding
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
 

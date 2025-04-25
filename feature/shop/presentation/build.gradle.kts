@@ -60,6 +60,7 @@ dependencies {
 
 
 
+    implementation(libs.androidx.swiperefreshlayout)
 
     //navigation ui
     implementation(libs.androidx.navigation.fragment.ktx)

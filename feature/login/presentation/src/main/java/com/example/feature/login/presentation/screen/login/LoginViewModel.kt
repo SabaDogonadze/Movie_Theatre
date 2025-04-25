@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.domain.preference_key.PreferenceKeys.REMEMBER_ME
 import com.example.core.domain.util.Resource
 import com.example.core.presentation.extension.asStringResource
-import com.example.feaute.login.domain.use_case.LoginUseCaseWrapper
 import com.example.feature.login.presentation.extension.asStringResource
+import com.example.feaute.login.domain.use_case.LoginUseCaseWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCaseWrapper: com.example.feaute.login.domain.use_case.LoginUseCaseWrapper,
+    private val loginUseCaseWrapper: LoginUseCaseWrapper,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
@@ -43,12 +43,12 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result =
                 loginUseCaseWrapper.loginUseCase(_uiState.value.email, _uiState.value.password)) {
-                is com.example.core.domain.util.Resource.Error -> {
+                is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffects.emit(LoginSideEffect.ShowSnackBar(result.error.asStringResource()))
                 }
 
-                is com.example.core.domain.util.Resource.Success -> {
+                is Resource.Success -> {
                     /**to make sure that when navigating remember me values is saved*/
                     withContext(NonCancellable) {
                         loginUseCaseWrapper.saveValueToLocalStorageUseCase(
@@ -66,7 +66,7 @@ class LoginViewModel @Inject constructor(
     private fun validateEmail(email: String) {
         _uiState.update { it.copy(email = email) }
         when (val result = loginUseCaseWrapper.validateEmailUseCase(email)) {
-            is com.example.core.domain.util.Resource.Error -> _uiState.update {
+            is Resource.Error -> _uiState.update {
                 it.copy(
                     emailError = result.error.asStringResource(),
                     isEmailValid = false,
@@ -74,7 +74,7 @@ class LoginViewModel @Inject constructor(
                 )
             }
 
-            is com.example.core.domain.util.Resource.Success -> _uiState.update { currentState ->
+            is Resource.Success -> _uiState.update { currentState ->
                 currentState.copy(
                     emailError = null,
                     isEmailValid = true,
@@ -90,7 +90,7 @@ class LoginViewModel @Inject constructor(
 
         _uiState.update { it.copy(password = password) }
         when (val result = loginUseCaseWrapper.validatePasswordUseCase(password)) {
-            is com.example.core.domain.util.Resource.Error -> _uiState.update {
+            is Resource.Error -> _uiState.update {
                 it.copy(
                     passwordError = result.error.asStringResource(),
                     isPasswordValid = false,
@@ -98,7 +98,7 @@ class LoginViewModel @Inject constructor(
                 )
             }
 
-            is com.example.core.domain.util.Resource.Success -> _uiState.update { currentState ->
+            is Resource.Success -> _uiState.update { currentState ->
                 currentState.copy(
                     passwordError = null,
                     isPasswordValid = true,

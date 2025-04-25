@@ -35,7 +35,7 @@ class ForgotPasswordFragment :
     }
 
     private fun updateUI(state: ForgotPasswordUiState) {
-        binding.progressBar.isVisible = state.isLoading
+        binding.progressBar.root.isVisible = state.isLoading
 
 
         binding.txtResetEmailError.apply {

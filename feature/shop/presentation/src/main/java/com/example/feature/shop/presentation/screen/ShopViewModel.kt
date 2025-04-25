@@ -2,7 +2,6 @@ package com.example.feature.shop.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movietheatre.R
 import com.example.core.domain.use_case.GetCoinsUseCase
 import com.example.core.domain.use_case.UpdateCoinUseCase
 import com.example.core.domain.util.Resource
@@ -12,6 +11,7 @@ import com.example.feature.shop.domain.use_case.CreateOrderUseCase
 import com.example.feature.shop.domain.use_case.GetProductUseCase
 import com.example.feature.shop.presentation.mapper.groupByCategory
 import com.example.feature.shop.presentation.model.Product
+import com.example.resource.R
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,11 +26,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(
-    private val getProductUseCase: com.example.feature.shop.domain.use_case.GetProductUseCase,
-    private val createOrderUseCase: com.example.feature.shop.domain.use_case.CreateOrderUseCase,
+    private val getProductUseCase: GetProductUseCase,
+    private val createOrderUseCase: CreateOrderUseCase,
     private val firebaseAuth: FirebaseAuth,
-    private val getCoinsUseCase: com.example.core.domain.use_case.GetCoinsUseCase,
-    private val updateCoinUseCase: com.example.core.domain.use_case.UpdateCoinUseCase,
+    private val getCoinsUseCase: GetCoinsUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ShopUiState> = MutableStateFlow(ShopUiState())
@@ -65,12 +65,12 @@ class ShopViewModel @Inject constructor(
                 _sideEffect.emit(ShopSideEffect.ShowError(R.string.you_don_t_have_enough_coins))
             } else {
                 when (val result = updateCoinUseCase(-totalPriceCoin)) {
-                    is com.example.core.domain.util.Resource.Error -> {
+                    is Resource.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
                         _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
                     }
 
-                    is com.example.core.domain.util.Resource.Success -> {
+                    is Resource.Success -> {
                         onEvent(ShopEvent.Order)
                     }
                 }
@@ -86,12 +86,12 @@ class ShopViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             when (val result = getCoinsUseCase()) {
-                is com.example.core.domain.util.Resource.Error -> {
+                is Resource.Error -> {
                     _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
                     _uiState.update { it.copy(isLoading = false) }
                 }
 
-                is com.example.core.domain.util.Resource.Success -> {
+                is Resource.Success -> {
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -110,18 +110,18 @@ class ShopViewModel @Inject constructor(
             when (val result = createOrderUseCase(
                 userId = firebaseAuth.currentUser!!.uid,
                 orderItems = _uiState.value.selectedProduct.map {
-                    com.example.feature.shop.domain.model.OrderItem(
+                    OrderItem(
                         it.id,
                         it.quantity
                     )
                 }
             )) {
-                is com.example.core.domain.util.Resource.Error -> {
+                is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
                 }
 
-                is com.example.core.domain.util.Resource.Success -> {
+                is Resource.Success -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffect.emit(ShopSideEffect.SuccessfulOrder(result.data.trackingCode))
                 }
@@ -134,12 +134,12 @@ class ShopViewModel @Inject constructor(
 
         viewModelScope.launch {
             when (val result = getProductUseCase()) {
-                is com.example.core.domain.util.Resource.Error -> {
+                is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false) }
                     _sideEffect.emit(ShopSideEffect.ShowError(result.error.asStringResource()))
                 }
 
-                is com.example.core.domain.util.Resource.Success -> {
+                is Resource.Success -> {
                     _uiState.update {
                         it.copy(
                             isLoading = false,

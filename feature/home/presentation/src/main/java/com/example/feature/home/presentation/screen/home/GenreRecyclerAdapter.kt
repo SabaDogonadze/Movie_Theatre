@@ -6,8 +6,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.feature.home.presentation.databinding.GenreViewholderBinding
 import com.example.feature.home.presentation.model.GenresListUi
-import com.example.presentation.databinding.GenreViewholderBinding
 import com.example.resource.R
 
 class GenreRecyclerAdapter :

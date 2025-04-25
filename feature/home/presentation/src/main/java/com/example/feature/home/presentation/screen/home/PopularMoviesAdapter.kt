@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import com.example.feature.home.presentation.databinding.MoviePopularViewholderBinding
 import com.example.feature.home.presentation.model.HomeMovieListUi
-import com.example.presentation.databinding.MoviePopularViewholderBinding
 import com.example.resource.R
 
 class PopularMoviesAdapter(val onClick: (HomeMovieListUi) -> Unit) :

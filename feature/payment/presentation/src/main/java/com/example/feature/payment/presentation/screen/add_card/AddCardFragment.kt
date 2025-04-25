@@ -114,7 +114,7 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
 
         binding.apply {
 
-            progressBar.isVisible = state.isLoading
+            progressBar.root.isVisible = state.isLoading
 
             imgCard.setImageResource(img)
             txtCardDateDisplay.text = state.expiryDate

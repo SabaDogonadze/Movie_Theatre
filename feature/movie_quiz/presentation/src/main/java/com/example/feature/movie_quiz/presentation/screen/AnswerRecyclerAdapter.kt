@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.feature.movie_quiz.presentation.databinding.QuizAnswerViewholderBinding
 import com.example.feature.movie_quiz.presentation.model.AnswerOptionPresenter
-import com.example.presentation.databinding.QuizAnswerViewholderBinding
 import com.example.resource.R
 
 class AnswerRecyclerAdapter :

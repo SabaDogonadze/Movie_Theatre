@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.feature.movie_quiz.presentation.databinding.QuizCategoryItemViewholderBinding
 import com.example.feature.movie_quiz.presentation.model.QuizCategoryPresenter
-import com.example.presentation.databinding.QuizCategoryItemViewholderBinding
 import com.example.resource.R
 
 class QuizCategoryAdapter :

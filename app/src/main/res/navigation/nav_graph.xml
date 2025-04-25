@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@navigation/splash_nav_graph">
+    app:startDestination="@id/splash_nav_graph">
 
     <include app:graph="@navigation/splash_nav_graph" />
     <include app:graph="@navigation/login_nav_graph" />

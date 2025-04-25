@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
+import com.example.feature.movie_quiz.presentation.databinding.FragmentQuizBinding
 import com.example.feature.movie_quiz.presentation.event.QuizEvent
 import com.example.feature.movie_quiz.presentation.screen.dialog.QuizResultDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.TimeUpDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.WrongAnswerDialog
 import com.example.feature.movie_quiz.presentation.state.QuizState
-import com.example.presentation.databinding.FragmentQuizBinding
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -91,7 +91,10 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack(R.id.quiz_category_fragment, false)
+                    findNavController().popBackStack(
+                        com.example.feature.movie_quiz.presentation.R.id.quizCategoryFragment,
+                        false
+                    )
                 }
             })
     }

@@ -41,9 +41,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home:domain"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:presentation"))
+    api(project(":feature:home:domain"))
+    api(project(":core:domain"))
+    api(project(":core:presentation"))
     implementation(project(":navigation"))
 
     implementation(project(":resource"))
