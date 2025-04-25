@@ -91,7 +91,7 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack(R.id.quizCategoryFragment, false)
+                    findNavController().popBackStack(R.id.quiz_category_fragment, false)
                 }
             })
     }

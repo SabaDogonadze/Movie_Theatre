@@ -55,16 +55,6 @@ protobuf {
 
 dependencies {
 
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.foundation)
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.swiperefreshlayout)
-
     // network
     implementation(libs.retrofit)
     implementation(libs.okhttp)
@@ -81,9 +71,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.messaging)
-    //okhttp
 
-    implementation(libs.logging.interceptor)
 
     //datastore
     implementation(libs.androidx.datastore.preferences)

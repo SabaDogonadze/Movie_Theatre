@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.feature.login.presentation.composable.LoginScreen
+import com.example.navigation.NavigationCommands
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,13 +35,13 @@ class LoginFragment : Fragment() {
                     uiState = uiState,
                     onEvent = viewModel::onEvent,
                     onRegisterClick = {
-                        findNavController().navigate(LoginFragmentDirections.actionLoginToRegister())
+                        NavigationCommands.navigateToRegisterGraph(findNavController())
                     },
                     onForgotPasswordClick = {
-                        findNavController().navigate(LoginFragmentDirections.actionLoginToForgotPassword())
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment())
                     },
                     navigateToHomeScreen = {
-                        findNavController().navigate(LoginFragmentDirections.actionLoginToHome())
+                        NavigationCommands.navigateToHomeGraph(findNavController())
                     },
                     uiEvents = viewModel.sideEffects,
                     snackBarHostState = snackBarHostState

@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_detail_nav_graph">
+    android:id="@+id/movie_detail_graph"
+    app:startDestination="@id/movieDetailFragment">
+
+    <!-- Add deep link to the entire graph -->
+    <deepLink app:uri="movieapp://feature/movie_detail" />
 
     <fragment
         android:id="@+id/movieDetailFragment"
@@ -13,15 +16,5 @@
             android:name="movieId"
             app:argType="integer" />
         <deepLink app:uri="movieapp://moviedetail/{movieId}" />
-        <action
-            android:id="@+id/action_movieDetailFragment_to_seatFragment"
-            app:destination="@id/seatFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_movieDetailFragment_to_quizCategoryFragment"
-            app:destination="@id/quizCategoryFragment" />
     </fragment>
 </navigation>

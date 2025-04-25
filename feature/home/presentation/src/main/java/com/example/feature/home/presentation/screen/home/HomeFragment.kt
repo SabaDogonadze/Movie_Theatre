@@ -15,6 +15,7 @@ import com.example.feature.home.presentation.event.HomeEvent
 import com.example.feature.home.presentation.event.HomeSideEffect
 import com.example.feature.home.presentation.state.TimeFilter
 import com.example.feature.home.presentation.util.getTimeRangeForInterval
+import com.example.navigation.NavigationCommands
 import com.example.presentation.databinding.FragmentHomeBinding
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -141,11 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     // using findNavController to navigate MovieDetailFragment
     private fun navigateToMovieDetailFragment(movieId: Int) {
-        findNavController().navigate(
-            HomeFragmentDirections.actionHomeToMovieDetail(
-
-            )
-        )
+        NavigationCommands.navigateToMovieDetail(findNavController(), movieId)
     }
 
     // we have 3 day times statically written.

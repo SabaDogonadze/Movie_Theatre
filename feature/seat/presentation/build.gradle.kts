@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.seat.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -43,7 +43,7 @@ dependencies {
     implementation(project(":feature:seat:domain"))
     implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
-
+    implementation(project(":navigation"))
     implementation(project(":resource"))
 
 
@@ -56,12 +56,6 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-
-
-    //okhttp
-
-    implementation(libs.logging.interceptor)
-
 
     //navigation ui
     implementation(libs.androidx.navigation.fragment.ktx)

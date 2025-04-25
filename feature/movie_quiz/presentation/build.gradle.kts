@@ -8,8 +8,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.presentation"
-    compileSdk = 34
+    namespace = "com.example.feature.movie_quiz.presentation"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -58,9 +58,6 @@ dependencies {
     implementation(libs.firebase.auth)
 
 
-    //okhttp
-
-    implementation(libs.logging.interceptor)
 
 
     //navigation ui

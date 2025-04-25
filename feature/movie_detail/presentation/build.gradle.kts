@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.movie_detail.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature:movie_detail:domain"))
     implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
+    implementation(project(":navigation"))
 
     implementation(project(":resource"))
 
@@ -54,9 +55,6 @@ dependencies {
     // glide
     implementation(libs.glide)
 
-    //okhttp
-
-    implementation(libs.logging.interceptor)
 
 
     //navigation ui

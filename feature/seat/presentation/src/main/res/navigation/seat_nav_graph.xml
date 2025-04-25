@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/seat_graph"
+    app:startDestination="@id/seatFragment">
+
+    <deepLink app:uri="movieapp://feature/seat" />
+
+    <fragment
+        android:id="@+id/seatFragment"
+        android:name="com.example.feature.seat.presentation.screen.seat.SeatFragment"
+        android:label="fragment_seat"
+        tools:layout="@layout/fragment_seat">
+        <argument
+            android:name="screeningId"
+            app:argType="integer" />
+        <argument
+            android:name="ticketPrice"
+            app:argType="float" />
+        <deepLink app:uri="movieapp://seat/{screeningId}/{ticketPrice}" />
+
+        <action
+            android:id="@+id/action_seatFragment_to_panoramaFragment"
+            app:destination="@id/panoramaFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/panoramaFragment"
+        android:name="com.example.feature.seat.presentation.screen.panorama.PanoramaFragment"
+        android:label="fragment_panorama"
+        tools:layout="@layout/fragment_panorama">
+        <deepLink app:uri="movieapp://panorama" />
+    </fragment>
+</navigation>

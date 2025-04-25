@@ -19,6 +19,7 @@ import com.example.feature.seat.presentation.mapper.createRowModels
 import com.example.feature.seat.presentation.screen.seat.seat_row_adapter.SeatRowAdapter
 import com.example.feature.seat.presentation.screen.seat.seat_type_adapter.SeatTypeAdapter
 import com.example.feature.seat.presentation.util.SeatType
+import com.example.navigation.NavigationCommands
 import com.example.resource.R
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -128,12 +129,12 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             }
 
             is SeatSideEffect.NavigateToPaymentScreen -> {
-                findNavController().navigate(
-                    SeatFragmentDirections.actionSeatFragmentToPaymentFragment(
-                        args.screeningId,
-                        seats = effect.seats.toTypedArray(),
-                        totalPrice = effect.totalPrice.toFloat()
-                    )
+
+                NavigationCommands.navigateToPayment(
+                    navController = findNavController(),
+                    screeningId = args.screeningId,
+                    totalPrice = effect.totalPrice.toFloat(),
+                    seats = effect.seats.toTypedArray()
                 )
             }
         }

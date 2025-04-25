@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.home.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -39,7 +39,6 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":feature:home:domain"))
-    implementation(project(":feature:home:data"))
 
     // network
     implementation(libs.retrofit)

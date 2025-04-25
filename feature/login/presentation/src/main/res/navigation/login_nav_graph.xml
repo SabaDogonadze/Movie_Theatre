@@ -1,39 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/login_nav_graph"
-    app:startDestination="@id/login_fragment">
+    android:id="@+id/login_graph"
+    app:startDestination="@id/loginFragment">
+
+
+    <deepLink app:uri="movieapp://feature/login" />
 
     <fragment
-        android:id="@id/login_fragment"
+        android:id="@+id/loginFragment"
         android:name="com.example.feature.login.presentation.screen.login.LoginFragment"
         android:label="fragment_login">
+
         <action
-            android:id="@id/action_login_to_register"
-            app:destination="@id/register_fragment"
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@id/action_login_to_forgot_password"
-            app:destination="@id/forgot_password_fragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@id/action_login_to_home"
-            app:destination="@id/home_graph"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popUpTo="@id/login_fragment"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@id/forgot_password_fragment"
+        android:id="@+id/forgotPasswordFragment"
         android:name="com.example.feature.login.presentation.screen.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />

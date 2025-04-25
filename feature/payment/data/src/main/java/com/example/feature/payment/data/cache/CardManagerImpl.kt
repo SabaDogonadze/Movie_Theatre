@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.example.core.domain.util.Resource
+import com.example.feature.payment.Card
+import com.example.feature.payment.CardsList
 import com.example.feature.payment.domain.manager.CardManager
 import com.example.feature.payment.domain.model.CardType
 import com.example.feature.payment.domain.model.GetCard
@@ -19,7 +21,7 @@ import javax.inject.Inject
 
 class CardManagerImpl @Inject constructor(@ApplicationContext context: Context) : CardManager {
 
-    private val dataStore: DataStore<Card.CardsList> = DataStoreFactory.create(
+    private val dataStore: DataStore<CardsList> = DataStoreFactory.create(
         serializer = CardsListSerializer(),
         produceFile = { context.dataStoreFile("cards.pb") }
     )
@@ -32,7 +34,7 @@ class CardManagerImpl @Inject constructor(@ApplicationContext context: Context) 
             }
 
             dataStore.updateData { curCards ->
-                val cardProto = Card.CardProto.newBuilder()
+                val cardProto = Card.newBuilder()
                     .setCardNumber(card.cardNumber)
                     .setCardHolderName(card.cardHolderName)
                     .setExpiryDate(card.expiryDate)

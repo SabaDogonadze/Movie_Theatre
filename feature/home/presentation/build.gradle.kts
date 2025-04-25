@@ -8,8 +8,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.presentation"
-    compileSdk = 34
+    namespace = "com.example.feature.home.presentation"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":feature:home:domain"))
     implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
+    implementation(project(":navigation"))
 
     implementation(project(":resource"))
 

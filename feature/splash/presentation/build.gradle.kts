@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.splash.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core:presentation"))
 
     implementation(project(":resource"))
+    implementation(project(":navigation"))
 
 
     //hilt
@@ -56,17 +57,13 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
-
-    //okhttp
-
-    implementation(libs.logging.interceptor)
-
-
     //navigation ui
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui)
 
 
+    //datastore
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

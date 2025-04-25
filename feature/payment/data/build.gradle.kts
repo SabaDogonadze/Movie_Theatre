@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.payment.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -34,14 +34,21 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    sourceSets {
+        getByName("main") {
+            java.srcDir("build/generated/source/proto/main/java")
+        }
+    }
 }
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:4.29.0"
     }
+
+
     generateProtoTasks {
-        all().configureEach {
-            plugins {
+        all().forEach { task ->
+            task.builtins {
                 create("java") {
                     option("lite")
                 }
@@ -57,17 +64,10 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":feature:payment:domain"))
 
-    // network
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.converter.kotlinx.serialization)
-    implementation(libs.kotlinx.serialization.json)
-
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.androidx.datastore.preferences)
     //protobuf
     implementation(libs.protobuf.javalite)
     implementation(libs.androidx.datastore)

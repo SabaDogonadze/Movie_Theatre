@@ -1,12 +1,10 @@
 package com.example.feature.profile.domain.model
 
-import kotlinx.serialization.Serializable
 
 data class UserTickets(
     val tickets: List<Ticket>,
 )
 
-@Serializable
 data class Ticket(
     val bookingId: Int,
     val movieTitle: String,

@@ -22,6 +22,7 @@ import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.payment.presentation.databinding.FragmentPaymentBinding
 import com.example.feature.payment.presentation.screen.payment.adapter.PaymentPagerAdapter
+import com.example.navigation.NavigationCommands
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
@@ -163,7 +164,7 @@ class PaymentFragment : Fragment() {
             }
 
             PaymentSideEffect.NavigateToHomeScreen -> {
-                findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToIdHomeFragment())
+                NavigationCommands.navigateToHomeGraph(findNavController())
             }
 
             PaymentSideEffect.SuccessfulPayment -> {

@@ -66,7 +66,7 @@ class QuizResultDialog : BaseQuizDialog() {
             setFragmentResult("quiz_result", bundleOf())
             dismissAndContinue {
                 requireParentFragment().findNavController()
-                    .popBackStack(R.id.quizCategoryFragment, false)
+                    .popBackStack(R.id.quiz_category_fragment, false)
             }
         }
         return binding.root

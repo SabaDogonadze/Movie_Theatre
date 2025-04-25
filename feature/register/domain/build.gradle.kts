@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.register.domain"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -39,16 +39,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-
-    //firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-
-
-
-
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

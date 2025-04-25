@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.register.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -39,38 +39,15 @@ dependencies {
     implementation(project(":feature:register:domain"))
     implementation(project(":core:domain"))
 
-
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.foundation)
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.swiperefreshlayout)
-
-    // network
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.converter.kotlinx.serialization)
-    implementation(libs.kotlinx.serialization.json)
-
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
     //firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
-    implementation(libs.firebase.messaging)
-    //okhttp
 
-    implementation(libs.logging.interceptor)
 
-    //datastore
-    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import com.example.resource.R
 import com.example.presentation.databinding.FragmentWrongAnswerDialogBinding
 
 class WrongAnswerDialog : DialogFragment() {
@@ -33,7 +34,7 @@ class WrongAnswerDialog : DialogFragment() {
             dismiss()
             try {
                 requireParentFragment().findNavController()
-                    .popBackStack(R.id.quizCategoryFragment, false)
+                    .popBackStack(R.id.quiz_category_fragment, false)
             } catch (e: Exception) {
                 Log.e("WrongAnswerDialog", "Error navigating: ${e.message}")
             }

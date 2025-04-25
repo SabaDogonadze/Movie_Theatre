@@ -13,6 +13,7 @@ import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentTicketHeldBinding
 import com.example.feature.profile.presentation.event.TicketHeldEvent
 import com.example.feature.profile.presentation.event.TicketHeldSideEffect
+import com.example.navigation.NavigationCommands
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,12 +87,11 @@ class TicketHeldFragment :
                 }
 
                 is TicketHeldSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
-                is TicketHeldSideEffect.NavigateToPaymentFragment -> findNavController().navigate(
-                    TicketHeldFragmentDirections.actionTicketHeldFragmentToPaymentFragment(
-                        screeningId = event.screeningId,
-                        totalPrice = event.ticketPrice,
-                        seats = event.seatNumbers.toTypedArray()
-                    )
+                is TicketHeldSideEffect.NavigateToPaymentFragment -> NavigationCommands.navigateToPayment(
+                    navController = findNavController(),
+                    screeningId = event.screeningId,
+                    totalPrice = event.ticketPrice,
+                    seats = event.seatNumbers.toTypedArray()
                 )
 
                 TicketHeldSideEffect.SuccessfulDelete -> {

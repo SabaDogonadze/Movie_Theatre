@@ -16,7 +16,7 @@ class TimeUpDialog : BaseQuizDialog() {
             dismissAndContinue {
 
                 requireParentFragment().findNavController()
-                    .popBackStack(R.id.quizCategoryFragment, false)
+                    .popBackStack(R.id.quiz_category_fragment, false)
             }
         }
 

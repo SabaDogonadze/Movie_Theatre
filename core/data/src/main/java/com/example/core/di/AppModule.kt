@@ -1,9 +1,6 @@
 package com.example.core.di
 
-import com.example.movietheatre.BuildConfig
-import com.example.feature.home.data.remote.service.GenresService
-import com.example.feature.home.data.remote.service.HomeService
-import com.google.android.datatransport.BuildConfig
+import com.example.core.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

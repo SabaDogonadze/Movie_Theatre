@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.shop.domain"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26

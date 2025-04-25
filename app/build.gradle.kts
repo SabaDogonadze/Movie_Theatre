@@ -4,11 +4,6 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.1.0"
-    alias(libs.plugins.safeargs)
-    id("com.google.gms.google-services")
-    id("com.google.protobuf") version "0.9.4"
-    alias(libs.plugins.compose.compiler)
-
 }
 
 android {
@@ -46,7 +41,6 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        compose = true
 
     }
     composeOptions {
@@ -54,71 +48,61 @@ android {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:4.29.0"
-    }
-    generateProtoTasks {
-        all().configureEach {
-            plugins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
 
 
 
 dependencies {
-    implementation(project(":feature:home"))
-    implementation(project(":resource"))
     implementation(project(":core"))
-
-    //compose
-    implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.foundation)
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.swiperefreshlayout)
-
-    // network
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.converter.kotlinx.serialization)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:presentation"))
+    implementation(project(":resource"))
+    implementation(project(":feature"))
+    implementation(project(":feature:login"))
+    implementation(project(":feature:login:data"))
+    implementation(project(":feature:login:domain"))
+    implementation(project(":feature:login:presentation"))
+    implementation(project(":feature:register"))
+    implementation(project(":feature:register:data"))
+    implementation(project(":feature:register:domain"))
+    implementation(project(":feature:register:presentation"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:home:data"))
+    implementation(project(":feature:home:domain"))
+    implementation(project(":feature:home:presentation"))
+    implementation(project(":feature:movie_detail"))
+    implementation(project(":feature:payment"))
+    implementation(project(":feature:seat"))
+    implementation(project(":feature:movie_detail:data"))
+    implementation(project(":feature:movie_detail:domain"))
+    implementation(project(":feature:movie_detail:presentation"))
+    implementation(project(":feature:payment:data"))
+    implementation(project(":feature:payment:domain"))
+    implementation(project(":feature:payment:presentation"))
+    implementation(project(":feature:seat:data"))
+    implementation(project(":feature:seat:domain"))
+    implementation(project(":feature:seat:presentation"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:profile:data"))
+    implementation(project(":feature:profile:domain"))
+    implementation(project(":feature:profile:presentation"))
+    implementation(project(":feature:shop"))
+    implementation(project(":feature:splash"))
+    implementation(project(":feature:shop:data"))
+    implementation(project(":feature:shop:domain"))
+    implementation(project(":feature:shop:presentation"))
+    implementation(project(":feature:splash:data"))
+    implementation(project(":feature:splash:domain"))
+    implementation(project(":feature:splash:presentation"))
+    implementation(project(":feature:movie_quiz"))
+    implementation(project(":feature:movie_quiz:data"))
+    implementation(project(":feature:movie_quiz:domain"))
+    implementation(project(":feature:movie_quiz:presentation"))
+    implementation(project(":navigation"))
 
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    // glide
-    implementation(libs.glide)
-
-    //firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.messaging)
-    //okhttp
-
-    implementation(libs.logging.interceptor)
-
-    //datastore
-    implementation(libs.androidx.datastore.preferences)
-
-    //navigation ui
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui)
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -128,22 +112,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
-    //flexbox
-    implementation(libs.flexbox)
-
-    //protobuf
-    implementation(libs.protobuf.javalite)
-    implementation(libs.androidx.datastore)
-
-    //google pay
-    implementation(libs.play.services.wallet)
-
-
-    //lotie
-    implementation(libs.lottie)
-
 }
 
 kapt {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_graph"
+    app:startDestination="@id/id_profile_fragment">
+
+    <!-- Add deep link to the entire graph -->
+    <deepLink app:uri="movieapp://feature/profile" />
+
+    <fragment
+        android:id="@+id/id_profile_fragment"
+        android:name="com.example.feature.profile.presentation.screen.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_id_profile_fragment_to_ticketHeldFragment"
+            app:destination="@id/ticketHeldFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_id_profile_fragment_to_ticketBookedFragment"
+            app:destination="@id/ticketBookedFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_id_profile_fragment_to_myShopFragment"
+            app:destination="@id/myShopFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketHeldFragment"
+        android:name="com.example.feature.profile.presentation.screen.TicketHeldFragment"
+        android:label="fragment_ticket_held"
+        tools:layout="@layout/fragment_ticket_held">
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketBookedFragment"
+        android:name="com.example.feature.profile.presentation.screen.TicketBookedFragment"
+        android:label="TicketBookedFragment"
+        tools:layout="@layout/fragment_ticket_booked">
+        <action
+            android:id="@+id/action_ticketBookedFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="com.example.feature.profile.presentation.screen.QrCodeFragment"
+        android:label="fragment_qr_code"
+        tools:layout="@layout/fragment_qr_code">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myShopFragment"
+        android:name="com.example.feature.profile.presentation.my_shop.MyShopFragment"
+        android:label="fragment_my_shop"
+        tools:layout="@layout/fragment_my_shop">
+    </fragment>
+</navigation>

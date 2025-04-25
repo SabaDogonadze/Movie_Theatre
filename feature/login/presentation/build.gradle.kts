@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.login.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":resource"))
     implementation(project(":core:presentation"))
     implementation(project(":core:domain"))
+    implementation(project(":navigation"))
 
 
     //compose

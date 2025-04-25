@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.navigation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -33,6 +33,12 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":resource"))
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

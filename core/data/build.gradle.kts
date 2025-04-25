@@ -65,17 +65,6 @@ dependencies {
 
     implementation(project(":core:domain"))
 
-
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.foundation)
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.swiperefreshlayout)
-
     // network
     implementation(libs.retrofit)
     implementation(libs.okhttp)
@@ -92,7 +81,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
-    implementation(libs.firebase.messaging)
     //okhttp
 
     implementation(libs.logging.interceptor)
@@ -110,12 +98,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-
-
     //protobuf
     implementation(libs.protobuf.javalite)
     implementation(libs.androidx.datastore)
-
 
 }
 

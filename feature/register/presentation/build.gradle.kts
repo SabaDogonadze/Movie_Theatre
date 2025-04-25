@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.register.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -60,9 +60,6 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.messaging)
-    //okhttp
-
-    implementation(libs.logging.interceptor)
 
     //navigation ui
     implementation(libs.androidx.navigation.fragment.ktx)

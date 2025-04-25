@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.feature.splash.presentation.databinding.FragmentSplashBinding
+import com.example.navigation.NavigationCommands
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,9 +35,9 @@ class SplashFragment : Fragment() {
 
         collectLatestFlow(viewmodel.rememberMeFlow) { rememberMe ->
             if (rememberMe && viewmodel.currentUser != null) {
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+                NavigationCommands.navigateToHomeGraph(findNavController())
             } else {
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToNavigation())
+                NavigationCommands.navigateToLoginGraph(findNavController())
             }
 
         }

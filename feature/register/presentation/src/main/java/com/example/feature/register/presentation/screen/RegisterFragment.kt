@@ -103,7 +103,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     private fun showLoadingScreen(isLoading: Boolean) {
         binding.apply {
-            progressBar.isVisible = isLoading
+            progressBar.root.isVisible = isLoading
         }
     }
 

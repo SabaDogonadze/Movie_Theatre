@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.feature.shop.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -58,9 +58,7 @@ dependencies {
     implementation(libs.firebase.auth)
 
 
-    //okhttp
 
-    implementation(libs.logging.interceptor)
 
 
     //navigation ui
@@ -77,9 +75,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-
-    implementation(libs.lottie)
-    implementation(libs.androidx.swiperefreshlayout)
 
 }
 

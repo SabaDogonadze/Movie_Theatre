@@ -5,14 +5,13 @@ plugins {
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.1.0"
     alias(libs.plugins.safeargs)
-    id("com.google.gms.google-services")
     id("com.google.protobuf") version "0.9.4"
     alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.example.core.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -96,18 +95,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
-    //flexbox
-    implementation(libs.flexbox)
-
-
-    //google pay
-    implementation(libs.play.services.wallet)
-
-
-    //lotie
-    implementation(libs.lottie)
 
 }
 

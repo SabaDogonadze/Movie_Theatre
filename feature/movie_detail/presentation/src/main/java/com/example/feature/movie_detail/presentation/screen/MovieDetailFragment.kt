@@ -15,6 +15,7 @@ import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.movie_detail.presentation.databinding.FragmentMovieDetailBinding
 import com.example.feature.movie_detail.presentation.event.MovieDetailEvent
 import com.example.feature.movie_detail.presentation.event.MovieDetailSideEffect
+import com.example.navigation.NavigationCommands
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class MovieDetailFragment :
             )
         }
         binding.ivMovieImage.setOnClickListener {
-            findNavController().navigate(MovieDetailFragmentDirections.actionMovieDetailFragmentToQuizCategoryFragment())
+            NavigationCommands.navigateToMovieQuizGraph(findNavController())
         }
     }
 
@@ -123,11 +124,10 @@ class MovieDetailFragment :
     private fun eventObserver() {
         collectLatestFlow(movieDetailViewModel.uiEvents) { event ->
             when (event) {
-                is MovieDetailSideEffect.NavigateToBookingFragment -> findNavController().navigate(
-                    MovieDetailFragmentDirections.actionMovieDetailFragmentToSeatFragment(
-                        event.movieId,
-                        event.moviePrice
-                    )
+                is MovieDetailSideEffect.NavigateToBookingFragment -> NavigationCommands.navigateToSeatSelection(
+                    navController = findNavController(),
+                    screeningId = event.movieId,
+                    ticketPrice = event.moviePrice
                 )
 
                 is MovieDetailSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))

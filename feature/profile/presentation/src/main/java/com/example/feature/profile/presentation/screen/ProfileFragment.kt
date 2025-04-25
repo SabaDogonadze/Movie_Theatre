@@ -44,10 +44,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     override fun clickListeners() {
         binding.ivSeeBookedTickets.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment())
+            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketHeldFragment())
         }
         binding.ivSeePurchasedTickets.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment2())
+            findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToTicketBookedFragment())
         }
         binding.ivMyShop.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToMyShopFragment())
