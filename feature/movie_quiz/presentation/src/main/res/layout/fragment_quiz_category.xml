@@ -23,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Category Grid -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_categories"
         android:layout_width="0dp"

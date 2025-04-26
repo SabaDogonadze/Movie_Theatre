@@ -30,6 +30,9 @@ class QuizViewModel @Inject constructor(
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
 
+    private val _showWarningDialog = MutableStateFlow(true)
+    val showWarningDialog: StateFlow<Boolean> = _showWarningDialog
+
     private val _showWrongAnswerDialog = MutableStateFlow(false)
     val showWrongAnswerDialog: StateFlow<Boolean> = _showWrongAnswerDialog
 
@@ -55,6 +58,12 @@ class QuizViewModel @Inject constructor(
                 _showTimeUpDialog.value = false
                 _showResultsDialog.value = false
             }
+
+            QuizEvent.WarningDialogDismissed -> {
+                _showWarningDialog.value = false
+                startTimer()
+                timerStarted = true
+            }
         }
     }
 
@@ -76,10 +85,6 @@ class QuizViewModel @Inject constructor(
                             )
                         }
                         currentTimeRemaining = QUIZ_TIMER_SECONDS
-                        if (!timerStarted) {
-                            startTimer()
-                            timerStarted = true
-                        }
                     } else {
                         _state.update {
                             it.copy(

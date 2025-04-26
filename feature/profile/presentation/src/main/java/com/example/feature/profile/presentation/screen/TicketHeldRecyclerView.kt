@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
+import com.example.core.presentation.extension.loadImg
 import com.example.core.presentation.extension.toFormattedDateTime
 import com.example.feature.profile.presentation.databinding.HeldTicketViewholderBinding
 import com.example.feature.profile.presentation.model.TicketPresenter
-import com.example.resource.R
 
 class TicketHeldRecyclerView :
     ListAdapter<TicketPresenter, ViewHolder>(object :
@@ -64,13 +63,8 @@ class TicketHeldRecyclerView :
                 root.setOnClickListener {
                     onItemClicked?.invoke(item)
                 }
+                ivMovieImage.loadImg(item.movieImgUrl)
             }
-
-            Glide.with(binding.root)
-                .load(item.movieImgUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(binding.ivMovieImage)
         }
     }
 }

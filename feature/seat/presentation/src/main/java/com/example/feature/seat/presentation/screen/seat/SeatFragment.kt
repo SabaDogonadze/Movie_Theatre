@@ -119,7 +119,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
                 binding.apply {
                     btnBuyOption.isVisible = false
                     btnBookTickets.isVisible = false
-
+                    btnPanorama.isVisible = false
                     binding.SuccessBookingLayout.imgPause.playAnimation()
                     val transition = AutoTransition().apply {
                         duration = 300
@@ -130,7 +130,6 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             }
 
             is SeatSideEffect.NavigateToPaymentScreen -> {
-                Log.d("SEAT", effect.seats.toTypedArray().toString())
                 NavigationCommands.navigateToPayment(
                     navController = findNavController(),
                     screeningId = args.screeningId,

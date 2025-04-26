@@ -10,8 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.core.presentation.extension.loadImg
 import com.example.feature.movie_quiz.presentation.databinding.QuizCategoryItemViewholderBinding
 import com.example.feature.movie_quiz.presentation.model.QuizCategoryPresenter
 import com.example.resource.R
@@ -77,13 +76,7 @@ class QuizCategoryAdapter :
                 tvCategoryTitle.text = category.title
                 tvReward.text = "${category.rewardCoins} coins"
 
-                Glide.with(itemView)
-                    .load(category.imageUrl)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .centerCrop()
-                    .into(ivCategoryImage)
+                ivCategoryImage.loadImg(category.imageUrl)
 
                 if (category.isCompleted) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

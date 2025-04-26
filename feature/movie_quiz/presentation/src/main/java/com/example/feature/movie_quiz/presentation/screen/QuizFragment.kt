@@ -8,11 +8,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
+import com.example.core.presentation.extension.loadImg
 import com.example.feature.movie_quiz.presentation.databinding.FragmentQuizBinding
 import com.example.feature.movie_quiz.presentation.event.QuizEvent
+import com.example.feature.movie_quiz.presentation.screen.dialog.OneTimeWarningDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.QuizResultDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.TimeUpDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.WrongAnswerDialog
@@ -62,6 +63,13 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
     }
 
     private fun observeDialogStates() {
+
+        collectLatestFlow(viewModel.showWarningDialog) { shouldShow ->
+            if (shouldShow) {
+                showOneTimeWarningDialog()
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.showWrongAnswerDialog.collect { shouldShow ->
@@ -72,6 +80,9 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
                 }
             }
         }
+
+
+
         collectLatestFlow(viewModel.showTimeUpDialog) { shouldShow ->
             if (shouldShow) {
                 showTimeUpDialog()
@@ -117,7 +128,7 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
             binding.linearIndicator.progress = state.currentQuestionIndex + 1
 
             binding.tvQuestion.text = question.question
-            Glide.with(this).load(question.imageUrl).into(binding.ivQuizImage)
+            binding.ivQuizImage.loadImg(question.imageUrl)
             quizAnswerAdapter.submitList(question.options.toList())
 
             if (!state.hasAnswered) {
@@ -149,5 +160,14 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         )
         dialog.show(childFragmentManager, "quiz_result_dialog")
 
+    }
+
+
+    private fun showOneTimeWarningDialog() {
+        val dialog = OneTimeWarningDialog.newInstance()
+        dialog.setOnDismissCallback {
+            viewModel.onEvent(QuizEvent.WarningDialogDismissed)
+        }
+        dialog.show(childFragmentManager, "one_time_warning_dialog")
     }
 }

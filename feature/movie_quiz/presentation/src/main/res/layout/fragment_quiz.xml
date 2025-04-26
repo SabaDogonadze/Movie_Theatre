@@ -74,7 +74,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Question Section -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_question"
             android:layout_width="match_parent"
@@ -96,7 +95,7 @@
                     android:id="@+id/tv_question"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="What movie is this scene from?"
+                    tools:text="What movie is this scene from?"
                     android:textAlignment="center"
                     android:textColor="#333333"
                     android:textSize="18sp"
@@ -120,7 +119,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Answers Section -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_answers"
             android:layout_width="match_parent"

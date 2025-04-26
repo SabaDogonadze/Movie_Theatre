@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
+import com.example.core.presentation.extension.loadImg
 import com.example.feature.home.presentation.databinding.MovieViewholderBinding
 import com.example.feature.home.presentation.model.HomeMovieListUi
-import com.example.resource.R
 
 class UpComingMoviesAdapter(val onClick: (HomeMovieListUi) -> Unit) :
     ListAdapter<HomeMovieListUi, ViewHolder>(object :
@@ -54,14 +53,9 @@ class UpComingMoviesAdapter(val onClick: (HomeMovieListUi) -> Unit) :
                 root.setOnClickListener {
                     onClick(item)
                 }
+                ivMovieImage.loadImg(item.movieImgUrl)
             }
 
-
-            Glide.with(binding.ivMovieImage.context)
-                .load(item.movieImgUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(binding.ivMovieImage)
 
         }
     }

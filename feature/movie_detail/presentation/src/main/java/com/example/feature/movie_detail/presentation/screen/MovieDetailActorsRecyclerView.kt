@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
+import com.example.core.presentation.extension.loadImg
 import com.example.feature.movie_detail.presentation.databinding.MovieDetailActorsViewholderBinding
 import com.example.feature.movie_detail.presentation.model.ActorPresenter
-import com.example.resource.R
 
 class MovieDetailActorsRecyclerView :
     ListAdapter<ActorPresenter, RecyclerView.ViewHolder>(object :
@@ -55,15 +54,9 @@ class MovieDetailActorsRecyclerView :
 
             binding.apply {
                 tvActorName.text = item.name
+
+                ivActor.loadImg(item.actorImgUrl)
             }
-
-
-            Glide.with(binding.ivActor.context)
-                .load(item.actorImgUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(binding.ivActor)
-
         }
     }
 }

@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
+import com.example.core.presentation.extension.loadImg
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.movie_detail.presentation.databinding.FragmentMovieDetailBinding
 import com.example.feature.movie_detail.presentation.event.MovieDetailEvent
@@ -89,10 +89,11 @@ class MovieDetailFragment :
             screeningsAdapter.submitList(state.detailedMovie.screeningsFiltered.toList())
             screeningChooserAdapter.submitList(state.detailedMovie.screeningsChooser.toList())
 
-            Glide.with(this)
-                .load(state.detailedMovie.movieImgUrl)
-                .into(binding.ivMovieImage)
             binding.apply {
+
+
+                ivMovieImage.loadImg(state.detailedMovie.movieImgUrl)
+
                 tvMovieTitle.text = state.detailedMovie.title
                 tvMovieDuration.text = state.detailedMovie.duration.toString()
                 tvMovieDirector.text = state.detailedMovie.director
