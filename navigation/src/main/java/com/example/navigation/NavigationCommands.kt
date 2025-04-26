@@ -27,7 +27,6 @@ object NavigationCommands {
     const val DEEP_LINK_PROFILE_GRAPH = "movieapp://feature/profile"
 
 
-
     object Animations {
         val defaultAnimations = NavOptions.Builder()
             .setEnterAnim(R.anim.from_right)
@@ -63,7 +62,16 @@ object NavigationCommands {
     }
 
     fun navigateToLoginGraph(navController: NavController) {
-        navController.navigate(Uri.parse(DEEP_LINK_LOGIN_GRAPH), Animations.defaultAnimations)
+        val navGraphId = navController.graph.id
+
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.from_center_to_expand)
+            .setExitAnim(R.anim.from_center_to_expand)
+            .setPopEnterAnim(R.anim.from_center_to_expand)
+            .setPopExitAnim(R.anim.from_center_to_expand)
+            .setPopUpTo(navGraphId, true)
+            .build()
+        navController.navigate(Uri.parse(DEEP_LINK_LOGIN_GRAPH), navOptions)
     }
 
     fun navigateToMovieQuizGraph(navController: NavController) {

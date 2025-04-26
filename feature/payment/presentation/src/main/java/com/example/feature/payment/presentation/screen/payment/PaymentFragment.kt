@@ -24,6 +24,7 @@ import com.example.feature.payment.presentation.databinding.FragmentPaymentBindi
 import com.example.feature.payment.presentation.screen.payment.adapter.PaymentPagerAdapter
 import com.example.navigation.NavigationCommands
 import com.example.resource.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -104,7 +105,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun setUp() {
-
+        showTicketHoldingWarning()
         binding.apply {
             txtTotalValue.text = args.totalPrice.asMoneyFormat()
             skCoinChooser.seekBarCoins.progress = 0
@@ -204,6 +205,8 @@ class PaymentFragment : Fragment() {
                 if (totalPriceCoin < state.userCoins) totalPriceCoin else state.userCoins
             totalCoins.txtCoinCount.text = state.userCoins.toString()
             skCoinChooser.txtSelectedCoins.text = state.selectedCoins.toString()
+
+            binding.btnBuyTickets.isEnabled = state.cards.isNotEmpty()
         }
 
         paymentPagerAdapter.submitList(state.cards.toList())
@@ -230,6 +233,17 @@ class PaymentFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showTicketHoldingWarning() {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        builder.setTitle(getString(com.example.feature.payment.presentation.R.string.ticket_is_held))
+        builder.setMessage(getString(com.example.feature.payment.presentation.R.string.your_ticket_is_being_held_for_a_day_and_if_you_don_t_buy_it_we_ll_be_freed))
+        builder.setPositiveButton(getString(com.example.feature.payment.presentation.R.string.understood)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.setCancelable(false)
+        builder.show()
     }
 
     override fun onDestroyView() {
