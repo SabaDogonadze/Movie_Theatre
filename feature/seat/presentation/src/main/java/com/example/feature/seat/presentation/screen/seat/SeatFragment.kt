@@ -1,5 +1,6 @@
 package com.example.feature.seat.presentation.screen.seat
 
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -129,7 +130,7 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             }
 
             is SeatSideEffect.NavigateToPaymentScreen -> {
-
+                Log.d("SEAT", effect.seats.toTypedArray().toString())
                 NavigationCommands.navigateToPayment(
                     navController = findNavController(),
                     screeningId = args.screeningId,

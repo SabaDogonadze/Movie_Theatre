@@ -67,10 +67,11 @@ class PaymentViewModel @Inject constructor(
             }
 
             is PaymentEvent.OnBuy -> {
+
                 onBuy(
                     screeningId = event.screeningId,
                     totalPrice = event.totalPrice,
-                    seats = event.seats
+                    seats = event.seats.flatMap { seat -> seat.split(",") }
                 )
             }
 
