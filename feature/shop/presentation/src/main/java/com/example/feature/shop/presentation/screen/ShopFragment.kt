@@ -78,18 +78,8 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
     }
 
     private fun updateUi(state: ShopUiState) {
-        Log.d("shop state", state.toString())
         binding.progressBar.root.isVisible = state.isLoading
-
-
-        if (!state.isLoading) {
-            if (state.products.isNotEmpty()) {
-                binding.layoutShop.root.isVisible = true
-                binding.noNetwork.root.isVisible = false
-            }
-        } else {
-            binding.layoutShop.root.isVisible = false
-        }
+        binding.layoutShop.root.isVisible = !state.isLoading
 
         categoryProductAdapter.submitList(state.products)
 

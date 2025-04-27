@@ -49,14 +49,18 @@ class MovieDetailFragment :
                 )
             )
         }
-        binding.ivMovieImage.setOnClickListener {
+        binding.layoutMovieDetail.ivMovieImage.setOnClickListener {
             NavigationCommands.navigateToMovieQuizGraph(findNavController())
+        }
+
+        binding.noNetwork.btnRetry.setOnClickListener {
+            movieDetailViewModel.event(MovieDetailEvent.GetMovieDetails(args.movieId))
         }
     }
 
     private fun setUpActorsRecycler() {
         actorsAdapter = MovieDetailActorsRecyclerView()
-        binding.actorsRecyclerview.apply {
+        binding.layoutMovieDetail.actorsRecyclerview.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = actorsAdapter
@@ -67,14 +71,14 @@ class MovieDetailFragment :
         screeningChooserAdapter = ScreeningChooserAdapter(onClick = {
             movieDetailViewModel.event(MovieDetailEvent.OnChangedScreeningChooser(it.number))
         })
-        binding.rvScreenDateCategory.apply {
+        binding.layoutMovieDetail.rvScreenDateCategory.apply {
             adapter = screeningChooserAdapter
         }
     }
 
     private fun setUpScreeningsRecycler() {
         screeningsAdapter = MovieDetailScreeningsRecyclerView()
-        binding.screeningsRecyclerview.apply {
+        binding.layoutMovieDetail.screeningsRecyclerview.apply {
             layoutManager =
                 LinearLayoutManager(requireContext())
             adapter = screeningsAdapter
@@ -85,11 +89,13 @@ class MovieDetailFragment :
         collectLatestFlow(movieDetailViewModel.state) { state ->
             Log.d("detailsate", state.toString())
             binding.progressBar.root.isVisible = state.isLoading
+            binding.layoutMovieDetail.root.isVisible = !state.isLoading
+
             actorsAdapter.submitList(state.detailedMovie.actors.toList())
             screeningsAdapter.submitList(state.detailedMovie.screeningsFiltered.toList())
             screeningChooserAdapter.submitList(state.detailedMovie.screeningsChooser.toList())
 
-            binding.apply {
+            binding.layoutMovieDetail.apply {
 
 
                 ivMovieImage.loadImg(state.detailedMovie.movieImgUrl)
@@ -110,7 +116,7 @@ class MovieDetailFragment :
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun loadVideoInWebView(videoUrl: String) {
-        binding.webView.apply {
+        binding.layoutMovieDetail.webView.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
             loadUrl(videoUrl)
@@ -131,7 +137,18 @@ class MovieDetailFragment :
                     ticketPrice = event.moviePrice
                 )
 
-                is MovieDetailSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
+                is MovieDetailSideEffect.ShowError -> {
+                    when (event.message) {
+                        com.example.resource.R.string.connection_problem -> {
+                            binding.layoutMovieDetail.root.isVisible = false
+                            binding.noNetwork.root.isVisible = true
+                        }
+
+                        else -> binding.root.showSnackBar(getString(event.message))
+
+                    }
+
+                }
             }
         }
     }
