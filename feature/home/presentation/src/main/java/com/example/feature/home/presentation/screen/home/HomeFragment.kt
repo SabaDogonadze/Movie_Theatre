@@ -44,9 +44,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         homeMovieAdapter.setonItemClickedListener {
             navigateToMovieDetailFragment(it.id)
         }
-        setupTimeFilterClickListener(binding.btnMorningTime, TimeFilter.MORNING, "11:00-15:00")
-        setupTimeFilterClickListener(binding.btnAfternoonTime, TimeFilter.AFTERNOON, "15:00-19:00")
-        setupTimeFilterClickListener(binding.btnNightTime, TimeFilter.NIGHT, "19:00-00:00")
+        setupTimeFilterClickListener(
+            binding.homeContentView.btnMorningTime,
+            TimeFilter.MORNING,
+            "11:00-15:00"
+        )
+        setupTimeFilterClickListener(
+            binding.homeContentView.btnAfternoonTime,
+            TimeFilter.AFTERNOON,
+            "15:00-19:00"
+        )
+        setupTimeFilterClickListener(
+            binding.homeContentView.btnNightTime,
+            TimeFilter.NIGHT,
+            "19:00-00:00"
+        )
 
         genreAdapter.setonItemClickedListener { genre ->
             homeViewModel.event(HomeEvent.FilterMoviesByGenre(genre.id))
@@ -56,12 +68,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
+        binding.noNetworkView.btnRetry.setOnClickListener {
+            homeViewModel.event(HomeEvent.RefreshLayout)
+        }
+
     }
 
     // setting up MovieRecycler, Casual Implementation
     private fun setUpMovieRecycler() {
         homeMovieAdapter = HomeMovieRecyclerAdapter()
-        binding.movieRecyclerAdapter.apply {
+        binding.homeContentView.movieRecyclerAdapter.apply {
             // layoutManager = LinearLayoutManager(requireContext())
             adapter = homeMovieAdapter
         }
@@ -71,7 +87,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         upComingMoviesAdapter = UpComingMoviesAdapter(onClick = {
             navigateToMovieDetailFragment(it.id)
         })
-        binding.upcomingMovieRecyclerAdapter.apply {
+        binding.homeContentView.upcomingMovieRecyclerAdapter.apply {
             adapter = upComingMoviesAdapter
         }
     }
@@ -80,7 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         popularMoviesAdapter = PopularMoviesAdapter(onClick = {
             navigateToMovieDetailFragment(it.id)
         })
-        binding.popularMovieRecyclerAdapter.apply {
+        binding.homeContentView.popularMovieRecyclerAdapter.apply {
             adapter = popularMoviesAdapter
         }
     }
@@ -88,7 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // setting up GenreRecycler, Casual Implementation
     private fun setUpGenreRecycler() {
         genreAdapter = GenreRecyclerAdapter()
-        binding.genresRecyclerView.apply {
+        binding.homeContentView.genresRecyclerView.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = genreAdapter
@@ -108,6 +124,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun stateObserver() {
         collectLatestFlow(homeViewModel.state) { state ->
             binding.progressBar.root.isVisible = state.isLoading
+            binding.homeContentView.root.isVisible = !state.isLoading
             d("recyclermovie", "${state.movies}")
             homeMovieAdapter.submitList(state.movies.toList())
             upComingMoviesAdapter.submitList(state.upcomingMovies.toList())
@@ -123,8 +140,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             when (event) {
                 is HomeSideEffect.ShowError -> {
                     when (event.message) {
-                        R.string.connection_problem -> {}
-                        else-> binding.root.showSnackBar(getString(event.message))
+                        R.string.connection_problem -> {
+                            binding.homeContentView.root.isVisible = false
+                            binding.noNetworkView.root.isVisible = true
+                        }
+
+                        else -> binding.root.showSnackBar(getString(event.message))
                     }
                 }
             }
@@ -137,13 +158,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // there are also addTextChangedListener on edit text, this is useful when user clears search. in this case we are throwing event to clear all filtering and show original list.
 
     private fun setUpSearch() {
-        binding.btnSearch.setOnClickListener {
-            val query = binding.etSearch.text.toString().trim()
-            homeViewModel.event(HomeEvent.SearchMovies(query))
-        }
-        binding.etSearch.addTextChangedListener { editable ->
-            if (editable.isNullOrEmpty()) {
-                homeViewModel.event(HomeEvent.SearchMovies(editable.toString()))
+        binding.homeContentView.apply {
+            btnSearch.setOnClickListener {
+                val query = etSearch.text.toString().trim()
+                homeViewModel.event(HomeEvent.SearchMovies(query))
+            }
+            etSearch.addTextChangedListener { editable ->
+                if (editable.isNullOrEmpty()) {
+                    homeViewModel.event(HomeEvent.SearchMovies(editable.toString()))
+                }
             }
         }
     }
@@ -160,27 +183,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // using ContextCompat.getDrawable which need context to change button's background.
 
     private fun updateTimeButtonBackgrounds(selectedTimeFilter: TimeFilter) {
-        binding.btnMorningTime.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (selectedTimeFilter == TimeFilter.MORNING)
-                R.drawable.bg_selected_time_button
-            else
-                R.drawable.bg_time_button
-        )
-        binding.btnAfternoonTime.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (selectedTimeFilter == TimeFilter.AFTERNOON)
-                R.drawable.bg_selected_time_button
-            else
-                R.drawable.bg_time_button
-        )
-        binding.btnNightTime.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (selectedTimeFilter == TimeFilter.NIGHT)
-                R.drawable.bg_selected_time_button
-            else
-                R.drawable.bg_time_button
-        )
+        binding.homeContentView.apply {
+            btnMorningTime.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (selectedTimeFilter == TimeFilter.MORNING)
+                    R.drawable.bg_selected_time_button
+                else
+                    R.drawable.bg_time_button
+            )
+            btnAfternoonTime.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (selectedTimeFilter == TimeFilter.AFTERNOON)
+                    R.drawable.bg_selected_time_button
+                else
+                    R.drawable.bg_time_button
+            )
+            btnNightTime.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (selectedTimeFilter == TimeFilter.NIGHT)
+                    R.drawable.bg_selected_time_button
+                else
+                    R.drawable.bg_time_button
+            )
+        }
     }
 
     //  button triggers filter, this button is time buttons,
