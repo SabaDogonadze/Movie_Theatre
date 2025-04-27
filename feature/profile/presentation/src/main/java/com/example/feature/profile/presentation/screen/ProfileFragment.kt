@@ -39,10 +39,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun getSideEffects(sideEffect: ProfileSideEffect) {
         when (sideEffect) {
-            is ProfileSideEffect.ShowError -> binding.root.showSnackBar(
-                getString(sideEffect.message),
-                backgroundColor = R.color.red
-            )
+            is ProfileSideEffect.ShowError -> {
+                when (sideEffect.message) {
+                    R.string.connection_problem -> {
+                        binding.btnLoginOut.isVisible = false
+                        binding.totalCoins.root.isVisible = false
+                    }
+
+                    else ->
+                        binding.root.showSnackBar(
+                            getString(sideEffect.message),
+                            backgroundColor = R.color.red
+                        )
+                }
+            }
 
             ProfileSideEffect.SignOut -> NavigationCommands.navigateToLoginGraph(findNavController())
         }

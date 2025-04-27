@@ -61,7 +61,7 @@ class MovieDetailViewModel @Inject constructor(private val movieDetailUseCase: G
             _state.update { it.copy(isLoading = true) }
             movieDetailUseCase.invoke(movieId).collect { result ->
                 when (result) {
-                    is Resource.Error -> {  // stops loading
+                    is Resource.Error -> {
                         _state.update {
                             it.copy(isLoading = false)
                         }
