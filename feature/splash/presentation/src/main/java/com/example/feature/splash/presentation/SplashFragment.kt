@@ -11,6 +11,7 @@ import com.example.core.presentation.extension.collectLatestFlow
 import com.example.feature.splash.presentation.databinding.FragmentSplashBinding
 import com.example.navigation.NavigationCommands
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 
 @AndroidEntryPoint
@@ -34,6 +35,7 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         collectLatestFlow(viewmodel.rememberMeFlow) { rememberMe ->
+            delay(1500L)
             if (rememberMe && viewmodel.currentUser != null) {
                 NavigationCommands.navigateToHomeGraph(findNavController())
             } else {
