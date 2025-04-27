@@ -56,7 +56,7 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
 fun ImageView.loadImg(url: String?) {
     Glide.with(this.context)
         .load(url)
-        .placeholder(R.drawable.ic_launcher_background)
-        .error(R.drawable.ic_launcher_background)
+        .placeholder(com.example.core.presentation.R.drawable.ic_loading)
+        .error(com.example.core.presentation.R.drawable.ic_error)
         .into(this)
 }

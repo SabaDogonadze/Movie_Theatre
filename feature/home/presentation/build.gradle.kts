@@ -60,9 +60,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     //okhttp
-
-    implementation(libs.logging.interceptor)
-
+    implementation(libs.androidx.swiperefreshlayout)
 
     //navigation ui
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -2,4 +2,8 @@
 <resources>
     <string name="lari">₾</string>
     <string name="swipe_to_delete">swipe to delete</string>
+    <string name="log_out">Log out</string>
+    <string name="see_your_current_booked_tickets">See Your Current Booked Tickets</string>
+    <string name="see_your_purchased_tickets">See Your Purchased Tickets</string>
+    <string name="see_your_orders">See Your Orders</string>
 </resources>

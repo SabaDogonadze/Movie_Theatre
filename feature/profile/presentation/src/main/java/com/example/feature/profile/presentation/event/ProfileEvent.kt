@@ -1,6 +1,8 @@
 package com.example.feature.profile.presentation.event
 
-sealed interface  ProfileEvent {
+sealed interface ProfileEvent {
 
-    data object GetCoins: com.example.feature.profile.presentation.event.ProfileEvent
+    data object GetCoins : ProfileEvent
+    data object SignOut : ProfileEvent
+
 }

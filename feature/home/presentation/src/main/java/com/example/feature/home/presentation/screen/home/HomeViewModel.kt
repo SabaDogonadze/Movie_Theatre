@@ -87,6 +87,12 @@ class HomeViewModel @Inject constructor(
 
             HomeEvent.LoadUpcomingMovies -> loadUpcomingMovies()
             HomeEvent.LoadPopularMovies -> loadPopularMovies()
+            HomeEvent.RefreshLayout -> {
+                loadGenres()
+                loadMovies()
+                loadPopularMovies()
+                loadUpcomingMovies()
+            }
         }
     }
 

@@ -7,8 +7,10 @@ import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentProfileBinding
+import com.example.feature.profile.presentation.event.ProfileEvent
 import com.example.feature.profile.presentation.event.ProfileSideEffect
 import com.example.feature.profile.presentation.state.ProfileUiState
+import com.example.navigation.NavigationCommands
 import com.example.resource.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +32,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun updateUi(uiState: ProfileUiState) {
         binding.progressBar.root.isVisible = uiState.isLoading
 
-        binding.txtCoin.text = uiState.coin.toString()
+        binding.totalCoins.txtCoinCount.text = uiState.coin.toString()
+
+        binding.tvUserEmail.text = uiState.firebaseUser.email
     }
 
     private fun getSideEffects(sideEffect: ProfileSideEffect) {
@@ -39,6 +43,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 getString(sideEffect.message),
                 backgroundColor = R.color.red
             )
+
+            ProfileSideEffect.SignOut -> NavigationCommands.navigateToLoginGraph(findNavController())
         }
     }
 
@@ -51,6 +57,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
         binding.ivMyShop.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToMyShopFragment())
+        }
+
+        binding.btnLoginOut.setOnClickListener {
+            viewmodel.onEvent(ProfileEvent.SignOut)
         }
     }
 

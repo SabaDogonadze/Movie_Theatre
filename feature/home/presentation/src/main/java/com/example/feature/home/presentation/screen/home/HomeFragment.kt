@@ -51,6 +51,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         genreAdapter.setonItemClickedListener { genre ->
             homeViewModel.event(HomeEvent.FilterMoviesByGenre(genre.id))
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            homeViewModel.event(HomeEvent.RefreshLayout)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
     }
 
@@ -117,8 +121,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun eventObserver() {
         collectLatestFlow(homeViewModel.uiEvents) { event ->
             when (event) {
-                //is HomeSideEffect.NavigateToDetail -> navigateToMovieDetailFragment()
-                is HomeSideEffect.ShowError -> binding.root.showSnackBar(getString(event.message))
+                is HomeSideEffect.ShowError -> {
+                    when (event.message) {
+                        R.string.connection_problem -> {}
+                        else-> binding.root.showSnackBar(getString(event.message))
+                    }
+                }
             }
         }
     }
