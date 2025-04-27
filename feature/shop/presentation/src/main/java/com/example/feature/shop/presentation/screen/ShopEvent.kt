@@ -9,6 +9,7 @@ sealed interface ShopEvent {
 
     object BuyWithCoin : ShopEvent
 
+    object RefreshLayout : ShopEvent
 
     data class AddProduct(val product: Product) : ShopEvent
     data class RemoveProduct(val product: Product) : ShopEvent

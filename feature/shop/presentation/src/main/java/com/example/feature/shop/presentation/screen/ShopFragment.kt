@@ -1,5 +1,6 @@
 package com.example.feature.shop.presentation.screen
 
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,7 +26,7 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
     }
 
     override fun setUp() {
-        binding.rvProductCategories.adapter = categoryProductAdapter
+        binding.layoutShop.rvProductCategories.adapter = categoryProductAdapter
 
         collectLatestFlow(viewModel.uiState) {
             updateUi(it)
@@ -35,42 +36,69 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
     }
 
     override fun clickListeners() {
-        binding.btnPlaceOrder.setOnClickListener {
-            viewModel.onEvent(ShopEvent.Order)
-        }
-        binding.swipeRefresh.setOnRefreshListener {
-            binding.swipeRefresh.isRefreshing = true
-            viewModel.onEvent(ShopEvent.GetProducts)
-            binding.swipeRefresh.isRefreshing = false
+        binding.layoutShop.apply {
+            btnPlaceOrder.setOnClickListener {
+                viewModel.onEvent(ShopEvent.Order)
+            }
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = true
+                viewModel.onEvent(ShopEvent.GetProducts)
+                swipeRefresh.isRefreshing = false
 
+            }
+            btnBuyWithCoin.setOnClickListener {
+                viewModel.onEvent(ShopEvent.BuyWithCoin)
+            }
         }
 
-        binding.btnBuyWithCoin.setOnClickListener {
-            viewModel.onEvent(ShopEvent.BuyWithCoin)
+        binding.noNetwork.apply {
+            btnRetry.setOnClickListener {
+                viewModel.onEvent(ShopEvent.RefreshLayout)
+            }
         }
     }
 
     private fun getSideEffects(sideEffect: ShopSideEffect) {
         when (sideEffect) {
-            is ShopSideEffect.ShowError -> binding.root.showSnackBar(
-                getString(sideEffect.message), backgroundColor = R.color.red
-            )
+            is ShopSideEffect.ShowError -> {
+                when (sideEffect.message) {
+                    R.string.connection_problem -> {
+                        binding.layoutShop.root.isVisible = false
+                        binding.noNetwork.root.isVisible = true
+                    }
+
+                    else -> binding.root.showSnackBar(
+                        getString(sideEffect.message), backgroundColor = R.color.red
+                    )
+                }
+            }
 
             is ShopSideEffect.SuccessfulOrder -> showTrackingCodeDialog(trackingCode = sideEffect.trackingCode.toString())
         }
     }
 
     private fun updateUi(state: ShopUiState) {
+        Log.d("shop state", state.toString())
         binding.progressBar.root.isVisible = state.isLoading
+
+
+        if (!state.isLoading) {
+            if (state.products.isNotEmpty()) {
+                binding.layoutShop.root.isVisible = true
+                binding.noNetwork.root.isVisible = false
+            }
+        } else {
+            binding.layoutShop.root.isVisible = false
+        }
 
         categoryProductAdapter.submitList(state.products)
 
-        binding.cartSummaryContainer.isVisible = state.selectedProduct.isNotEmpty()
-        binding.txtCartItems.text = state.selectedProduct.formatSelectedProducts()
-        binding.txtTotalPrice.text = state.selectedProduct.calculateTotalPrice()
-
-        binding.totalCoins.txtCoinCount.text = state.userCoins.toString()
-
+        binding.layoutShop.apply {
+            cartSummaryContainer.isVisible = state.selectedProduct.isNotEmpty()
+            txtCartItems.text = state.selectedProduct.formatSelectedProducts()
+            txtTotalPrice.text = state.selectedProduct.calculateTotalPrice()
+            totalCoins.txtCoinCount.text = state.userCoins.toString()
+        }
     }
 
     private fun showTrackingCodeDialog(trackingCode: String) {

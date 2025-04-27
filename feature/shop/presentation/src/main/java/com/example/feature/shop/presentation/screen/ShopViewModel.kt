@@ -52,6 +52,10 @@ class ShopViewModel @Inject constructor(
             ShopEvent.Order -> order()
             ShopEvent.GetCoin -> getCoins()
             ShopEvent.BuyWithCoin -> buyWithCoin()
+            ShopEvent.RefreshLayout -> {
+                getCoins()
+                getProducts()
+            }
         }
     }
 
