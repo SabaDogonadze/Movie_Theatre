@@ -49,7 +49,6 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
-    implementation(project(":resource"))
 
     //compose
     implementation(platform(libs.androidx.compose.bom))
@@ -80,6 +79,7 @@ dependencies {
 
     implementation(libs.logging.interceptor)
 
+    implementation(libs.lottie)
 
 
     //navigation ui

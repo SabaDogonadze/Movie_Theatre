@@ -1,7 +1,7 @@
 package com.example.feature.register.presentation.extension
 
 import com.example.feature.register.domain.util.RegisterError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 
 fun RegisterError.asStringResource(): Int {

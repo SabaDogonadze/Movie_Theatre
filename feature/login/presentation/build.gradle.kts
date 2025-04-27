@@ -47,7 +47,6 @@ android {
 
 dependencies {
     implementation(project(":feature:login:domain"))
-    implementation(project(":resource"))
     implementation(project(":core:presentation"))
     implementation(project(":core:domain"))
     implementation(project(":navigation"))

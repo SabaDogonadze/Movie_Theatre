@@ -3,7 +3,7 @@ package com.example.navigation
 import android.net.Uri
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.example.resource.R
+import com.example.core.presentation.R
 
 object NavigationCommands {
 

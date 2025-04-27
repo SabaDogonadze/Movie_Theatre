@@ -11,7 +11,7 @@ import com.example.feature.shop.domain.use_case.CreateOrderUseCase
 import com.example.feature.shop.domain.use_case.GetProductUseCase
 import com.example.feature.shop.presentation.mapper.groupByCategory
 import com.example.feature.shop.presentation.model.Product
-import com.example.resource.R
+import com.example.core.presentation.R
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

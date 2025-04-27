@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.feature.home.presentation.databinding.GenreViewholderBinding
 import com.example.feature.home.presentation.model.GenresListUi
-import com.example.resource.R
+import com.example.core.presentation.R
 
 class GenreRecyclerAdapter :
     ListAdapter<GenresListUi, GenreRecyclerAdapter.GenreItemViewHolder>(object :

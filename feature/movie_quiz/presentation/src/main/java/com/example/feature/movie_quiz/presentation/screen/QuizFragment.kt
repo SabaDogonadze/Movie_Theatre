@@ -18,7 +18,7 @@ import com.example.feature.movie_quiz.presentation.screen.dialog.QuizResultDialo
 import com.example.feature.movie_quiz.presentation.screen.dialog.TimeUpDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.WrongAnswerDialog
 import com.example.feature.movie_quiz.presentation.state.QuizState
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

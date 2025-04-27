@@ -11,7 +11,7 @@ import com.example.feature.profile.presentation.event.ProfileEvent
 import com.example.feature.profile.presentation.event.ProfileSideEffect
 import com.example.feature.profile.presentation.state.ProfileUiState
 import com.example.navigation.NavigationCommands
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

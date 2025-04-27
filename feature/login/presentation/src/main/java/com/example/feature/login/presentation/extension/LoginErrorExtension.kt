@@ -1,7 +1,7 @@
 package com.example.feature.login.presentation.extension
 
 import com.example.feaute.login.domain.util.LoginError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 fun LoginError.asStringResource(): Int {
     return when (this) {

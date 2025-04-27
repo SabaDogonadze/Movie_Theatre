@@ -139,7 +139,7 @@ class MovieDetailFragment :
 
                 is MovieDetailSideEffect.ShowError -> {
                     when (event.message) {
-                        com.example.resource.R.string.connection_problem -> {
+                        com.example.core.presentation.R.string.connection_problem -> {
                             binding.layoutMovieDetail.root.isVisible = false
                             binding.noNetwork.root.isVisible = true
                         }

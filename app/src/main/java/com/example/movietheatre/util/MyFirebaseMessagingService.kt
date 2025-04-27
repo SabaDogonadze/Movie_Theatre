@@ -10,7 +10,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.movietheatre.MainActivity
-import com.example.resource.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -65,7 +64,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(message)
-            .setSmallIcon(R.drawable.ic_splash_logo)
+            .setSmallIcon(
+                com.example.core.presentation.R
+                    .drawable.ic_splash_logo
+            )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

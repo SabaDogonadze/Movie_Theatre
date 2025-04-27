@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.feature.movie_quiz.presentation.databinding.QuizAnswerViewholderBinding
 import com.example.feature.movie_quiz.presentation.model.AnswerOptionPresenter
-import com.example.resource.R
+import com.example.core.presentation.R
 
 class AnswerRecyclerAdapter :
     ListAdapter<AnswerOptionPresenter, AnswerRecyclerAdapter.AnswerViewHolder>(object :

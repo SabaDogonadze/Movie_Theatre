@@ -13,7 +13,7 @@ import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.payment.domain.model.CardType
 import com.example.feature.payment.presentation.databinding.FragmentAddCardBinding
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,7 +1,7 @@
 package com.example.feature.profile.presentation.mapper
 
 import com.example.feature.profile.domain.util.LogOutError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 
 fun LogOutError.asStringResource(): Int {

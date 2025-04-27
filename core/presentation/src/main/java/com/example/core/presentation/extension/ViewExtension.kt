@@ -10,7 +10,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
-import com.example.resource.R
+import com.example.core.presentation.R
 import com.google.android.material.snackbar.Snackbar
 
 

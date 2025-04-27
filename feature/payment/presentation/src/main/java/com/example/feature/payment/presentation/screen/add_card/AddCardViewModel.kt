@@ -11,7 +11,7 @@ import com.example.feature.payment.domain.use_case.validation.ValidateExpiryDate
 import com.example.feature.payment.presentation.mapper.asStringResource
 import com.example.feature.payment.presentation.mapper.toDomain
 import com.example.feature.payment.presentation.model.Card
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

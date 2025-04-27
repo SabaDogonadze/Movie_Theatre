@@ -7,5 +7,4 @@ data class ProfileUiState(
     val coin: Int = 0,
     val selectedCoin: Int = 0,
     val firebaseUser: FirebaseUser,
-    val isConnected: Boolean = false,
 )

@@ -8,7 +8,7 @@ import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.login.presentation.databinding.FragmentForgotPasswordBinding
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

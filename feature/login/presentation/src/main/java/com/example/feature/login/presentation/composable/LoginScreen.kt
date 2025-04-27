@@ -41,7 +41,7 @@ import com.example.core.presentation.extension.hideKeyboard
 import com.example.feature.login.presentation.screen.login.LoginEvent
 import com.example.feature.login.presentation.screen.login.LoginSideEffect
 import com.example.feature.login.presentation.screen.login.LoginUiState
-import com.example.resource.R
+import com.example.core.presentation.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

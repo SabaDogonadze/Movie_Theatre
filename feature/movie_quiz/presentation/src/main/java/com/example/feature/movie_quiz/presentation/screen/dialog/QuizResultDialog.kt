@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.movie_quiz.presentation.databinding.FragmentQuizResultDialogBinding
-import com.example.resource.R
+import com.example.core.presentation.R
 
 class QuizResultDialog : BaseQuizDialog() {
 

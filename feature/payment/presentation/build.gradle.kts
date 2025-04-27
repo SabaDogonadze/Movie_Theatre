@@ -45,8 +45,6 @@ dependencies {
     implementation(project(":feature:payment:domain"))
     implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
-
-    implementation(project(":resource"))
     implementation(project(":navigation"))
 
 

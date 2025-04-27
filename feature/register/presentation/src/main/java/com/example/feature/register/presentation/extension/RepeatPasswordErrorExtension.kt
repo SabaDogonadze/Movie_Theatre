@@ -1,7 +1,7 @@
 package com.example.feature.register.presentation.extension
 
 import com.example.feature.register.domain.util.RepeatPasswordError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 fun RepeatPasswordError.asStringResource(): Int {
     return when (this) {

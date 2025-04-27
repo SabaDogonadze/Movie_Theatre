@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.core.presentation.R
 import com.example.feature.movie_detail.presentation.databinding.ViewholderScreeningDateBinding
 import com.example.feature.movie_detail.presentation.model.ScreeningDateChooser
-import com.example.resource.R
 
 class ScreeningChooserAdapter(
     private val onClick: (ScreeningDateChooser) -> Unit,

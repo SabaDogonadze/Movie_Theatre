@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core.presentation.extension.loadImg
 import com.example.feature.movie_quiz.presentation.databinding.QuizCategoryItemViewholderBinding
 import com.example.feature.movie_quiz.presentation.model.QuizCategoryPresenter
-import com.example.resource.R
+import com.example.core.presentation.R
 
 class QuizCategoryAdapter :
     ListAdapter<QuizCategoryPresenter, QuizCategoryAdapter.CategoryViewHolder>(object :

@@ -14,7 +14,7 @@ import com.example.feature.profile.presentation.databinding.FragmentTicketHeldBi
 import com.example.feature.profile.presentation.event.TicketHeldEvent
 import com.example.feature.profile.presentation.event.TicketHeldSideEffect
 import com.example.navigation.NavigationCommands
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

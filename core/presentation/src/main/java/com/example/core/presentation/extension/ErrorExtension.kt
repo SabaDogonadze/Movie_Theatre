@@ -3,7 +3,7 @@ package com.example.core.presentation.extension
 import com.example.core.domain.util.error.EmailError
 import com.example.core.domain.util.error.NetworkError
 import com.example.core.domain.util.error.PasswordError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 /**
  * this file is to map common error types to string resources

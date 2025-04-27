@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":resource"))
     implementation(project(":core:presentation"))
     implementation(project(":core:domain"))
     implementation(project(":feature:register:domain"))

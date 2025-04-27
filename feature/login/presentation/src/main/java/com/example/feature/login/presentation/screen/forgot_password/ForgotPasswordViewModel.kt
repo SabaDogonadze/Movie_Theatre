@@ -7,7 +7,7 @@ import com.example.core.domain.util.Resource
 import com.example.core.presentation.extension.asStringResource
 import com.example.feaute.login.domain.use_case.ForgotPasswordUseCase
 import com.example.feaute.login.domain.util.ForgotPasswordError
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

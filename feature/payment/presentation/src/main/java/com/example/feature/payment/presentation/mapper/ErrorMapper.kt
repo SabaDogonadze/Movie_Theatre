@@ -6,7 +6,7 @@ import com.example.feature.payment.domain.util.CardHolderNameError
 import com.example.feature.payment.domain.util.CardNumberError
 import com.example.feature.payment.domain.util.DatastoreError
 import com.example.feature.payment.domain.util.ExpiryDateError
-import com.example.resource.R
+import com.example.core.presentation.R
 
 
 fun CardHolderNameError.asStringResource(): Int {

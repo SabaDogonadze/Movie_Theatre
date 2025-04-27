@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.feature.payment.presentation.databinding.ItemCardBinding
 import com.example.feature.payment.presentation.model.Card
-import com.example.resource.R
+import com.example.core.presentation.R
 
 object GetCardDiffUtil : DiffUtil.ItemCallback<Card>() {
     override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {

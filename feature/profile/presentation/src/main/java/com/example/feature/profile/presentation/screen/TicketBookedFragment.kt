@@ -13,7 +13,7 @@ import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentTicketBookedBinding
 import com.example.feature.profile.presentation.event.TicketBookedEvent
 import com.example.feature.profile.presentation.event.TicketBookedSideEffect
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

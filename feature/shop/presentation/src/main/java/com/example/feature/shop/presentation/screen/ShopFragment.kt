@@ -1,17 +1,16 @@
 package com.example.feature.shop.presentation.screen
 
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.shop.presentation.databinding.FragmentShopBinding
 import com.example.feature.shop.presentation.extension.calculateTotalPrice
 import com.example.feature.shop.presentation.extension.formatSelectedProducts
 import com.example.feature.shop.presentation.screen.category_product_adapter.CategoryProductAdapter
-import com.example.resource.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -79,7 +78,7 @@ class ShopFragment : BaseFragment<FragmentShopBinding>(FragmentShopBinding::infl
 
     private fun updateUi(state: ShopUiState) {
         binding.progressBar.root.isVisible = state.isLoading
-        binding.layoutShop.root.isVisible = !state.isLoading
+        binding.layoutShop.root.isVisible = !state.isLoading && state.products.isNotEmpty()
 
         categoryProductAdapter.submitList(state.products)
 

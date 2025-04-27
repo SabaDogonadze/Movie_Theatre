@@ -17,7 +17,7 @@ import com.example.feature.home.presentation.event.HomeSideEffect
 import com.example.feature.home.presentation.state.TimeFilter
 import com.example.feature.home.presentation.util.getTimeRangeForInterval
 import com.example.navigation.NavigationCommands
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

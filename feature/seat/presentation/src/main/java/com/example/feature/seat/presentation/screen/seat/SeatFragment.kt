@@ -1,6 +1,5 @@
 package com.example.feature.seat.presentation.screen.seat
 
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.asMoneyFormat
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
@@ -21,7 +21,6 @@ import com.example.feature.seat.presentation.screen.seat.seat_row_adapter.SeatRo
 import com.example.feature.seat.presentation.screen.seat.seat_type_adapter.SeatTypeAdapter
 import com.example.feature.seat.presentation.util.SeatType
 import com.example.navigation.NavigationCommands
-import com.example.resource.R
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent

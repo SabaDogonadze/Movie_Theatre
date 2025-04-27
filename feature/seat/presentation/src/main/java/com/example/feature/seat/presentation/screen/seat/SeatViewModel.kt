@@ -11,7 +11,7 @@ import com.example.feature.seat.domain.use_case.GetSeatsUseCase
 import com.example.feature.seat.presentation.mapper.toPresentation
 import com.example.feature.seat.presentation.model.Seat
 import com.example.feature.seat.presentation.util.SeatType
-import com.example.resource.R
+import com.example.core.presentation.R
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

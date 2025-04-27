@@ -16,7 +16,7 @@ import com.example.feature.payment.domain.use_case.DeleteCardUseCase
 import com.example.feature.payment.domain.use_case.GetCardsUseCase
 import com.example.feature.payment.presentation.mapper.asStringResource
 import com.example.feature.payment.presentation.mapper.toPresentation
-import com.example.resource.R
+import com.example.core.presentation.R
 import com.google.android.gms.wallet.PaymentData
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel

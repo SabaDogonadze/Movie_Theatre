@@ -46,8 +46,6 @@ dependencies {
     api(project(":core:presentation"))
     implementation(project(":navigation"))
 
-    implementation(project(":resource"))
-
 
     //hilt
     implementation(libs.hilt.android)

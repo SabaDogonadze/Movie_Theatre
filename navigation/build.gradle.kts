@@ -34,7 +34,7 @@ android {
 
 dependencies {
 
-    implementation(project(":resource"))
+    implementation(project(":core:presentation"))
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui)

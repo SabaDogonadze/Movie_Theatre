@@ -7,7 +7,7 @@ import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentMyShopBinding
 import com.example.feature.profile.presentation.my_shop.main_item_adapter.MainItemAdapter
-import com.example.resource.R
+import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

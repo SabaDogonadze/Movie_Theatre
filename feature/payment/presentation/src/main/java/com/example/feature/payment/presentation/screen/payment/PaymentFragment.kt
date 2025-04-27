@@ -23,7 +23,7 @@ import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.payment.presentation.databinding.FragmentPaymentBinding
 import com.example.feature.payment.presentation.screen.payment.adapter.PaymentPagerAdapter
 import com.example.navigation.NavigationCommands
-import com.example.resource.R
+import com.example.core.presentation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
