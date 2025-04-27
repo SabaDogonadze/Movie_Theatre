@@ -3,11 +3,11 @@ package com.example.feature.profile.presentation.my_shop
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentMyShopBinding
 import com.example.feature.profile.presentation.my_shop.main_item_adapter.MainItemAdapter
-import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,25 +20,28 @@ class MyShopFragment : BaseFragment<FragmentMyShopBinding>(FragmentMyShopBinding
     }
 
     override fun setUp() {
-        binding.rvProductCategories.adapter = mainItemAdapter
+        binding.layoutMyShop.rvProductCategories.adapter = mainItemAdapter
         collectLatestFlow(viewModel.uiState) { updateUi(it) }
         collectLatestFlow(viewModel.sideEffect) { getSideEffects(it) }
 
     }
 
     override fun clickListeners() {
-        binding.swipeRefresh.setOnRefreshListener {
-            binding.swipeRefresh.isRefreshing = true
-            viewModel.onEvent(MyShopEvent.GetUserOrder)
-            binding.swipeRefresh.isRefreshing = false
+        binding.layoutMyShop.apply {
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = true
+                viewModel.onEvent(MyShopEvent.GetUserOrder)
+                swipeRefresh.isRefreshing = false
 
 
+            }
         }
     }
 
 
     private fun updateUi(state: MyShopUiState) {
         binding.progressBar.root.isVisible = state.isLoading
+        binding.emptyMyShop.root.isVisible = state.products.isEmpty()
 
         mainItemAdapter.submitList(
             state.products.toList()

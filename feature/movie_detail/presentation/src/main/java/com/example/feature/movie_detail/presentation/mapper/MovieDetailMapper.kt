@@ -34,18 +34,17 @@ fun MovieDetail.toPresenter(): MovieDetailPresenter {
 fun List<Screening>.toScreeningChoose(): List<ScreeningDateChooser> {
     val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
-    val dayWeekPairs = this
+    val dateWeekdayPairs = this
         .map { screening ->
             val dateTime = LocalDateTime.parse(screening.screeningTime, formatter)
-            val day = dateTime.dayOfMonth
-            val weekday = dateTime.format(
+            Triple(dateTime, dateTime.dayOfMonth, dateTime.format(
                 DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH)
-            )
-            day to weekday
+            ))
         }
-        .distinctBy { it.first }
+        .distinctBy { it.first.toLocalDate() }
         .sortedBy { it.first }
-    return dayWeekPairs.mapIndexed { index, (day, weekday) ->
+
+    return dateWeekdayPairs.mapIndexed { index, (dateTime, day, weekday) ->
         ScreeningDateChooser(
             number = day,
             title = weekday,

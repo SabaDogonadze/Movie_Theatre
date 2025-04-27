@@ -85,6 +85,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         }
 
         binding.btnRegister.apply {
+            isVisible = !state.isLoading
             isEnabled = state.isValidForm
         }
     }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.SwipeAndDeleteCallback
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
@@ -14,7 +15,6 @@ import com.example.feature.profile.presentation.databinding.FragmentTicketHeldBi
 import com.example.feature.profile.presentation.event.TicketHeldEvent
 import com.example.feature.profile.presentation.event.TicketHeldSideEffect
 import com.example.navigation.NavigationCommands
-import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +45,7 @@ class TicketHeldFragment :
 
     private fun setUpActorsRecycler() {
         tickedHeldAdapter = TicketHeldRecyclerView()
-        binding.activeBookingRecycelView.apply {
+        binding.layoutTicketHeld.activeBookingRecycelView.apply {
             layoutManager =
                 LinearLayoutManager(requireContext())
             adapter = tickedHeldAdapter
@@ -55,6 +55,8 @@ class TicketHeldFragment :
     private fun stateObserver() {
         collectLatestFlow(ticketHeldViewModel.state) { state ->
             binding.progressBar.root.isVisible = state.isLoading
+            binding.emptyTicketHeld.root.isVisible = state.userTickets.tickets.isEmpty()
+
             tickedHeldAdapter.submitList(state.userTickets.tickets.toList())
         }
     }
@@ -75,7 +77,7 @@ class TicketHeldFragment :
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeAndDelete)
-        itemTouchHelper.attachToRecyclerView(binding.activeBookingRecycelView)
+        itemTouchHelper.attachToRecyclerView(binding.layoutTicketHeld.activeBookingRecycelView)
     }
 
     private fun eventObserver() {

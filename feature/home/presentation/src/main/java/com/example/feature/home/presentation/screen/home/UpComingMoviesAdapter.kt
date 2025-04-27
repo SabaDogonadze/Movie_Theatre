@@ -49,7 +49,6 @@ class UpComingMoviesAdapter(val onClick: (HomeMovieListUi) -> Unit) :
 
             binding.apply {
                 tvMovieTitle.text = item.title
-                tvMovieDuration.text = item.duration.toString()
                 root.setOnClickListener {
                     onClick(item)
                 }

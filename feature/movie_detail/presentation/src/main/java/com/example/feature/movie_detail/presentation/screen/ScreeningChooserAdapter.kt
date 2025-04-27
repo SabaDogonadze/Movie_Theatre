@@ -1,6 +1,5 @@
 package com.example.feature.movie_detail.presentation.screen
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -69,7 +68,12 @@ class ScreeningChooserAdapter(
                         )
                     )
                 } else {
-                    binding.cwMain.setCardBackgroundColor(Color.TRANSPARENT)
+                    binding.cwMain.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.light_blue
+                        )
+                    )
                 }
             }
         }

@@ -54,7 +54,6 @@ class HomeMovieRecyclerAdapter :
 
             binding.apply {
                 tvMovieTitle.text = item.title
-                tvMovieDuration.text = item.duration.toString()
                 root.setOnClickListener {
                     onItemClicked?.invoke(item)
                 }

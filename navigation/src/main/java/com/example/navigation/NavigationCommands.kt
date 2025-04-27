@@ -87,10 +87,10 @@ object NavigationCommands {
         val navGraphId = navController.graph.id
 
         val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.from_center_to_expand)
-            .setExitAnim(R.anim.from_center_to_expand)
-            .setPopEnterAnim(R.anim.from_center_to_expand)
-            .setPopExitAnim(R.anim.from_center_to_expand)
+//            .setEnterAnim(R.anim.from_center_to_expand)
+//            .setExitAnim(R.anim.from_center_to_expand)
+//            .setPopEnterAnim(R.anim.from_center_to_expand)
+//            .setPopExitAnim(R.anim.from_center_to_expand)
             .setPopUpTo(navGraphId, true)
             .build()
 
