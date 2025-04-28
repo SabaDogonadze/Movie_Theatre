@@ -7,4 +7,5 @@ data class PaymentUiState(
     val cards: List<Card> = emptyList(),
     val userCoins: Int = 0,
     val selectedCoins: Int = 0,
+    val hasShownWarning: Boolean = false,
 )

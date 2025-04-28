@@ -9,6 +9,7 @@ import com.example.core.domain.use_case.GetCoinsUseCase
 import com.example.core.domain.use_case.UpdateCoinUseCase
 import com.example.core.domain.use_case.UpdateTicketUseCase
 import com.example.core.domain.util.Resource
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.asStringResource
 import com.example.core.presentation.extension.toDomain
 import com.example.core.presentation.util.TicketStatus
@@ -16,7 +17,6 @@ import com.example.feature.payment.domain.use_case.DeleteCardUseCase
 import com.example.feature.payment.domain.use_case.GetCardsUseCase
 import com.example.feature.payment.presentation.mapper.asStringResource
 import com.example.feature.payment.presentation.mapper.toPresentation
-import com.example.core.presentation.R
 import com.google.android.gms.wallet.PaymentData
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,6 +92,9 @@ class PaymentViewModel @Inject constructor(
 
             is PaymentEvent.OnChangeSelectedCoin -> _uiState.update { it.copy(selectedCoins = event.coin) }
             PaymentEvent.GetCoins -> getCoins()
+            PaymentEvent.SeenWarning -> {
+                _uiState.update { it.copy(hasShownWarning = true) }
+            }
         }
     }
 

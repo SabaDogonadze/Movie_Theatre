@@ -6,6 +6,7 @@ sealed interface PaymentEvent {
     object LoadCards : PaymentEvent
     object AddNewCardClicked : PaymentEvent
     object GetCoins : PaymentEvent
+    object SeenWarning : PaymentEvent
     data class OnDeleteCardClick(val cardNumber: String) : PaymentEvent
     data class OnChangeSelectedCoin(val coin: Int) : PaymentEvent
 

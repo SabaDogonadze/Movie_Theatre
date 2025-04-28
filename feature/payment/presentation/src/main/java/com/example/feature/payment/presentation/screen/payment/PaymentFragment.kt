@@ -17,13 +17,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.asMoneyFormat
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.payment.presentation.databinding.FragmentPaymentBinding
 import com.example.feature.payment.presentation.screen.payment.adapter.PaymentPagerAdapter
 import com.example.navigation.NavigationCommands
-import com.example.core.presentation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
@@ -84,6 +84,13 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUp()
         clickListeners()
+
+        if (!viewModel.uiState.value.hasShownWarning) {
+            showTicketHoldingWarning()
+            viewModel.onEvent(PaymentEvent.SeenWarning)
+
+        }
+
         if (savedInstanceState == null) {
             googlePayFragment = GooglePayFragment.newInstance()
 
@@ -93,6 +100,7 @@ class PaymentFragment : Fragment() {
                     googlePayFragment
                 )
                 .commit()
+
         } else {
             googlePayFragment =
                 childFragmentManager.findFragmentById(com.example.feature.payment.presentation.R.id.google_pay_container) as GooglePayFragment
@@ -105,7 +113,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun setUp() {
-        showTicketHoldingWarning()
         binding.apply {
             txtTotalValue.text = args.totalPrice.asMoneyFormat()
             skCoinChooser.seekBarCoins.progress = 0
