@@ -49,7 +49,7 @@ class TicketBookedRecyclerView :
     inner class TicketBookedViewHolder(private val binding: BookedTicketViewholderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            val item = currentList[adapterPosition]
+            val item = getItem(adapterPosition)
 
             binding.apply {
                 tvMovieTitle.text = item.movieTitle

@@ -56,7 +56,6 @@
             <option value="$PROJECT_DIR$/feature/splash/domain" />
             <option value="$PROJECT_DIR$/feature/splash/presentation" />
             <option value="$PROJECT_DIR$/navigation" />
-            <option value="$PROJECT_DIR$/resource" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
