@@ -114,6 +114,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.androidx.datastore.preferences)
+
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)

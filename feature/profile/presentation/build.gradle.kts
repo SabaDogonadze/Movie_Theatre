@@ -71,6 +71,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.lottie)
     implementation(libs.androidx.swiperefreshlayout)

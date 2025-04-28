@@ -1,18 +1,24 @@
 package com.example.feature.profile.presentation.screen
 
+import android.content.res.ColorStateList
+import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
+import com.example.feature.profile.domain.model.Language
 import com.example.feature.profile.presentation.databinding.FragmentProfileBinding
 import com.example.feature.profile.presentation.event.ProfileEvent
 import com.example.feature.profile.presentation.event.ProfileSideEffect
 import com.example.feature.profile.presentation.state.ProfileUiState
 import com.example.navigation.NavigationCommands
-import com.example.core.presentation.R
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +42,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         binding.totalCoins.txtCoinCount.text = uiState.coin.toString()
 
         binding.tvUserEmail.text = uiState.firebaseUser.email
+
+        setupLanguageChips(uiState.availableLanguages, uiState.selectedLanguageCode)
+
     }
 
     private fun getSideEffects(sideEffect: ProfileSideEffect) {
@@ -56,8 +65,61 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
 
             ProfileSideEffect.SignOut -> NavigationCommands.navigateToLoginGraph(findNavController())
+            is ProfileSideEffect.ApplyLanguage -> {
+                val newLocales = LocaleListCompat.forLanguageTags(sideEffect.languageCode)
+                AppCompatDelegate.setApplicationLocales(newLocales)
+            }
         }
     }
+
+    private fun setupLanguageChips(languages: List<Language>, selectedCode: String) {
+        binding.languageChipGroup.removeAllViews()
+
+        languages.forEach { language ->
+            val chip = Chip(requireContext()).apply {
+                id = View.generateViewId()
+                text = language.displayName
+                isCheckable = true
+                isChecked = language.code == selectedCode
+
+                chipBackgroundColor = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(
+                        ContextCompat.getColor(requireContext(), R.color.white),
+                        ContextCompat.getColor(requireContext(), R.color.blue)
+                    )
+                )
+
+                setTextColor(
+                    ColorStateList(
+                        arrayOf(
+                            intArrayOf(android.R.attr.state_checked),
+                            intArrayOf(-android.R.attr.state_checked)
+                        ),
+                        intArrayOf(
+                            ContextCompat.getColor(requireContext(), R.color.blue),
+                            ContextCompat.getColor(requireContext(), R.color.white)
+                        )
+                    )
+                )
+
+                isChipIconVisible = language.code == selectedCode
+                chipIcon = if (language.code == selectedCode) {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)
+                } else null
+
+                setOnClickListener {
+                    viewmodel.onEvent(ProfileEvent.SelectLanguage(language.code))
+                }
+            }
+
+            binding.languageChipGroup.addView(chip)
+        }
+    }
+
 
     override fun clickListeners() {
         binding.ivSeeBookedTickets.setOnClickListener {

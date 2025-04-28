@@ -6,4 +6,7 @@ sealed interface ProfileSideEffect {
         ProfileSideEffect
 
     data object SignOut : ProfileSideEffect
+
+    data class ApplyLanguage(val languageCode: String) : ProfileSideEffect
+
 }
