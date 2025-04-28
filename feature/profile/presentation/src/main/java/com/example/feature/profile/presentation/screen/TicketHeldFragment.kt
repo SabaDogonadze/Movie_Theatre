@@ -40,6 +40,12 @@ class TicketHeldFragment :
                 )
             )
         }
+        binding.layoutTicketHeld.btnArrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.emptyTicketHeld.btnBuyFavoriteProduct.setOnClickListener {
+            NavigationCommands.navigateToHomeGraph(findNavController())
+        }
     }
 
 

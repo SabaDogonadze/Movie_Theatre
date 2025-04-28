@@ -73,7 +73,12 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavigationView.visibility = View.VISIBLE
                 binding.bottomNavigationView.menu.findItem(R.id.profile_graph)?.isChecked = true
 
-            } else {
+            }
+            else if (destination.id == com.example.feature.movie_quiz.presentation.R.id.quizCategoryFragment) {
+                binding.bottomNavigationView.visibility = View.VISIBLE
+                binding.bottomNavigationView.menu.findItem(R.id.movie_quiz_nav_graph)?.isChecked = true
+            }
+            else {
                 binding.bottomNavigationView.visibility = View.GONE
             }
         }

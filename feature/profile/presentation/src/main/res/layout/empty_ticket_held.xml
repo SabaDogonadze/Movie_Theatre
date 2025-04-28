@@ -29,4 +29,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_empty_ticket" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_buy_favorite_product"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/selector_auth_button_background"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/go_buy_a_ticket"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_no_booked_ticket" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

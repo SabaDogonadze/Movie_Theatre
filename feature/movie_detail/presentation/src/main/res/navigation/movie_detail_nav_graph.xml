@@ -4,7 +4,6 @@
     android:id="@+id/movie_detail_graph"
     app:startDestination="@id/movieDetailFragment">
 
-    <!-- Add deep link to the entire graph -->
     <deepLink app:uri="movieapp://feature/movie_detail" />
 
     <fragment

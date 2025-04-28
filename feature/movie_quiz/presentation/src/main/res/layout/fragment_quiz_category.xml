@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/blue">
 
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_intro"
         android:layout_width="0dp"
