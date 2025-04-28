@@ -143,9 +143,7 @@ class MovieDetailFragment :
                             binding.layoutMovieDetail.root.isVisible = false
                             binding.noNetwork.root.isVisible = true
                         }
-
                         else -> binding.root.showSnackBar(getString(event.message))
-
                     }
 
                 }

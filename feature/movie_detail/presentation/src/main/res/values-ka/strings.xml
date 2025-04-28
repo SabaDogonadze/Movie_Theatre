@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="min">წთ</string>
+    <string name="director">დირექტორი:</string>
+    <string name="description">აღწერა</string>
+    <string name="cast">შემადენლობა</string>
+    <string name="movie_trailer">ფილმის ტრეილერი</string>
+    <string name="movie_screenings">ფილმის ჩვენებები</string>
+</resources>

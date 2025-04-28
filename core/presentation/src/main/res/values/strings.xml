@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MovieTheatre</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="the_password_needs_to_consist_of_at_least_8_characters">* the password needs to consist of at least 8 characters</string>
     <string name="the_password_needs_to_contain_at_least_one_letter_and_digit">* the password needs to contain at least one letter and digit</string>

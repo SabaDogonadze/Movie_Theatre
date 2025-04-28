@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ticket_is_held">!!!ბილეთი დაჯავშნილია</string>
+    <string name="your_ticket_is_being_held_for_a_day_and_if_you_don_t_buy_it_we_ll_be_freed">თქვენი ბილეთი დაჯავშნილია 1 დღის განმავლობაში,დროის გასვლის შემდგომ ბილეთი გათავისუფლდება</string>
+    <string name="understood">გასაგებია</string>
+</resources>
