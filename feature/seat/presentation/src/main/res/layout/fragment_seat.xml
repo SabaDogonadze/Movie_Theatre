@@ -90,43 +90,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgCinemaScreen" />
 
+        <!-- Price information section - centered between screen and panorama button -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/centerGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTicketPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
             android:text="@string/ticket_price"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtScreen"
-            app:layout_constraintBottom_toTopOf="@id/txtSeats"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toBottomOf="@id/txtScreen" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTicketPriceValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginEnd="20dp"
             android:textColor="@color/gray"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/txtTicketPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/txtTicketPrice"
-            app:layout_constraintBottom_toBottomOf="@id/txtTicketPrice"
             tools:text="13.99 ₾" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtSeats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="@string/seats"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
-            app:layout_constraintTop_toBottomOf="@id/txtTicketPrice"
-            app:layout_constraintBottom_toTopOf="@id/txtVipAddOn" />
+            app:layout_constraintTop_toBottomOf="@id/txtTicketPrice" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtSeatsValue"
@@ -134,7 +140,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="4dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:lineSpacingExtra="2dp"
             android:textAlignment="textEnd"
             android:textColor="@color/gray"
             android:textSize="18sp"
@@ -142,20 +150,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtSeats"
             app:layout_constraintTop_toTopOf="@id/txtSeats"
-            app:layout_constraintBottom_toBottomOf="@id/txtSeats"
-            tools:text="A1(VIP),A1(VIP),A1(VIP)" />
+            tools:text="A1(VIP),A2(VIP),A3(VIP),B1(VIP),B2(VIP)" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtVipAddOn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="@string/added_on_vip_fee"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
-            app:layout_constraintTop_toBottomOf="@id/txtSeats"
-            app:layout_constraintBottom_toTopOf="@id/separator" />
+            app:layout_constraintTop_toBottomOf="@id/txtSeatsValue" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtVipAddOnValue"
@@ -170,29 +176,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtSeats"
             app:layout_constraintTop_toTopOf="@id/txtVipAddOn"
-            app:layout_constraintBottom_toBottomOf="@id/txtVipAddOn"
             tools:text="12.00 ₾" />
 
         <View
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="20dp"
             android:background="@color/dark_white"
-            app:layout_constraintTop_toBottomOf="@id/txtVipAddOn"
-            app:layout_constraintBottom_toTopOf="@id/txtTotalPrice" />
+            app:layout_constraintTop_toBottomOf="@id/txtVipAddOnValue" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
             android:text="@string/total_price"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/txtTicketPrice"
-            app:layout_constraintTop_toBottomOf="@id/separator"
-            app:layout_constraintBottom_toTopOf="@id/btnPanorama" />
+            app:layout_constraintTop_toBottomOf="@id/separator" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTotalPriceValue"
@@ -207,28 +211,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtSeats"
             app:layout_constraintTop_toTopOf="@id/txtTotalPrice"
-            app:layout_constraintBottom_toBottomOf="@id/txtTotalPrice"
             tools:text="96.00 ₾" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPanorama"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="16dp"
             android:background="@drawable/bg_purple_rounded_shape"
             android:text="@string/see_your_seat_in_360"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/btnBuyOption"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTotalPriceValue" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBuyOption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_green_rounded_shape"
@@ -236,7 +240,9 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnBookTickets"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPanorama"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBookTickets"
@@ -244,13 +250,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/bg_orangle_rounded_shape"
             android:text="@string/book_tickets"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/btnBuyOption"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnBuyOption" />
+            app:layout_constraintStart_toEndOf="@id/btnBuyOption"
+            app:layout_constraintTop_toTopOf="@id/btnBuyOption" />
 
         <include
             android:id="@+id/SuccessBookingLayout"
@@ -258,7 +264,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
