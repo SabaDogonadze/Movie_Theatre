@@ -44,6 +44,9 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
         quizAnswerAdapter.setOnItemClickListener { answerId ->
             viewModel.onEvent(QuizEvent.SelectAnswer(answerId))
         }
+        binding.btnArrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupRecyclerView() {

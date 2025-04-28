@@ -2,12 +2,14 @@ package com.example.feature.profile.presentation.my_shop
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.profile.presentation.databinding.FragmentMyShopBinding
 import com.example.feature.profile.presentation.my_shop.main_item_adapter.MainItemAdapter
+import com.example.navigation.NavigationCommands
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,9 +34,10 @@ class MyShopFragment : BaseFragment<FragmentMyShopBinding>(FragmentMyShopBinding
                 swipeRefresh.isRefreshing = true
                 viewModel.onEvent(MyShopEvent.GetUserOrder)
                 swipeRefresh.isRefreshing = false
-
-
             }
+        }
+        binding.emptyMyShop.btnBuyFavoriteProduct.setOnClickListener {
+            NavigationCommands.navigateToShopGraph(findNavController())
         }
     }
 

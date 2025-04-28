@@ -13,6 +13,7 @@ object NavigationCommands {
 
     private const val DEEP_LINK_MOVIE_QUIZ_GRAPH = "movieapp://feature/movie_quiz"
 
+    private const val DEEP_LINK_SHOP_GRAPH = "movieapp://feature/shop"
 
     const val DEEP_LINK_MOVIE_DETAIL_GRAPH = "movieapp://feature/movie_detail"
     private const val DEEP_LINK_MOVIE_DETAIL = "movieapp://moviedetail/"
@@ -87,14 +88,21 @@ object NavigationCommands {
         val navGraphId = navController.graph.id
 
         val navOptions = NavOptions.Builder()
-//            .setEnterAnim(R.anim.from_center_to_expand)
-//            .setExitAnim(R.anim.from_center_to_expand)
-//            .setPopEnterAnim(R.anim.from_center_to_expand)
-//            .setPopExitAnim(R.anim.from_center_to_expand)
             .setPopUpTo(navGraphId, true)
             .build()
 
         navController.navigate(Uri.parse(DEEP_LINK_HOME_GRAPH), navOptions)
+    }
+
+    fun navigateToShopGraph(navController: NavController) {
+
+        val navGraphId = navController.graph.id
+
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(navGraphId, true)
+            .build()
+
+        navController.navigate(Uri.parse(DEEP_LINK_SHOP_GRAPH), navOptions)
     }
 
 }

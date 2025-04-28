@@ -20,7 +20,6 @@
             android:background="@android:color/transparent"
             android:scaleType="centerCrop"
             android:src="@drawable/arrow_back"
-            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/txtBookTheSeat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/txtBookTheSeat" />

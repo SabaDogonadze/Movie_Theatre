@@ -49,8 +49,8 @@ class MovieDetailFragment :
                 )
             )
         }
-        binding.layoutMovieDetail.ivMovieImage.setOnClickListener {
-            NavigationCommands.navigateToMovieQuizGraph(findNavController())
+        binding.layoutMovieDetail.btnArrowBack.setOnClickListener {
+           findNavController().navigateUp()
         }
 
         binding.noNetwork.btnRetry.setOnClickListener {

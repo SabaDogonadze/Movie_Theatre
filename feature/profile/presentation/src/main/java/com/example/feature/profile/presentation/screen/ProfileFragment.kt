@@ -3,6 +3,7 @@ package com.example.feature.profile.presentation.screen
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import com.example.core.presentation.BaseFragment
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
@@ -68,7 +69,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         binding.ivMyShop.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionIdProfileFragmentToMyShopFragment())
         }
-
         binding.btnLoginOut.setOnClickListener {
             viewmodel.onEvent(ProfileEvent.SignOut)
         }
