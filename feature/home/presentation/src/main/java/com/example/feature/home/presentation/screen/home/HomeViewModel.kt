@@ -66,11 +66,12 @@ class HomeViewModel @Inject constructor(
                 _state.update { currentState ->
                     currentState.copy(
                         selectedGenreId = if (currentState.selectedGenreId == event.genreId) null else event.genreId,
-                        genres = if (currentState.genres.firstOrNull { it.isSelected }?.id == event.genreId) currentState.genres.map {
-                            it.copy(
-                                isSelected = false
-                            )
-                        } else currentState.genres.map { it.copy(isSelected = it.id == event.genreId) })
+                    )
+//                        genres = if (currentState.genres.firstOrNull { it.isSelected }?.id == event.genreId) currentState.genres.map {
+//                            it.copy(
+//                                isSelected = false
+//                            )
+//                        } else currentState.genres.map { it.copy(isSelected = it.id == event.genreId) })
                 }
                 loadMovies()
             }
@@ -149,7 +150,7 @@ class HomeViewModel @Inject constructor(
     // using Resource which is sealed class so we must write every case.
     private fun loadMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isLoading = true) }
+            _state.update { it.copy(isLoadingMovie = true) }
             getMovieListUseCase.invoke(
                 endTime = _state.value.selectedTimeFilter.toDate().second,
                 genreId = _state.value.selectedGenreId,
@@ -159,7 +160,7 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is com.example.core.domain.util.Resource.Error -> {  // stops loading
                         _state.update {
-                            it.copy(isLoading = false)
+                            it.copy(isLoadingMovie = false)
                         }
                         _uiEvents.emit(HomeSideEffect.ShowError(result.error.asStringResource()))
                     }
@@ -173,7 +174,7 @@ class HomeViewModel @Inject constructor(
                         }
                         _state.update {
                             it.copy(   // Stops loading (isLoading = false).
-                                isLoading = false,
+                                isLoadingMovie = false,
                                 movies = movies  //Updates the state with: fetched movie list
                             )
                         }

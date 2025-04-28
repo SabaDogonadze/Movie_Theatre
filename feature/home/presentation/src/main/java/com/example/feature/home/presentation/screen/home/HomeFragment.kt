@@ -1,6 +1,5 @@
 package com.example.feature.home.presentation.screen.home
 
-import android.util.Log.d
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -124,13 +123,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // calling updateTimeButtonBackgrounds function
     private fun stateObserver() {
         collectLatestFlow(homeViewModel.state) { state ->
+
             binding.progressBar.root.isVisible = state.isLoading
             binding.homeContentView.root.isVisible = !state.isLoading
-            d("recyclermovie", "${state.movies}")
+            binding.homeContentView.progressBarMovies.root.isVisible = state.isLoadingMovie
+
             homeMovieAdapter.submitList(state.movies.toList())
+
             upComingMoviesAdapter.submitList(state.upcomingMovies.toList())
-            genreAdapter.submitList(state.genres.toList())
+
+            genreAdapter.submitList(state.genresFiltered.toList())
+
             popularMoviesAdapter.submitList(state.popularMovies.toList())
+
             updateTimeButtonBackgrounds(state.selectedTimeFilter)
         }
     }
