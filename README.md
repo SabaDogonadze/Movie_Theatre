@@ -17,7 +17,7 @@ This application is a movie theatre app  that allows users to:
 <div style="display: flex; gap: 10px;">
   <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/login.png?raw=true" alt="Login Screen" width="200"/>  
   <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/register.png?raw=true" alt="Login Screen" width="200"/>  
-    <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/forgot_passwordpng?raw=true" alt="Login Screen" width="200"/>  
+    <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/forgot_password.png?raw=true" alt="Login Screen" width="200"/>  
 
 </div>
 
@@ -48,16 +48,17 @@ This application is a movie theatre app  that allows users to:
 ### payment Screen
 - choose a way you want to pay by coins,card,or google pay
 - you can add card as well
-<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/favourites_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
-<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/favourites_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
+<div style="display: flex; gap: 10px;">
+  <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/payment.png?raw=true" alt="Movie Deteail Top Screen" width="200"/>  
+  <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/add_card.png?raw=true" alt="Movie Detail Bottom Screen" width="200"/>
+</div>
 
 
 ### shop screen 
 - buy snacks
 - you can pay with coins or place a order
 <div style="display: flex; gap: 10px;">
-  <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/payment.png?raw=true" alt="Movie Deteail Top Screen" width="200"/>  
-  <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/add_card.png?raw=true" alt="Movie Detail Bottom Screen" width="200"/>
+  <img src="https://github.com/SabaDogonadze/Movie_Theatre/blob/master/images/shop.png?raw=true" alt="Movie Deteail Top Screen" width="200"/>  
 </div>
 
 ### quiz screen 
