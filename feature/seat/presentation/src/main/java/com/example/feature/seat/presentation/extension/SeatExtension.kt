@@ -9,5 +9,5 @@ fun Seat.asString(): String {
 
 @SuppressLint("DefaultLocale")
 fun Double.roundToTwoDecimalPlaces(): Float {
-    return String.format("%.2f", this).toFloat()
+    return String.format("%.2f", this).replace(",", ".").toFloat()
 }
