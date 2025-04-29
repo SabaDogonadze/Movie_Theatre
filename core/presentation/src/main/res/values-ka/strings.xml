@@ -32,7 +32,7 @@
     <string name="connection_problem">კავშირის პრობლემა</string>
     <string name="empty_response">სარიელი პასუხი</string>
     <string name="server_error">სერვერის შეცდომა</string>
-    <string name="book_the_seat">დაჯავშნე ადგილი</string>
+    <string name="book_the_seat">დაჯავშნე</string>
     <string name="screen">ეკრანი</string>
     <string name="ticket_price">ბილეთის ფასი:</string>
     <string name="seats">ადგილები:</string>

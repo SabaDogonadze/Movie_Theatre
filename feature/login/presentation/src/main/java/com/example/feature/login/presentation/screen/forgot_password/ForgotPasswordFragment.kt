@@ -5,10 +5,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.login.presentation.databinding.FragmentForgotPasswordBinding
-import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +37,7 @@ class ForgotPasswordFragment :
     private fun updateUI(state: ForgotPasswordUiState) {
         binding.progressBar.root.isVisible = state.isLoading
 
+        binding.btnResetPassword.isVisible = !state.isLoading
 
         binding.txtResetEmailError.apply {
             isVisible = state.emailError != null
