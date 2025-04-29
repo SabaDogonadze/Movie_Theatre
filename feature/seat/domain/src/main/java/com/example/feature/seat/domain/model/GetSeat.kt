@@ -5,4 +5,5 @@ data class GetSeat(
     val seatNumber: String,
     val status: String,
     val vipAddOn: Double,
+    val imgUrl: String,
 )

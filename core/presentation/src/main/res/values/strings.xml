@@ -117,4 +117,7 @@
     <string name="retry">Retry</string>
     <string name="check_your_connection_and_try_again">check your connection and try again</string>
     <string name="no_internet_connection">No internet connection</string>
+
+    <string name="seat_panorama_indicator">Seat %1$s (%2$d/%3$d)</string>
+
 </resources>

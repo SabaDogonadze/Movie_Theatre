@@ -7,4 +7,5 @@ data class Seat(
     val seatNumber: String,
     val status: SeatType,
     val vipAddOn: Double,
+    val imgUrl: String,
 )

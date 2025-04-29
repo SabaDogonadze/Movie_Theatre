@@ -35,5 +35,11 @@
         android:label="fragment_panorama"
         tools:layout="@layout/fragment_panorama">
         <deepLink app:uri="movieapp://panorama" />
+        <argument
+            android:name="screeningId"
+            app:argType="integer" />
+        <argument
+            android:name="seats"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -11,7 +11,7 @@ fun GetSeat.toPresentation(): Seat = Seat(
         "booked" -> SeatType.BOOKED
         "held" -> SeatType.HELD
         else -> SeatType.FREE
-    }, vipAddOn = vipAddOn
+    }, vipAddOn = vipAddOn, imgUrl = imgUrl
 )
 
 

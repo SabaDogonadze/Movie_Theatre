@@ -20,4 +20,18 @@ class SeatRepositoryImpl @Inject constructor(
             it.map { it.toDomain() }
         }
     }
+
+    override suspend fun getSeatsForPanorama(
+        screeningId: Int,
+        seats: String,
+    ): Resource<List<GetSeat>, NetworkError> {
+        return apiHelper.handleHttpRequest {
+            seatService.getSeatsForPanorama(
+                screeningId = screeningId,
+                seats = seats
+            )
+        }.mapData {
+            it.map { it.toDomain() }
+        }
+    }
 }

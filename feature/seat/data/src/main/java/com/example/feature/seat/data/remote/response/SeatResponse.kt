@@ -4,8 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SeatResponse(
-    val id :Int,
-    val seatNumber:String,
-    val status:String,
-    val vipAddOn:Double
+    val id: Int,
+    val seatNumber: String,
+    val status: String,
+    val imgUrl: String,
+    val vipAddOn: Double,
 )

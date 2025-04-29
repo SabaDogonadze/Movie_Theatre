@@ -7,4 +7,9 @@ import com.example.feature.seat.domain.model.GetSeat
 interface SeatRepository {
 
     suspend fun getSeats(screeningId: Int): Resource<List<GetSeat>, NetworkError>
+
+    suspend fun getSeatsForPanorama(
+        screeningId: Int,
+        seats: String,
+    ): Resource<List<GetSeat>, NetworkError>
 }

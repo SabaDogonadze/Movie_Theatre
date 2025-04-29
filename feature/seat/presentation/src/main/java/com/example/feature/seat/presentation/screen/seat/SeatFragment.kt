@@ -79,7 +79,11 @@ class SeatFragment : BaseFragment<FragmentSeatBinding>(FragmentSeatBinding::infl
             }
 
             btnPanorama.setOnClickListener {
-                findNavController().navigate(SeatFragmentDirections.actionSeatFragmentToPanoramaFragment())
+                findNavController().navigate(SeatFragmentDirections.actionSeatFragmentToPanoramaFragment(
+                    screeningId = args.screeningId,
+                    seats = viewModel.uiState.value.seats.filter { it.status == SeatType.SELECTED }
+                        .joinToString(",") { it.seatNumber }
+                ))
             }
         }
     }

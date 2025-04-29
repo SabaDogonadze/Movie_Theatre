@@ -117,5 +117,6 @@
     <string name="retry">თავიდან</string>
     <string name="check_your_connection_and_try_again">შეამოწმეთ თქვენი კავშირი და სცადეთ ხელახლა</string>
     <string name="no_internet_connection">არ არის ინტერნეტთან კავშირი</string>
+    <string name="seat_panorama_indicator">სკამი %1$s (%2$d/%3$d)</string>
 
 </resources>

@@ -1,10 +1,8 @@
 package com.example.feature.seat.presentation.screen.panorama
 
 object PanoramaUtil {
-    const val IMAGE_URL =
-        "https://media.istockphoto.com/id/1435087141/photo/movie-theater-grey-seats-in-a-modern-cinema.jpg?s=612x612&w=0&k=20&c=4pS9Gcqnxg8a2OSbOen1T61VNm2aj-sfdG8ogho49dQ="
-
-    const val HTML = """
+    fun generateHtml(panoramaImageUrl: String): String {
+        return """
             <!DOCTYPE html>
             <html>
             <head>
@@ -23,7 +21,7 @@ object PanoramaUtil {
                     try {
                         pannellum.viewer('panorama', {
                             type: "equirectangular",
-                            panorama: "$IMAGE_URL",
+                            panorama: "$panoramaImageUrl",
                             autoLoad: true,
                             showControls: true,
                             showFullscreenCtrl: true,
@@ -44,4 +42,5 @@ object PanoramaUtil {
             </body>
             </html>
         """
+    }
 }
