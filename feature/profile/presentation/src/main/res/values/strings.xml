@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lari">₾</string>
+    <string name="swipe_to_delete">swipe to delete</string>
+    <string name="log_out">Log out</string>
+    <string name="see_your_current_booked_tickets">See Your Current Booked Tickets</string>
+    <string name="see_your_purchased_tickets">See Your Purchased Tickets</string>
+    <string name="see_your_orders">See Your Orders</string>
+    <string name="your_active_bookings">Your Active Bookings</string>
+    <string name="you_don_t_have_booked_ticket">You Don\'t have Booked Ticket</string>
+    <string name="you_don_t_have_purchased_tickets">You Don\'t have Purchased Tickets</string>
+    <string name="your_purchased_tickets">Your Purchased Tickets</string>
+    <string name="seats">Seats:</string>
+    <string name="time">Time:</string>
+    <string name="interstellar">Interstellar</string>
+    <string name="price">Price:</string>
+    <string name="prince">Prince:</string>
+    <string name="you_don_t_have_purchased_product">You Don\'t have purchased product</string>
+    <string name="your_qr_code">Your QR Code</string>
+    <string name="buy_your_favourite_product">Buy Your Favourite Product</string>
+    <string name="go_buy_a_ticket">Go Buy A Ticket</string>
+    <string name="select_the_language">Select the Language</string>
+</resources>

@@ -36,6 +36,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- General deep link intent filter for all features -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="movieapp" />
+            </intent-filter>
+
+            <!-- Keep your existing specific deep link if needed -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -48,7 +58,7 @@
             <nav-graph android:value="@navigation/nav_graph" />
         </activity>
         <service
-            android:name=".feature_notification.MyFirebaseMessagingService"
+            android:name="com.example.movietheatre.util.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

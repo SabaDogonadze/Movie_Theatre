@@ -10,6 +10,52 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/presentation" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/home/data" />
+            <option value="$PROJECT_DIR$/feature/home/domain" />
+            <option value="$PROJECT_DIR$/feature/home/presentation" />
+            <option value="$PROJECT_DIR$/feature/login" />
+            <option value="$PROJECT_DIR$/feature/login/data" />
+            <option value="$PROJECT_DIR$/feature/login/domain" />
+            <option value="$PROJECT_DIR$/feature/login/presentation" />
+            <option value="$PROJECT_DIR$/feature/movie_detail" />
+            <option value="$PROJECT_DIR$/feature/movie_detail/data" />
+            <option value="$PROJECT_DIR$/feature/movie_detail/domain" />
+            <option value="$PROJECT_DIR$/feature/movie_detail/presentation" />
+            <option value="$PROJECT_DIR$/feature/movie_quiz" />
+            <option value="$PROJECT_DIR$/feature/movie_quiz/data" />
+            <option value="$PROJECT_DIR$/feature/movie_quiz/domain" />
+            <option value="$PROJECT_DIR$/feature/movie_quiz/presentation" />
+            <option value="$PROJECT_DIR$/feature/payment" />
+            <option value="$PROJECT_DIR$/feature/payment/data" />
+            <option value="$PROJECT_DIR$/feature/payment/domain" />
+            <option value="$PROJECT_DIR$/feature/payment/presentation" />
+            <option value="$PROJECT_DIR$/feature/profile" />
+            <option value="$PROJECT_DIR$/feature/profile/data" />
+            <option value="$PROJECT_DIR$/feature/profile/domain" />
+            <option value="$PROJECT_DIR$/feature/profile/presentation" />
+            <option value="$PROJECT_DIR$/feature/register" />
+            <option value="$PROJECT_DIR$/feature/register/data" />
+            <option value="$PROJECT_DIR$/feature/register/domain" />
+            <option value="$PROJECT_DIR$/feature/register/presentation" />
+            <option value="$PROJECT_DIR$/feature/seat" />
+            <option value="$PROJECT_DIR$/feature/seat/data" />
+            <option value="$PROJECT_DIR$/feature/seat/domain" />
+            <option value="$PROJECT_DIR$/feature/seat/presentation" />
+            <option value="$PROJECT_DIR$/feature/shop" />
+            <option value="$PROJECT_DIR$/feature/shop/data" />
+            <option value="$PROJECT_DIR$/feature/shop/domain" />
+            <option value="$PROJECT_DIR$/feature/shop/presentation" />
+            <option value="$PROJECT_DIR$/feature/splash" />
+            <option value="$PROJECT_DIR$/feature/splash/data" />
+            <option value="$PROJECT_DIR$/feature/splash/domain" />
+            <option value="$PROJECT_DIR$/feature/splash/presentation" />
+            <option value="$PROJECT_DIR$/navigation" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

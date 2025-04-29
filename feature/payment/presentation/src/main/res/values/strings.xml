@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ticket_is_held">!!!Ticket is Held</string>
+    <string name="your_ticket_is_being_held_for_a_day_and_if_you_don_t_buy_it_we_ll_be_freed">Your ticket is being held for a day and if you don\'t buy it we\'ll be freed</string>
+    <string name="understood">UnderStood</string>
+</resources>

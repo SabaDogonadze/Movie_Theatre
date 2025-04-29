@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="you_only_have_one_chance_to_complete_this_quiz_are_you_ready_to_begin">თამაშის გასავლელად მხოლოდ ერთი შანსი გაქვს. მზად ხარ?</string>
+    <string name="i_m_ready">მზად ვარ</string>
+    <string name="warning">გაფრთხილება</string>
+</resources>

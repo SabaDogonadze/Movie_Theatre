@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="min">min</string>
+    <string name="director">Director:</string>
+    <string name="description">Description</string>
+    <string name="cast">Cast</string>
+    <string name="movie_trailer">Movie Trailer</string>
+    <string name="movie_screenings">Movie Screenings</string>
+</resources>
