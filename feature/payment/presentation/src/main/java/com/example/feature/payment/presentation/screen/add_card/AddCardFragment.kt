@@ -9,11 +9,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.showSnackBar
 import com.example.feature.payment.domain.model.CardType
 import com.example.feature.payment.presentation.databinding.FragmentAddCardBinding
-import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,6 +41,9 @@ class AddCardFragment : BaseFragment<FragmentAddCardBinding>(FragmentAddCardBind
         }
         expiryDateTextWatcher()
 
+        binding.btnArrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.rbGroups.setOnCheckedChangeListener { _, i ->
             when (i) {
                 com.example.feature.payment.presentation.R.id.rbVisaCard -> viewModel.onEvent(
