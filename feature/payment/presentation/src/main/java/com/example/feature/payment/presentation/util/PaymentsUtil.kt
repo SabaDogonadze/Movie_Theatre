@@ -7,9 +7,7 @@ import org.json.JSONObject
 
 object PaymentsUtil {
 
-    /**
-     * Create a JSON object with the parameters needed for the isReadyToPay request.
-     */
+
     fun getIsReadyToPayRequest(): JSONObject {
         return JSONObject().apply {
             put("apiVersion", 2)
@@ -20,9 +18,7 @@ object PaymentsUtil {
         }
     }
 
-    /**
-     * Create a JSON object with the parameters needed for the PaymentDataRequest.
-     */
+
     fun getPaymentDataRequest(price: String): JSONObject {
         return JSONObject().apply {
             put("apiVersion", 2)
@@ -35,9 +31,7 @@ object PaymentsUtil {
         }
     }
 
-    /**
-     * Returns a JSON Object with allowed payment methods for button initialization and isReadyToPay.
-     */
+
     private fun getBaseCardPaymentMethod(): JSONObject {
         return JSONObject().apply {
             put("type", "CARD")
@@ -50,9 +44,7 @@ object PaymentsUtil {
         }
     }
 
-    /**
-     * Returns a JSON string containing information about allowed payment methods for the Google Pay button.
-     */
+
     @Throws(JSONException::class)
     fun getAllowedPaymentMethodsForButton(): String {
         return JSONArray().put(
@@ -66,9 +58,7 @@ object PaymentsUtil {
         ).toString()
     }
 
-    /**
-     * Builds a card payment method with tokenization specifications for payment requests.
-     */
+
     private fun getCardPaymentMethod(): JSONObject {
         val cardPaymentMethod = getBaseCardPaymentMethod()
         cardPaymentMethod.put("tokenizationSpecification", JSONObject().apply {
@@ -81,9 +71,7 @@ object PaymentsUtil {
         return cardPaymentMethod
     }
 
-    /**
-     * Creates transaction info for the payment data request.
-     */
+
     private fun getTransactionInfo(price: String): JSONObject {
         return JSONObject().apply {
             put("totalPrice", price)
@@ -93,9 +81,6 @@ object PaymentsUtil {
         }
     }
 
-    /**
-     * Creates merchant info for the payment data request.
-     */
     private fun getMerchantInfo(): JSONObject {
         return JSONObject().apply {
             put("merchantName", "Example Merchant")
