@@ -39,6 +39,9 @@ class MyShopFragment : BaseFragment<FragmentMyShopBinding>(FragmentMyShopBinding
         binding.emptyMyShop.btnBuyFavoriteProduct.setOnClickListener {
             NavigationCommands.navigateToShopGraph(findNavController())
         }
+        binding.layoutMyShop.btnArrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 
