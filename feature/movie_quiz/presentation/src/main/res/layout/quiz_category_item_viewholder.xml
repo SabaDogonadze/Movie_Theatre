@@ -42,10 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="4dp"
-            android:text="Action Adventure"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_movie_count"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Action Adventure" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_movie_count"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="23 Movies" />
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="@color/yellow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="400" />

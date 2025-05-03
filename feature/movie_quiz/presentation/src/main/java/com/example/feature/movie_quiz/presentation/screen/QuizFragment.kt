@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.presentation.BaseFragment
+import com.example.core.presentation.R
 import com.example.core.presentation.extension.collectLatestFlow
 import com.example.core.presentation.extension.loadImg
 import com.example.feature.movie_quiz.presentation.databinding.FragmentQuizBinding
@@ -18,7 +19,6 @@ import com.example.feature.movie_quiz.presentation.screen.dialog.QuizResultDialo
 import com.example.feature.movie_quiz.presentation.screen.dialog.TimeUpDialog
 import com.example.feature.movie_quiz.presentation.screen.dialog.WrongAnswerDialog
 import com.example.feature.movie_quiz.presentation.state.QuizState
-import com.example.core.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,10 +37,6 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
     }
 
     override fun clickListeners() {
-        binding.btnNext.setOnClickListener {
-            viewModel.onEvent(QuizEvent.NextQuestion)
-        }
-
         quizAnswerAdapter.setOnItemClickListener { answerId ->
             viewModel.onEvent(QuizEvent.SelectAnswer(answerId))
         }
@@ -141,7 +137,6 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(FragmentQuizBinding::infl
 
         binding.tvTimer.text = "${state.timeRemaining}s"
 
-        binding.btnNext.isEnabled = state.hasAnswered
     }
 
     private fun showWrongAnswerDialog() {

@@ -11,6 +11,8 @@ import com.example.feature.movie_quiz.presentation.mapper.toPresenter
 import com.example.feature.movie_quiz.presentation.state.QuizState
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,7 @@ import javax.inject.Inject
 
 private const val QUIZ_TIMER_SECONDS = 45
 private const val TIMER_INTERVAL = 1000L
+private const val AUTO_PROCEED_DELAY = 750L
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
@@ -45,6 +48,7 @@ class QuizViewModel @Inject constructor(
     private var countDownTimer: CountDownTimer? = null
     private var currentTimeRemaining = QUIZ_TIMER_SECONDS
     private var timerStarted = false
+    private var autoProceedJob: Job? = null
 
     fun onEvent(event: QuizEvent) {
         when (event) {
@@ -121,17 +125,28 @@ class QuizViewModel @Inject constructor(
                 isCorrectAnswer = isCorrect
             )
         }
+
+        autoProceedJob?.cancel()
+
         if (isCorrect) {
             _state.update {
                 it.copy(correctAnswersCount = it.correctAnswersCount + 1)
             }
+
+            autoProceedJob = viewModelScope.launch {
+                delay(AUTO_PROCEED_DELAY)
+                moveToNextQuestion()
+            }
         } else {
             countDownTimer?.cancel()
             _showWrongAnswerDialog.value = true
+
         }
     }
 
     private fun moveToNextQuestion() {
+        autoProceedJob?.cancel()
+
         val currentState = _state.value
         val nextIndex = currentState.currentQuestionIndex + 1
 
@@ -181,6 +196,8 @@ class QuizViewModel @Inject constructor(
     private fun completeQuiz() {
         viewModelScope.launch {
             countDownTimer?.cancel()
+            autoProceedJob?.cancel()
+
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
             val quizId = _state.value.quizCategoryId
 
@@ -192,5 +209,6 @@ class QuizViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         countDownTimer?.cancel()
+        autoProceedJob?.cancel()
     }
 }

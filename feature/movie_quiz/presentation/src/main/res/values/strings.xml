@@ -3,4 +3,7 @@
     <string name="you_only_have_one_chance_to_complete_this_quiz_are_you_ready_to_begin">You only have one chance to complete this quiz. Are you ready to begin?</string>
     <string name="i_m_ready">I\'m Ready</string>
     <string name="warning">Warning</string>
+    <string name="wrong_answer">Wrong Answer.</string>
+    <string name="continues">Continue</string>
+    <string name="you_lost">You Lost!</string>
 </resources>
